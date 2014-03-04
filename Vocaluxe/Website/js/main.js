@@ -265,6 +265,22 @@
             playerComunicationFromServerHandler = {};
             heartbeatIntervalls = [];
         };
+		
+		this.subscribe = function (type) {
+			this.sendDataToServer({
+				"Type": type,
+				"PlayerId": ownProfileId
+			},
+			this.EPlayerComunicationType["RegisterSubscription"]);
+		};
+    
+		this.unsubscribe = function (type) {
+			this.sendDataToServer({
+				"Type": type,
+				"PlayerId": ownProfileId
+			},
+			this.EPlayerComunicationType["UnregisterSubscription"]);
+		};
 
         this.EPlayerComunicationType = {
             "RegisterSubscription": 0,

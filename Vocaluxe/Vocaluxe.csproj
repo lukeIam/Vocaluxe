@@ -319,6 +319,7 @@
     </None>
     <Compile Include="Lib\Sound\PortAudio\PortAudio.cs" />
     <None Include="Doc\SQLite.NET.chm" />
+    <Content Include="Website\js\jquery.flexisel.js" />
     <Content Include="Website\locales\de.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

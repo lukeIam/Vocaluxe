@@ -25,13 +25,13 @@
     function preStart() {
         translator.translationLoaded.done(function () {
             translator.translate();
-            
+
             sessionHandler = new SessionHandler();
             imageLoader = new ImageLoader();
             externalServices = new ExternalServices();
             pageHandler = new PageHandler();
             playerComunication = new PlayerComunication();
-            
+
 
             pageHandler.init();
         });
@@ -265,26 +265,29 @@
             playerComunicationFromServerHandler = {};
             heartbeatIntervalls = [];
         };
-		
-		this.subscribe = function (type) {
-			this.sendDataToServer({
-				"Type": type,
-				"PlayerId": ownProfileId
-			},
-			this.EPlayerComunicationType["RegisterSubscription"]);
-		};
-    
-		this.unsubscribe = function (type) {
-			this.sendDataToServer({
-				"Type": type,
-				"PlayerId": ownProfileId
-			},
-			this.EPlayerComunicationType["UnregisterSubscription"]);
-		};
+
+        this.subscribe = function (type) {
+            this.sendDataToServer({
+                "Type": type,
+                "PlayerId": ownProfileId
+            },
+            this.EPlayerComunicationType["RegisterSubscription"]);
+        };
+
+        this.unsubscribe = function (type) {
+            this.sendDataToServer({
+                "Type": type,
+                "PlayerId": ownProfileId
+            },
+            this.EPlayerComunicationType["UnregisterSubscription"]);
+        };
 
         this.EPlayerComunicationType = {
             "RegisterSubscription": 0,
-            "UnregisterSubscription": 1
+            "UnregisterSubscription": 1,
+            "RemoteScreenActiveScreenUpdate": 2,
+            "RemoteScreenPlayerSelestionScreenUpdate": 3,
+            "RemoreScreenPlayerSelectionDataManipulation": 4
         };
 
         init();
@@ -325,7 +328,7 @@
                     'height': h - (ifrPadding + ifrBorder)
                 };
             }
-            
+
             $("#popupVideo").find("a").click(function () {
                 $("#popupVideo").popup("close");
                 $("#popupVideo").popup("close"); //Sometimes twice??
@@ -434,6 +437,7 @@
         var userPageHandler;
         var songPageHandler;
         var playlistPageHandler;
+        var remoteScreenHandler;
 
         this.customSelectPlaylistSongCallback = null;
         this.profileIdRequest = -1;
@@ -448,12 +452,13 @@
             userPageHandler = new UserPageHandler();
             songPageHandler = new SongPageHandler();
             playlistPageHandler = new PlaylistPageHandler();
+            remoteScreenHandler = new RemoteScreenHandler();
         };
 
         this.reset = function () {
-           this.customSelectPlaylistSongCallback = null;
-           this.profileIdRequest = -1;
-           this.songIdRequest = -1;
+            this.customSelectPlaylistSongCallback = null;
+            this.profileIdRequest = -1;
+            this.songIdRequest = -1;
         };
 
         var replaceTransitionHandler = function () {
@@ -947,7 +952,7 @@
                 }
             };
 
-            var handleDisplayProfileData = function(data) {
+            var handleDisplayProfileData = function (data) {
                 $('#playerName').prop("value", data.PlayerName);
 
                 imageLoader.addImage($('#playerAvatar')[0], data.Avatar, "img/profile.png");
@@ -964,19 +969,19 @@
                     $('#playerPassword').prop('disabled', false).prop("value", "***__oldPassword__***").parent().show();
                     $('#playerPasswordLabel').show();
 
-                    $('#playerAvatar').click(function() {
+                    $('#playerAvatar').click(function () {
                         if ($('#captureContainer').length > 0) {
                             $('#captureContainer').remove();
                         }
 
                         if (document.location.protocol == "file:"
-                            && typeof(navigator) != 'undefined'
-                            && typeof(navigator.camera) != 'undefined'
-                            && typeof(navigator.camera.getPicture) != 'undefined') {
-                            navigator.camera.getPicture(function(imageData) {
+                            && typeof (navigator) != 'undefined'
+                            && typeof (navigator.camera) != 'undefined'
+                            && typeof (navigator.camera.getPicture) != 'undefined') {
+                            navigator.camera.getPicture(function (imageData) {
                                 $('#playerAvatar').prop("src", "data:image/jpeg;base64," + imageData);
                                 $('#playerAvatar').data("changed", true);
-                            }, function() {
+                            }, function () {
                                 //Fail - do nothing
                             }, {
                                 destinationType: navigator.camera.DestinationType.DATA_URL,
@@ -989,11 +994,11 @@
                         } else {
                             $(document.body).append('<div id="captureContainer" style="height: 0px;width:0px; overflow:hidden;"> <input type="file" accept="image/*" id="capture" capture> </div>');
 
-                            $('#capture').change(function(eventData) {
+                            $('#capture').change(function (eventData) {
                                 if (eventData && eventData.target && eventData.target.files && eventData.target.files.length == 1) {
                                     var file = eventData.target.files[0];
                                     var reader = new FileReader();
-                                    reader.onloadend = function(e) {
+                                    reader.onloadend = function (e) {
                                         $('#playerAvatar').prop("src", e.target.result);
                                         $('#playerAvatar').data("changed", true);
                                         $('#captureContainer').remove();
@@ -1108,292 +1113,303 @@
 
             init();
         };
-    }
 
-    function SongPageHandler() {
-        var allSongsCache = null;
+        var RemoteScreenHandler = function () {
+            var init = function () {
+                playerComunication.registerPlayerComunicationFromServerHandler
+                    (playerComunication.EPlayerComunicationType["RemoteScreenActiveScreenUpdate"],
+                        remoteScreenActiveScreenUpdate);
+                
+                playerComunication.registerPlayerComunicationFromServerHandler
+                    (playerComunication.EPlayerComunicationType["RemoteScreenPlayerSelestionScreenUpdate"],
+                        updateRemoteScreenPlayerSelectionData);
+            };
 
-        var init = function () {
-            //pageLoadHandler for displaySong
-            $(document).on('pagebeforeshow', '#displaySong', pagebeforeshowDisplaySong);
 
-            //pageLoadHandler for selectSong
-            $(document).on('pagebeforeshow', '#selectSong', pagebeforeshowSelectSong);
-        };
+            var remoteScreenActiveScreenUpdate = function(data) {
 
-        var pagebeforeshowDisplaySong = function () {
-            var promise = request({
-                url: "getSong?songId=" + pageHandler.songIdRequest
-            }).done(function (result) {
-                $('#displaySongAddPlaylist').hide();
+            };
 
-                if (result.Title != null) {
-                    $('#displaySongTitle').text(result.Title);
-                } else {
-                    $('#displaySongTitle').text("No current song");
+            var updateRemoteScreenPlayerSelectionData = function (data) {
+                for (var playerId in data.AvailablePlayers) {
+                    if ($("#remoteScreenPlayerSelectionPlayerList_" + playerId).length == 0) {
+                        $("<li class='remoteScreenPlayerSelectionPlayerListRow' id='remoteScreenPlayerSelectionPlayerList_" + playerId + "'><img><span class='imageCaption'>" + data.AvailablePlayers[playerId].Name + "</span></li>").appendTo("#remoteScreenPlayerSelectionPlayerList");
+                    }
                 }
 
-                imageLoader.addImage($('#displaySongCover')[0], result.Cover, "img/noCover.png");
-
-                if (result.Artist != null) {
-                    $('#displaySongArtist').text(result.Artist);
-                } else {
-                    $('#displaySongArtist').text("-");
-                }
-
-                if (result.Genre != null) {
-                    $('#displaySongGenre').text(result.Genre);
-                } else {
-                    $('#displaySongGenre').text("-");
-                }
-
-                if (result.Year != null && result.Year != "") {
-                    $('#displaySongYear').text(result.Year);
-                } else {
-                    $('#displaySongYear').text("-");
-                }
-
-                if (result.Language != null) {
-                    $('#displaySongLanguage').text(result.Language);
-                } else {
-                    $('#displaySongLanguage').text("-");
-                }
-
-                $('#displaySongIsDuet').text(result.IsDuet ? "Yes" : "No");
-
-                if (result.Title != null || result.Artist != null) {
-                    $('#displaySongLinks').show();
-
-                    $('#displaySongAddPlaylist').unbind('click').click(function () {
-                        pageHandler.customSelectPlaylistSongCallback = function (playlistId) {
-                            request({ url: "addSongToPlaylist?songId=" + result.SongId + "&playlistId=" + playlistId + "&duplicates=false" }, "Add to playlist...");
-                            history.back();
-                        };
-                        $.mobile.changePage("#selectPlaylist", { transition: "slidefade" });
-                    });
-
-                    $('#displaySongLinkYoutube').unbind('click').click(function () {
-                        externalServices.showYoutube(result.Artist, result.Title);
-                    });
-
-                    $('#displaySongLinkSpotify').unbind('click').click(function () {
-                        externalServices.showSpotify(result.Artist, result.Title);
-                    });
-
-                    $('#displaySongLinkWikipedia').unbind('click').click(function () {
-                        externalServices.showWikipedia(result.Artist);
-                    });
-                } else {
-                    $('#displaySongLinks').hide();
-                }
-
-                request({
-                    url: "hasUserRight?right=" + 32
-                }).done(function (result2) {
-                    if (result2) {
-                        $('#displaySongAddPlaylist').show();
-                    } else {
-                        $('#displaySongAddPlaylist').hide();
+                $('li[id^="remoteScreenPlayerSelectionPlayerList_"]').each(function (i, e) {
+                    var pId = e.id.replace("remoteScreenPlayerSelectionPlayerList_", "");
+                    if (data.AvailablePlayers[pId] === undefined) {
+                        $("#remoteScreenPlayerSelectionPlayerList_" + pId).remove();
                     }
                 });
-            });
+                
+                $("#remoteScreenPlayerSelectionPlayerList").flexisel();
+               
+            };
 
-            // Save promise on page so the transition handler can find it.
-            $(this).data('promise', promise);
+            init();
         };
 
-        var pagebeforeshowSelectSong = function () {
 
-            function handleGetAllSongs() {
-                $('#selectSongList').children().remove();
+        function SongPageHandler() {
+            var allSongsCache = null;
 
-                function handleSelectSongLineClick(e) {
-                    pageHandler.songIdRequest = parseInt(e.currentTarget.id.replace("selectSongLine_", ""));
-                    $.mobile.changePage("#displaySong", { transition: "slidefade" });
-                }
+            var init = function () {
+                //pageLoadHandler for displaySong
+                $(document).on('pagebeforeshow', '#displaySong', pagebeforeshowDisplaySong);
 
-                for (var id in allSongsCache) {
-                    $('<li id="selectSongLine_' + allSongsCache[id].SongId + '"> <a href="#"> '/*+'<img src="' + ((data[profile].Avatar && data[profile].Avatar.base64Data) ? data[id].Avatar.base64Data : "img/profile.png") + '"> '*/ + ' <h2>' + allSongsCache[id].Artist + '</h2> <p>' + allSongsCache[id].Title + '</p> </a> </li>')
-                        .appendTo('#selectSongList')
-                        .click(handleSelectSongLineClick);
-                }
+                //pageLoadHandler for selectSong
+                $(document).on('pagebeforeshow', '#selectSong', pagebeforeshowSelectSong);
+            };
 
-                $('#selectSongList').listview('refresh');
-            }
-
-            if (allSongsCache == null) {
+            var pagebeforeshowDisplaySong = function () {
                 var promise = request({
-                    url: "getAllSongs"
-                }).done(function (data) {
-                    allSongsCache = data;
-                    handleGetAllSongs();
+                    url: "getSong?songId=" + pageHandler.songIdRequest
+                }).done(function (result) {
+                    $('#displaySongAddPlaylist').hide();
+
+                    if (result.Title != null) {
+                        $('#displaySongTitle').text(result.Title);
+                    } else {
+                        $('#displaySongTitle').text("No current song");
+                    }
+
+                    imageLoader.addImage($('#displaySongCover')[0], result.Cover, "img/noCover.png");
+
+                    if (result.Artist != null) {
+                        $('#displaySongArtist').text(result.Artist);
+                    } else {
+                        $('#displaySongArtist').text("-");
+                    }
+
+                    if (result.Genre != null) {
+                        $('#displaySongGenre').text(result.Genre);
+                    } else {
+                        $('#displaySongGenre').text("-");
+                    }
+
+                    if (result.Year != null && result.Year != "") {
+                        $('#displaySongYear').text(result.Year);
+                    } else {
+                        $('#displaySongYear').text("-");
+                    }
+
+                    if (result.Language != null) {
+                        $('#displaySongLanguage').text(result.Language);
+                    } else {
+                        $('#displaySongLanguage').text("-");
+                    }
+
+                    $('#displaySongIsDuet').text(result.IsDuet ? "Yes" : "No");
+
+                    if (result.Title != null || result.Artist != null) {
+                        $('#displaySongLinks').show();
+
+                        $('#displaySongAddPlaylist').unbind('click').click(function () {
+                            pageHandler.customSelectPlaylistSongCallback = function (playlistId) {
+                                request({ url: "addSongToPlaylist?songId=" + result.SongId + "&playlistId=" + playlistId + "&duplicates=false" }, "Add to playlist...");
+                                history.back();
+                            };
+                            $.mobile.changePage("#selectPlaylist", { transition: "slidefade" });
+                        });
+
+                        $('#displaySongLinkYoutube').unbind('click').click(function () {
+                            externalServices.showYoutube(result.Artist, result.Title);
+                        });
+
+                        $('#displaySongLinkSpotify').unbind('click').click(function () {
+                            externalServices.showSpotify(result.Artist, result.Title);
+                        });
+
+                        $('#displaySongLinkWikipedia').unbind('click').click(function () {
+                            externalServices.showWikipedia(result.Artist);
+                        });
+                    } else {
+                        $('#displaySongLinks').hide();
+                    }
+
+                    request({
+                        url: "hasUserRight?right=" + 32
+                    }).done(function (result2) {
+                        if (result2) {
+                            $('#displaySongAddPlaylist').show();
+                        } else {
+                            $('#displaySongAddPlaylist').hide();
+                        }
+                    });
                 });
 
                 // Save promise on page so the transition handler can find it.
                 $(this).data('promise', promise);
-            } else {
-                handleGetAllSongs();
-            }
-        };
+            };
 
-        init();
-    }
+            var pagebeforeshowSelectSong = function () {
 
-    function PlaylistPageHandler() {
-        var playlistIdRequest = -1;
-        var playlistRequestName = "";
+                function handleGetAllSongs() {
+                    $('#selectSongList').children().remove();
 
-        var init = function () {
-            //pageLoadHandler for selectPlaylist
-            $(document).on('pagebeforeshow', '#selectPlaylist', pagebeforeshowSelectPlaylist);
-
-            //pageLoadHandler for displayPlaylist
-            $(document).on('pagebeforeshow', '#displayPlaylist', pagebeforeshowDisplayPlaylist);
-        };
-
-        var pagebeforeshowSelectPlaylist = function () {
-
-            function handleGetAllPlaylists(data) {
-                $('#selectPlaylistContentList').children().remove();
-                $('#selectPlaylistAddPlaylistButton').hide();
-
-                function handleSelectSongLineClick(e) {
-                    playlistIdRequest = parseInt(e.currentTarget.parentElement.parentElement.parentElement.id.replace("selectPlaylistLine_", ""));
-                    playlistRequestName = $(e.currentTarget.parentElement.parentElement.parentElement).find('h2').text();
-                    if (pageHandler.customSelectPlaylistSongCallback != null) {
-                        pageHandler.customSelectPlaylistSongCallback(playlistIdRequest, playlistRequestName);
-                        pageHandler.customSelectPlaylistSongCallback = null;
-                    } else {
-
-                        $.mobile.changePage("#displayPlaylist", { transition: "slidefade" });
+                    function handleSelectSongLineClick(e) {
+                        pageHandler.songIdRequest = parseInt(e.currentTarget.id.replace("selectSongLine_", ""));
+                        $.mobile.changePage("#displaySong", { transition: "slidefade" });
                     }
+
+                    for (var id in allSongsCache) {
+                        $('<li id="selectSongLine_' + allSongsCache[id].SongId + '"> <a href="#"> '/*+'<img src="' + ((data[profile].Avatar && data[profile].Avatar.base64Data) ? data[id].Avatar.base64Data : "img/profile.png") + '"> '*/ + ' <h2>' + allSongsCache[id].Artist + '</h2> <p>' + allSongsCache[id].Title + '</p> </a> </li>')
+                            .appendTo('#selectSongList')
+                            .click(handleSelectSongLineClick);
+                    }
+
+                    $('#selectSongList').listview('refresh');
                 }
 
-                function handleSelectSongLineDeleteClick(e) {
-                    var playlistToDeleteId = parseInt(e.currentTarget.parentElement.id.replace("selectPlaylistLine_", ""));
-                    var playlistToDeleteName = $(e.currentTarget.parentElement).find('h2').text();
-                    if (window.confirm("Do you really want to delete this playlist:\n" + playlistToDeleteName)) {
-                        request({ url: "removePlaylist?playlistId=" + playlistToDeleteId }, "Loading...").done(function () {
-                            request({
-                                url: "getPlaylists"
-                            }).done(function (data2) {
-                                handleGetAllPlaylists(data2);
+                if (allSongsCache == null) {
+                    var promise = request({
+                        url: "getAllSongs"
+                    }).done(function (data) {
+                        allSongsCache = data;
+                        handleGetAllSongs();
+                    });
+
+                    // Save promise on page so the transition handler can find it.
+                    $(this).data('promise', promise);
+                } else {
+                    handleGetAllSongs();
+                }
+            };
+
+            init();
+        }
+
+        function PlaylistPageHandler() {
+            var playlistIdRequest = -1;
+            var playlistRequestName = "";
+
+            var init = function () {
+                //pageLoadHandler for selectPlaylist
+                $(document).on('pagebeforeshow', '#selectPlaylist', pagebeforeshowSelectPlaylist);
+
+                //pageLoadHandler for displayPlaylist
+                $(document).on('pagebeforeshow', '#displayPlaylist', pagebeforeshowDisplayPlaylist);
+            };
+
+            var pagebeforeshowSelectPlaylist = function () {
+
+                function handleGetAllPlaylists(data) {
+                    $('#selectPlaylistContentList').children().remove();
+                    $('#selectPlaylistAddPlaylistButton').hide();
+
+                    function handleSelectSongLineClick(e) {
+                        playlistIdRequest = parseInt(e.currentTarget.parentElement.parentElement.parentElement.id.replace("selectPlaylistLine_", ""));
+                        playlistRequestName = $(e.currentTarget.parentElement.parentElement.parentElement).find('h2').text();
+                        if (pageHandler.customSelectPlaylistSongCallback != null) {
+                            pageHandler.customSelectPlaylistSongCallback(playlistIdRequest, playlistRequestName);
+                            pageHandler.customSelectPlaylistSongCallback = null;
+                        } else {
+
+                            $.mobile.changePage("#displayPlaylist", { transition: "slidefade" });
+                        }
+                    }
+
+                    function handleSelectSongLineDeleteClick(e) {
+                        var playlistToDeleteId = parseInt(e.currentTarget.parentElement.id.replace("selectPlaylistLine_", ""));
+                        var playlistToDeleteName = $(e.currentTarget.parentElement).find('h2').text();
+                        if (window.confirm("Do you really want to delete this playlist:\n" + playlistToDeleteName)) {
+                            request({ url: "removePlaylist?playlistId=" + playlistToDeleteId }, "Loading...").done(function () {
+                                request({
+                                    url: "getPlaylists"
+                                }).done(function (data2) {
+                                    handleGetAllPlaylists(data2);
+                                });
                             });
-                        });
+                        }
                     }
-                }
 
-                for (var id in data) {
-                    var line = $('<li id="selectPlaylistLine_'
-                        + data[id].PlaylistId
-                        + '"> <a href="#"> '/*+'<img src="' + ((data[profile].Avatar && data[profile].Avatar.base64Data) ? data[id].Avatar.base64Data : "img/profile.png") + '"> '*/
-                        + ' <h2>' + data[id].PlaylistName + '</h2> <p>'
-                        + data[id].SongCount
-                        + ' ' + i18n.t('songs') + '</p> </a> <a href="#" class="delete" data-icon="delete">Delete</a> </li>')
-                        .appendTo('#selectPlaylistContentList');
-                    line.find('a:not(.delete)').click(handleSelectSongLineClick);
-                    line.find('a.delete').click(handleSelectSongLineDeleteClick);
-                }
-
-                $('#selectPlaylistContentList').listview('refresh');
-
-                request({
-                    url: "hasUserRight?right=" + 128
-                }).done(function (result) {
-                    if (result) {
-                        $('#selectPlaylistContentList').find('.delete').show();
-                        $('#selectPlaylistContentList').listview('refresh');
-                    } else {
-                        $('#selectPlaylistContentList').find('.delete').hide();
-                        $('#selectPlaylistContentList').listview('refresh');
+                    for (var id in data) {
+                        var line = $('<li id="selectPlaylistLine_'
+                            + data[id].PlaylistId
+                            + '"> <a href="#"> '/*+'<img src="' + ((data[profile].Avatar && data[profile].Avatar.base64Data) ? data[id].Avatar.base64Data : "img/profile.png") + '"> '*/
+                            + ' <h2>' + data[id].PlaylistName + '</h2> <p>'
+                            + data[id].SongCount
+                            + ' ' + i18n.t('songs') + '</p> </a> <a href="#" class="delete" data-icon="delete">Delete</a> </li>')
+                            .appendTo('#selectPlaylistContentList');
+                        line.find('a:not(.delete)').click(handleSelectSongLineClick);
+                        line.find('a.delete').click(handleSelectSongLineDeleteClick);
                     }
-                });
 
-                $('#selectPlaylistAddPlaylistButton').unbind('click').hide().click(function () {
-                    var name = prompt("Name of the new playlist:", "NewPlaylistName");
-                    if (name != null
-                        && name.replace(" ", "") != ""
-                        && $('h2').filter(function () { return this.textContent == name; }).length == 0) {
-                        request({ url: "addPlaylist?playlistName=" + name }, "Creating...").done(function () {
-                            request({
-                                url: "getPlaylists"
-                            }).done(function (data2) {
-                                handleGetAllPlaylists(data2);
-                            });
-                        });
-                    } else {
-                        alert(i18n.t("This is not a valid name."));
-                    }
-                });
+                    $('#selectPlaylistContentList').listview('refresh');
 
-                request({
-                    url: "hasUserRight?right=" + 64
-                }).done(function (result) {
-                    if (result) {
-                        $('#selectPlaylistAddPlaylistButton').show();
-                    } else {
-                        $('#selectPlaylistAddPlaylistButton').hide();
-                    }
-                });
-            }
-
-            var promise = request({
-                url: "getPlaylists"
-            }).done(function (data) {
-                handleGetAllPlaylists(data);
-            });
-
-            // Save promise on page so the transition handler can find it.
-            $(this).data('promise', promise);
-
-        };
-
-        var pagebeforeshowDisplayPlaylist = function () {
-
-            function handleGetAllPlaylistSongs(data) {
-                $('#displayPlaylistHeader').find('h1').text(playlistRequestName);
-
-                $('#displayPlaylistSaveButton').hide().unbind('click').click(function () {
-                    var promises = [];
-                    $('#displayPlaylistContentList').find('li').each(function (indx, elem) {
-                        var newPos = $(elem).index();
-                        var oldPos = $(elem).data("oldPos");
-                        if (newPos != oldPos) {
-                            var movedId = elem.id.replace("selectSongLine_", "");
-
-                            promises.push(request({
-                                url: "moveSongInPlaylist?&newPosition=" + newPos + "&playlistId=" + playlistIdRequest + "&songId=" + movedId
-                            }, "Resorting..."));
+                    request({
+                        url: "hasUserRight?right=" + 128
+                    }).done(function (result) {
+                        if (result) {
+                            $('#selectPlaylistContentList').find('.delete').show();
+                            $('#selectPlaylistContentList').listview('refresh');
+                        } else {
+                            $('#selectPlaylistContentList').find('.delete').hide();
+                            $('#selectPlaylistContentList').listview('refresh');
                         }
                     });
 
-                    $.when.apply(promises).done(function () {
-                        //reload data
-                        request({
-                            url: "getPlaylistSongs?playlistId=" + playlistIdRequest
-                        }).done(function (data2) {
-                            handleGetAllPlaylistSongs(data2);
-                        });
+                    $('#selectPlaylistAddPlaylistButton').unbind('click').hide().click(function () {
+                        var name = prompt("Name of the new playlist:", "NewPlaylistName");
+                        if (name != null
+                            && name.replace(" ", "") != ""
+                            && $('h2').filter(function () { return this.textContent == name; }).length == 0) {
+                            request({ url: "addPlaylist?playlistName=" + name }, "Creating...").done(function () {
+                                request({
+                                    url: "getPlaylists"
+                                }).done(function (data2) {
+                                    handleGetAllPlaylists(data2);
+                                });
+                            });
+                        } else {
+                            alert(i18n.t("This is not a valid name."));
+                        }
                     });
-                });
 
-                $('#displayPlaylistContentList').children().remove();
-
-                function handleSelectPlaylistSongLineClick(e) {
-                    pageHandler.songIdRequest = parseInt(e.currentTarget.parentElement.parentElement.parentElement.id.replace("selectSongLine_", ""));
-                    $.mobile.changePage("#displaySong", { transition: "slidefade" });
+                    request({
+                        url: "hasUserRight?right=" + 64
+                    }).done(function (result) {
+                        if (result) {
+                            $('#selectPlaylistAddPlaylistButton').show();
+                        } else {
+                            $('#selectPlaylistAddPlaylistButton').hide();
+                        }
+                    });
                 }
 
-                function handleSelectPlaylistSongLineDeleteClick(e) {
-                    var songToDeleteId = parseInt(e.currentTarget.parentElement.id.replace("selectSongLine_", ""));
-                    var songToDeleteName = $(e.currentTarget.parentElement).find('h2').text();
+                var promise = request({
+                    url: "getPlaylists"
+                }).done(function (data) {
+                    handleGetAllPlaylists(data);
+                });
 
-                    if (window.confirm("Do you really want to delete this song from playlist:\n" + songToDeleteName)) {
-                        request({
-                            url: "/removeSongFromPlaylist?position=" + $('#selectSongLine_' + songToDeleteId).index()
-                                + "&playlistId=" + playlistIdRequest
-                                + "&songId=" + songToDeleteId
-                        }, "Loading...").done(function () {
+                // Save promise on page so the transition handler can find it.
+                $(this).data('promise', promise);
+
+            };
+
+            var pagebeforeshowDisplayPlaylist = function () {
+
+                function handleGetAllPlaylistSongs(data) {
+                    $('#displayPlaylistHeader').find('h1').text(playlistRequestName);
+
+                    $('#displayPlaylistSaveButton').hide().unbind('click').click(function () {
+                        var promises = [];
+                        $('#displayPlaylistContentList').find('li').each(function (indx, elem) {
+                            var newPos = $(elem).index();
+                            var oldPos = $(elem).data("oldPos");
+                            if (newPos != oldPos) {
+                                var movedId = elem.id.replace("selectSongLine_", "");
+
+                                promises.push(request({
+                                    url: "moveSongInPlaylist?&newPosition=" + newPos + "&playlistId=" + playlistIdRequest + "&songId=" + movedId
+                                }, "Resorting..."));
+                            }
+                        });
+
+                        $.when.apply(promises).done(function () {
                             //reload data
                             request({
                                 url: "getPlaylistSongs?playlistId=" + playlistIdRequest
@@ -1401,91 +1417,119 @@
                                 handleGetAllPlaylistSongs(data2);
                             });
                         });
+                    });
+
+                    $('#displayPlaylistContentList').children().remove();
+
+                    function handleSelectPlaylistSongLineClick(e) {
+                        pageHandler.songIdRequest = parseInt(e.currentTarget.parentElement.parentElement.parentElement.id.replace("selectSongLine_", ""));
+                        $.mobile.changePage("#displaySong", { transition: "slidefade" });
                     }
 
+                    function handleSelectPlaylistSongLineDeleteClick(e) {
+                        var songToDeleteId = parseInt(e.currentTarget.parentElement.id.replace("selectSongLine_", ""));
+                        var songToDeleteName = $(e.currentTarget.parentElement).find('h2').text();
 
-                }
-
-                var sortedData = [];
-
-                for (var id1 in data) {
-                    sortedData[data[id1].PlaylistPosition] = data[id1].Song;
-                }
-                var i = 0;
-                for (var id in sortedData) {
-                    var line = $('<li id="selectSongLine_'
-                        + sortedData[id].SongId
-                        + '"> <a href="#"> <img> <h2>'
-                        + sortedData[id].Artist
-                        + '</h2> <p>'
-                        + sortedData[id].Title
-                        + '</p> </a> <a href="#" class="delete" data-icon="delete">Delete</a> </li>')
-                        .appendTo('#displayPlaylistContentList').data("oldPos", i++);
-
-                    line.find('a:not(.delete)').click(handleSelectPlaylistSongLineClick);
-                    line.find('a.delete').click(handleSelectPlaylistSongLineDeleteClick);
-
-                    var img = line.find("img")[0];
-
-                    imageLoader.addImage(img, sortedData[id].Cover, "img/noCover.png");
-                }
-
-                $('#displayPlaylistContentList').listview('refresh');
-
-                request({
-                    url: "hasUserRight?right=" + 256
-                }).done(function (result) {
-                    if (result) {
-                        $('#displayPlaylistContentList').find('.delete').show();
-                        $('#displayPlaylistContentList').listview('refresh');
-                    } else {
-                        $('#displayPlaylistContentList').find('.delete').hide();
-                        $('#displayPlaylistContentList').listview('refresh');
-                    }
-                });
-
-                request({
-                    url: "hasUserRight?right=" + 16
-                }).done(function (result) {
-                    if (result) {
-                        $('#displayPlaylistContentList').sortable({
-                            axis: 'y',
-                            sort: function () {
-                                $('#displayPlaylistSaveButton').show();
-
-                                var $lis = $(this).children('li');
-                                $lis.each(function () {
-                                    var $li = $(this);
-                                    var hindex = $lis.filter('.ui-sortable-helper').index();
-                                    if (!$li.is('.ui-sortable-helper')) {
-                                        var index = $li.index();
-                                        index = index < hindex ? index + 1 : index;
-
-                                        $li.val(index);
-
-                                        if ($li.is('.ui-sortable-placeholder')) {
-                                            $lis.filter('.ui-sortable-helper').val(index);
-                                        }
-                                    }
+                        if (window.confirm("Do you really want to delete this song from playlist:\n" + songToDeleteName)) {
+                            request({
+                                url: "/removeSongFromPlaylist?position=" + $('#selectSongLine_' + songToDeleteId).index()
+                                    + "&playlistId=" + playlistIdRequest
+                                    + "&songId=" + songToDeleteId
+                            }, "Loading...").done(function () {
+                                //reload data
+                                request({
+                                    url: "getPlaylistSongs?playlistId=" + playlistIdRequest
+                                }).done(function (data2) {
+                                    handleGetAllPlaylistSongs(data2);
                                 });
-                            }
-                        });
+                            });
+                        }
+
+
                     }
+
+                    var sortedData = [];
+
+                    for (var id1 in data) {
+                        sortedData[data[id1].PlaylistPosition] = data[id1].Song;
+                    }
+                    var i = 0;
+                    for (var id in sortedData) {
+                        var line = $('<li id="selectSongLine_'
+                            + sortedData[id].SongId
+                            + '"> <a href="#"> <img> <h2>'
+                            + sortedData[id].Artist
+                            + '</h2> <p>'
+                            + sortedData[id].Title
+                            + '</p> </a> <a href="#" class="delete" data-icon="delete">Delete</a> </li>')
+                            .appendTo('#displayPlaylistContentList').data("oldPos", i++);
+
+                        line.find('a:not(.delete)').click(handleSelectPlaylistSongLineClick);
+                        line.find('a.delete').click(handleSelectPlaylistSongLineDeleteClick);
+
+                        var img = line.find("img")[0];
+
+                        imageLoader.addImage(img, sortedData[id].Cover, "img/noCover.png");
+                    }
+
+                    $('#displayPlaylistContentList').listview('refresh');
+
+                    request({
+                        url: "hasUserRight?right=" + 256
+                    }).done(function (result) {
+                        if (result) {
+                            $('#displayPlaylistContentList').find('.delete').show();
+                            $('#displayPlaylistContentList').listview('refresh');
+                        } else {
+                            $('#displayPlaylistContentList').find('.delete').hide();
+                            $('#displayPlaylistContentList').listview('refresh');
+                        }
+                    });
+
+                    request({
+                        url: "hasUserRight?right=" + 16
+                    }).done(function (result) {
+                        if (result) {
+                            $('#displayPlaylistContentList').sortable({
+                                axis: 'y',
+                                sort: function () {
+                                    $('#displayPlaylistSaveButton').show();
+
+                                    var $lis = $(this).children('li');
+                                    $lis.each(function () {
+                                        var $li = $(this);
+                                        var hindex = $lis.filter('.ui-sortable-helper').index();
+                                        if (!$li.is('.ui-sortable-helper')) {
+                                            var index = $li.index();
+                                            index = index < hindex ? index + 1 : index;
+
+                                            $li.val(index);
+
+                                            if ($li.is('.ui-sortable-placeholder')) {
+                                                $lis.filter('.ui-sortable-helper').val(index);
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+
+                var promise = request({
+                    url: "getPlaylistSongs?playlistId=" + playlistIdRequest
+                }).done(function (data) {
+                    handleGetAllPlaylistSongs(data);
                 });
-            }
 
-            var promise = request({
-                url: "getPlaylistSongs?playlistId=" + playlistIdRequest
-            }).done(function (data) {
-                handleGetAllPlaylistSongs(data);
-            });
+                // Save promise on page so the transition handler can find it.
+                $(this).data('promise', promise);
 
-            // Save promise on page so the transition handler can find it.
-            $(this).data('promise', promise);
+            };
 
-        };
+            init();
+        }
 
-        init();
     }
 
     function SessionHandler() {
@@ -1495,9 +1539,9 @@
 
         this.logout = function () {
             this.ownProfileId = -1;
-            
+
             this.sessionId = "";
-            
+
             pageHandler.reset();
             playerComunication.reset();
 

@@ -37,7 +37,21 @@ namespace Vocaluxe.Base
         private static float _ZOffset;
 
         private static IMenu _OldScreen;
-        private static EScreens _CurrentScreen;
+        private static EScreens _CurrentScreenData;
+        private static EScreens _CurrentScreen
+        {
+            get { return _CurrentScreenData; }
+            set
+            {
+                EScreens old = _CurrentScreenData;
+                _CurrentScreenData = value;
+                //Changed? -> fire CurrentScreenChanged event
+                if (old != value && CurrentScreenChanged != null)
+                {
+                    CurrentScreenChanged.Invoke(_Screens[(int)_CurrentScreenData], new ScreenChangedEventArgs(old, _CurrentScreenData));
+                }
+            }
+        }
         private static EScreens _NextScreen;
         private static EPopupScreens _CurrentPopupScreen;
 
@@ -46,6 +60,8 @@ namespace Vocaluxe.Base
 
         private static Stopwatch _VolumePopupTimer;
         private static bool _CursorOverVolumeControl;
+
+        public static event EventHandler<ScreenChangedEventArgs> CurrentScreenChanged;
 
         public static float GlobalAlpha
         {
@@ -79,7 +95,7 @@ namespace Vocaluxe.Base
             _Screens.Add(new CScreenHighscore());
             _Screens.Add(new CScreenOptionsGame());
             _Screens.Add(new CScreenOptionsSound());
-            _Screens.Add(new CScreenOptionsRecord());   
+            _Screens.Add(new CScreenOptionsRecord());
             _Screens.Add(new CScreenOptionsVideo());
             _Screens.Add(new CScreenOptionsVideoAdjustments());
             _Screens.Add(new CScreenOptionsLyrics());
@@ -375,7 +391,7 @@ namespace Vocaluxe.Base
                 if (!eventsAvailable)
                     keyEvent = inputKeyEvent;
 
-                if (keyEvent.Key == Keys.Left || keyEvent.Key == Keys.Right || keyEvent.Key == Keys.Up || keyEvent.Key == Keys.Down || keyEvent.Key == Keys.NumPad0 || keyEvent.Key == Keys.D0 )
+                if (keyEvent.Key == Keys.Left || keyEvent.Key == Keys.Right || keyEvent.Key == Keys.Up || keyEvent.Key == Keys.Down || keyEvent.Key == Keys.NumPad0 || keyEvent.Key == Keys.D0)
                 {
                     CSettings.MouseInactive();
                     _Cursor.FadeOut();
@@ -637,7 +653,7 @@ namespace Vocaluxe.Base
             if (CConfig.DebugLevel == EDebugLevel.TR_CONFIG_OFF)
                 return;
 
-            List<String> debugOutput = new List<string> {CTime.GetFPS().ToString("FPS: 000")};
+            List<String> debugOutput = new List<string> { CTime.GetFPS().ToString("FPS: 000") };
 
             if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL1)
             {

@@ -7,6 +7,9 @@ namespace ServerLib.PlayerComunication.DataTypes
     public enum EPlayerComunicationType
     {
         RegisterSubscription,
-        UnregisterSubscription
+        UnregisterSubscription,
+        RemoteScreenActiveScreenUpdate,
+        RemoteScreenPlayerSelestionScreenUpdate,
+        RemoteScreenPlayerSelectionDataManipulation
     }
 }

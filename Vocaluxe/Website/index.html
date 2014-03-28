@@ -377,6 +377,20 @@
     </div>
     <!-- /page -->
 
+    <div id="remoteScreenMain" data-content-theme="a" data-role="page" data-add-back-btn="true">
+        <div id="Div2" data-role="header">
+            <h1 data-i18n="remoteScreenMain">Remote</h1>
+        </div>
+        <!-- /header -->
+
+        <div id="remoteScreenMainContent" data-role="content">
+            <h1 data-i18n="remoteScreenMainInnerHeadline">Wating for a supported page:</h1>
+            <span>Player Selection Screen</span>
+        </div>
+        <!-- /content -->
+    </div>
+    <!-- /page -->
+
     <div id="remoteScreenPlayerSelection" data-content-theme="a" data-role="page" data-add-back-btn="true">
         <div id="remoteScreenPlayerSelectionHeader" data-role="header">
             <h1 data-i18n="remoteScreenPlayerSelection"></h1>
@@ -384,8 +398,10 @@
         <!-- /header -->
 
         <div id="remoteScreenPlayerSelectionContent" data-role="content">
-            <ul data-split-theme="a" id="remoteScreenPlayerSelectionSingingList"></ul>
-            <ul data-split-theme="a" id="remoteScreenPlayerSelectionPlayerList"></ul>
+            <ul data-split-theme="a" id="remoteScreenPlayerSelectionChoosenPlayersList"></ul>
+            <ul data-split-theme="a" id="remoteScreenPlayerSelectionSelectablePlayersList"></ul>
+            <label for="remoteScreenPlayerSelectionPlayerCount">Number of players</label>
+            <input id="remoteScreenPlayerSelectionPlayerCount" name="value">
         </div>
         <!-- /content -->
     </div>

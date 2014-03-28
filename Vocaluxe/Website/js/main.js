@@ -1115,42 +1115,154 @@
         };
 
         var RemoteScreenHandler = function () {
+            var remoteScreensHandler = {};
+
+            var currentRemoteScreen = 0;
+            var isSubscribed = false;
+
+
+
+            var ERemoteScreens = {
+                "0": "remoteScreenMain",
+                "1": "remoteScreenPlayerSelection"
+            };
+
             var init = function () {
+                //pageLoadHandler for remoteScreenMain
+                $(document).on('pagebeforeshow', '#remoteScreenMain', pagebeforeshowRemoteScreenMain);
+
+                //pageUnLoadHandler for remoteScreenMain
+                $("#remoteScreenMain").on('pagehide', pageHideRemoteScreenMain);
+
                 playerComunication.registerPlayerComunicationFromServerHandler
-                    (playerComunication.EPlayerComunicationType["RemoteScreenActiveScreenUpdate"],
-                        remoteScreenActiveScreenUpdate);
-                
-                playerComunication.registerPlayerComunicationFromServerHandler
-                    (playerComunication.EPlayerComunicationType["RemoteScreenPlayerSelestionScreenUpdate"],
-                        updateRemoteScreenPlayerSelectionData);
+                      (playerComunication.EPlayerComunicationType["RemoteScreenActiveScreenUpdate"],
+                          remoteScreenActiveScreenUpdate);
+
+                remoteScreensHandler[ERemoteScreens[1]] = new RemoteScreenPlayerSelectionHandler();
             };
 
-
-            var remoteScreenActiveScreenUpdate = function(data) {
-
-            };
-
-            var updateRemoteScreenPlayerSelectionData = function (data) {
-                for (var playerId in data.AvailablePlayers) {
-                    if ($("#remoteScreenPlayerSelectionPlayerList_" + playerId).length == 0) {
-                        $("<li class='remoteScreenPlayerSelectionPlayerListRow' id='remoteScreenPlayerSelectionPlayerList_" + playerId + "'><img><span class='imageCaption'>" + data.AvailablePlayers[playerId].Name + "</span></li>").appendTo("#remoteScreenPlayerSelectionPlayerList");
-                    }
+            var pagebeforeshowRemoteScreenMain = function () {
+                if (!isSubscribed) {
+                    playerComunication.subscribe(playerComunication.EPlayerComunicationType["RemoteScreenActiveScreenUpdate"]);
+                    this.isSubscribed = true;
                 }
+                if (currentRemoteScreen != 0
+                    && ERemoteScreens[this.currentRemoteScreen]) {
+                    $.mobile.changePage("#" + ERemoteScreens[this.currentRemoteScreen], { transition: "none" });
+                }
+            };
 
-                $('li[id^="remoteScreenPlayerSelectionPlayerList_"]').each(function (i, e) {
-                    var pId = e.id.replace("remoteScreenPlayerSelectionPlayerList_", "");
-                    if (data.AvailablePlayers[pId] === undefined) {
-                        $("#remoteScreenPlayerSelectionPlayerList_" + pId).remove();
+            var pageHideRemoteScreenMain = function (nextPage) {
+                if (!objectConatainsValue(ERemoteScreens, nextPage[0].id)
+                    && this.isSubscribed) {
+                    playerComunication.unsubscribe(playerComunication.EPlayerComunicationType["RemoteScreenActiveScreenUpdate"]);
+                    this.isSubscribed = false;
+                }
+            };
+
+            var remoteScreenActiveScreenUpdate = function (activeScreen) {
+                this.currentRemoteScreen = activeScreen;
+                if (ERemoteScreens[activeScreen] != $.mobile.activePage[0].id
+                    && objectConatainsValue(ERemoteScreens, $.mobile.activePage[0].id)) {
+                    $.mobile.back();
+                }
+            };
+
+            var RemoteScreenPlayerSelectionHandler = function () {
+                var isSubscribed2 = false;
+
+                var init2 = function () {
+
+                    //pageLoadHandler for remoteScreenPlayerSelection
+                    $(document).on('pagebeforeshow', '#remoteScreenMain', pagebeforeshowRemoteScreenPlayerSelection);
+
+                    //pageUnLoadHandler for remoteScreenPlayerSelection
+                    $("#remoteScreenMain").on('pagehide', pageHideRemoteScreenPlayerSelection);
+
+                    playerComunication.registerPlayerComunicationFromServerHandler
+                        (playerComunication.EPlayerComunicationType["RemoteScreenPlayerSelestionScreenUpdate"],
+                            updateRemoteScreenPlayerSelectionData);
+
+                    $("#remoteScreenPlayerSelectionPlayerCount").spinner({
+                        spin: function (event, ui) {
+                            if (ui.value > 6) {
+                                $(this).spinner("value", 6);
+                                return false;
+                            } else if (ui.value < 1) {
+                                $(this).spinner("value", 1);
+                                return false;
+                            }
+                            return true;
+                        },
+                        stop: uploadChangedData
+                    });
+                };
+
+                var pagebeforeshowRemoteScreenPlayerSelection = function () {
+                    if (!isSubscribed2) {
+                        playerComunication.subscribe(playerComunication.EPlayerComunicationType["RemoteScreenPlayerSelestionScreenUpdate"]);
+                        this.isSubscribed2 = true;
                     }
-                });
-                
-                $("#remoteScreenPlayerSelectionPlayerList").flexisel();
-               
+                };
+
+                var pageHideRemoteScreenPlayerSelection = function (nextPage) {
+                    playerComunication.unsubscribe(playerComunication.EPlayerComunicationType["RemoteScreenPlayerSelestionScreenUpdate"]);
+                    this.isSubscribed2 = false;
+                };
+
+
+                var updateRemoteScreenPlayerSelectionData = function (data) {
+                    handlePlayerCountUpdate(data.PlayerCount);
+                    handleChoosenPlayersUpdate(data.ChoosenPlayers);
+                    handleSelectablePlayersUpdate(data.SelectablePlayers);
+                };
+
+                var handleSelectablePlayersUpdate = function (data) {
+                    /*for (var playerId in data.AvailablePlayers) {
+                        if ($("#remoteScreenPlayerSelectionSelectablePlayersList_" + playerId).length == 0) {
+                            $("<li class='remoteScreenPlayerSelectionSelectablePlayersListRow' id='remoteScreenPlayerSelectionSelectablePlayersList_" + playerId + "'><img><span class='imageCaption'>" + data.AvailablePlayers[playerId].Name + "</span></li>").appendTo("#remoteScreenPlayerSelectionSelectablePlayersList");
+                        }
+                    }
+
+                    $('li[id^="remoteScreenPlayerSelectionSelectablePlayersList_"]').each(function (i, e) {
+                        var pId = e.id.replace("remoteScreenPlayerSelectionSelectablePlayersList_", "");
+                        if (data.AvailablePlayers[pId] === undefined) {
+                            $("#remoteScreenPlayerSelectionSelectablePlayersList_" + pId).remove();
+                        }
+                    });
+                    */
+
+                    $("#remoteScreenPlayerSelectionSelectablePlayersList li").remove();
+                    for (var playerId in data) {
+                        $("<li class='remoteScreenPlayerSelectionSelectablePlayersListRow' id='remoteScreenPlayerSelectionSelectablePlayersList_" + playerId + "'><img><span class='imageCaption'>" + data.AvailablePlayers[playerId].Name + "</span></li>").appendTo("#remoteScreenPlayerSelectionSelectablePlayersList");
+                    }
+
+                    $("#remoteScreenPlayerSelectionSelectablePlayersList").flexisel();
+                };
+
+                var handleChoosenPlayersUpdate = function (data) {
+                    $("#remoteScreenPlayerSelectionChoosenPlayersList li").remove();
+                    for (var playerId in data) {
+                        $("<li class='remoteScreenPlayerSelectionChoosenPlayersListRow' id='remoteScreenPlayerSelectionChoosenPlayersList_" + playerId + "'><img><span class='imageCaption'>" + data.AvailablePlayers[playerId].Name + "</span></li>").appendTo("#remoteScreenPlayerSelectionChoosenPlayersList");
+                    }
+
+                    $("#remoteScreenPlayerSelectionChoosenPlayersList").flexisel();
+                };
+
+                var handlePlayerCountUpdate = function (count) {
+                    $("#remoteScreenPlayerSelectionPlayerCount").spinner("value", count);
+                };
+
+                var uploadChangedData = function () {
+
+                };
+
+
+                init2();
             };
 
             init();
         };
-
 
         function SongPageHandler() {
             var allSongsCache = null;
@@ -1550,6 +1662,15 @@
             }
             $.mobile.changePage("#login", { transition: "slidefade" });
         };
+    }
+
+    function objectConatainsValue(obj, value) {
+        for (key in obj) {
+            if (obj[key] === value) {
+                return true;
+            }
+        }
+        return false;
     }
 
     initMain();

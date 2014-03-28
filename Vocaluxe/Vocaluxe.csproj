@@ -238,9 +238,13 @@
     <Compile Include="Base\CWebcam.cs" />
     <Compile Include="Base\Fonts\CFonts.cs" />
     <Compile Include="Base\Fonts\CGlyph.cs" />
+    <Compile Include="Base\ScreenChangedEventArgs.cs" />
     <Compile Include="Base\Server\CClientHandler.cs" />
     <Compile Include="Base\Server\CCommands.cs" />
     <Compile Include="Base\Server\CVocaluxeServer.cs" />
+    <Compile Include="Base\Server\RemoteScreen\CRemoteScreen.cs" />
+    <Compile Include="Base\Server\RemoteScreen\CRemoteScreenMain.cs" />
+    <Compile Include="Base\Server\RemoteScreen\CRemoteScreenPlayerSelection.cs" />
     <Compile Include="Base\Server\VocaluxeStructs.cs" />
     <Compile Include="CProgrammHelper.cs" />
     <Compile Include="CSplashScreen.cs">

@@ -22,6 +22,7 @@ using System.Drawing;
 using System.IO;
 using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
+using ServerLib.PlayerComunication.DataTypes;
 
 namespace ServerLib
 {
@@ -176,5 +177,19 @@ namespace ServerLib
     public delegate void SetUserRoleDelegate(int profileId, int userRole);
 
     public delegate int GetUserIdFromUsernameDelegate(string username);
+
+    [DataContract]
+    public struct SPlayerComunicationFrame
+    {
+        [DataMember]
+        public int ProfileId;
+        [DataMember]
+        public DateTime ValidTill;
+        [DataMember]
+        public EPlayerComunicationType Type;
+        [DataMember]
+        public String Data;
+    }
+
     #endregion
 }

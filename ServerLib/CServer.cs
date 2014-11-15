@@ -94,6 +94,7 @@ namespace ServerLib
         public CServer(int port, bool encrypted)
         {
             _Init(port, encrypted);
+            CPlayerCommunication.Init();
         }
 
         public string GetBaseAddress()

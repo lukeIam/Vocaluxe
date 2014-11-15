@@ -419,6 +419,26 @@ namespace ServerLib
 
             return true;
         }
+
+        public SPlayerComunicationFrame[] PlayerComunication(SPlayerComunicationFrame[] recivedData)
+        {
+            Guid sessionKey = _GetSession();
+
+            if (sessionKey == Guid.Empty)
+            {
+                if (WebOperationContext.Current != null)
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
+                }
+
+                return null;
+            }
+            int userId = CSessionControl.GetUserIdFromSession(sessionKey);
+            CPlayerCommunication.AddMessagesFromPlayer(recivedData, userId);
+
+            return CPlayerCommunication.GetAllMessagesForPlayer(userId);
+        }
         #endregion
     }
 }

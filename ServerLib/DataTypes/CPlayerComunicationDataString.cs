@@ -1,8 +1,7 @@
-﻿
-using System;
+﻿using System;
 using System.Runtime.Serialization;
 
-namespace ServerLib.PlayerComunication.DataTypes
+namespace ServerLib.DataTypes
 {
     [Serializable]
     public class CPlayerComunicationDataString : CPlayerComunicationData

@@ -22,7 +22,7 @@ using System.Drawing;
 using System.IO;
 using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
-using ServerLib.PlayerComunication.DataTypes;
+using ServerLib.DataTypes;
 
 namespace ServerLib
 {

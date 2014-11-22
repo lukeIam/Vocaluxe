@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace ServerLib.PlayerComunication.DataTypes
+namespace ServerLib.DataTypes
 {
     [Serializable]
     public enum EPlayerComunicationType

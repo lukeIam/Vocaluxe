@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Web.Script.Serialization;
-using ServerLib.PlayerComunication.DataTypes;
+using ServerLib.DataTypes;
 
 namespace ServerLib
 {

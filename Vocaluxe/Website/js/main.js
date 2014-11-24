@@ -6,7 +6,7 @@
     var translator;
     var pageHandler;
     var sessionHandler;
-	var playerComunication;
+    var playerComunication;
 
     var initMain = function () {
         if (document.location.protocol == "file:") {
@@ -32,7 +32,7 @@
             imageLoader = new ImageLoader();
             externalServices = new ExternalServices();
             pageHandler = new PageHandler();
-			playerComunication = new PlayerComunication();
+            playerComunication = new PlayerComunication();
 
             pageHandler.init();
         });
@@ -1415,8 +1415,8 @@
             t.sessionId = "";
 
             pageHandler.reset();
-			
-			playerComunication.reset();
+            
+            playerComunication.reset();
 
             if (window.localStorage) {
                 window.localStorage.setItem("VocaluxeSessionKey", "");
@@ -1425,7 +1425,7 @@
         };
 
 
-        var checkSession = function () {
+        /*var checkSession = function () {
             if (t.ownProfileId == -1
                 && pageHandler.profileIdRequest == -1
                 && ($.mobile.activePage.attr("id") == "displayProfile" || $.mobile.activePage.attr("id") == "login" || $.mobile.activePage.attr("id") == "discover")) {
@@ -1440,191 +1440,191 @@
             }).fail(function (result) {
                 t.logout();
             });
-        };
+        };*/
 
         init();
     }
 
-	function PlayerComunication() {
-		var playerComunicationToServer = [];
-		var playerComunicationFromServerHandler = {};
-		var defaultHeartbeatIntervall = 5000;
-		var heartbeatIntervalls = [];
-		var heartbeatIntervallId;
+    function PlayerComunication() {
+        var playerComunicationToServer = [];
+        var playerComunicationFromServerHandler = {};
+        var defaultHeartbeatIntervall = 5000;
+        var heartbeatIntervalls = [];
+        var heartbeatIntervallId;
 
-		var init = function () {
-			startHeartbeat();
-		};
+        var init = function () {
+            startHeartbeat();
+        };
 
-		var checkPlayerMessages = function () {
-			if (sessionHandler.ownProfileId == -1
-				&& PageHandler.profileIdRequest == -1
-				&& ($.mobile.activePage.attr("id") == "displayProfile"
-					|| $.mobile.activePage.attr("id") == "login"
-					|| $.mobile.activePage.attr("id") == "discover")) {
-				return;
-			}
+        var checkPlayerMessages = function () {
+            if (sessionHandler.ownProfileId == -1
+                && PageHandler.profileIdRequest == -1
+                && ($.mobile.activePage.attr("id") == "displayProfile"
+                    || $.mobile.activePage.attr("id") == "login"
+                    || $.mobile.activePage.attr("id") == "discover")) {
+                return;
+            }
 
-			request({
-				url: "playerComunication",
-				type: "POST",
-				dataType: "json",
-				contentType: "application/json",
-				data: JSON.stringify(playerComunicationToServer)
-			}, "noOverlay").done(function (result) {
-				if (result.length > 0) {
-					handlePlayerComunicationFromServer(result);
-				}
-			}).fail(function (result) {
-				if (result.status == 403 || result.status == 0) {
-					sessionHandler.logout();
-				}
-			});
+            request({
+                url: "playerComunication",
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(playerComunicationToServer)
+            }, "noOverlay").done(function (result) {
+                if (result.length > 0) {
+                    handlePlayerComunicationFromServer(result);
+                }
+            }).fail(function (result) {
+                if (result.status == 403 || result.status == 0) {
+                    sessionHandler.logout();
+                }
+            });
 
-			if (playerComunicationToServer.length > 0) {
-				setTimeout(checkPlayerMessages, 50);
-			}
+            if (playerComunicationToServer.length > 0) {
+                setTimeout(checkPlayerMessages, 50);
+            }
 
-			playerComunicationToServer = [];
-		};
+            playerComunicationToServer = [];
+        };
 
-		var handlePlayerComunicationFromServer = function (items) {
-			for (var i = 0; i < items.length; i++) {
-				if (items[i].ProfileId == sessionHandler.ownProfileId && playerComunicationFromServerHandler[items[i].Type]) {
-				    if (new Date() - new Date(parseInt(items[i].ValidTill.match(/[0-9]+/)[0])) <= 0) {
-						var deserializedData = JSON.parse(items[i].Data);
-						for (var j = 0; j < playerComunicationFromServerHandler[items[i].Type].length; j++) {
-							playerComunicationFromServerHandler[items[i].Type][j].Handler(deserializedData);
-						}
-					}
-				}
-			}
-		};
+        var handlePlayerComunicationFromServer = function (items) {
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].ProfileId == sessionHandler.ownProfileId && playerComunicationFromServerHandler[items[i].Type]) {
+                    if (new Date() - new Date(parseInt(items[i].ValidTill.match(/[0-9]+/)[0])) <= 0) {
+                        var deserializedData = JSON.parse(items[i].Data);
+                        for (var j = 0; j < playerComunicationFromServerHandler[items[i].Type].length; j++) {
+                            playerComunicationFromServerHandler[items[i].Type][j].Handler(deserializedData);
+                        }
+                    }
+                }
+            }
+        };
 
-		var startHeartbeat = function () {
-			var interv = defaultHeartbeatIntervall;
-			for (var i = 0; i < heartbeatIntervalls.length; i++) {
-				if (interv > heartbeatIntervalls[i] && heartbeatIntervalls[i] >= 50) {
-					interv = heartbeatIntervalls[i];
-				}
-			}
+        var startHeartbeat = function () {
+            var interv = defaultHeartbeatIntervall;
+            for (var i = 0; i < heartbeatIntervalls.length; i++) {
+                if (interv > heartbeatIntervalls[i] && heartbeatIntervalls[i] >= 50) {
+                    interv = heartbeatIntervalls[i];
+                }
+            }
 
-			if (interv == defaultHeartbeatIntervall && heartbeatIntervalls.length != 0) {
-				heartbeatIntervalls = [];
-			}
+            if (interv == defaultHeartbeatIntervall && heartbeatIntervalls.length != 0) {
+                heartbeatIntervalls = [];
+            }
 
-			clearInterval(heartbeatIntervallId);
-			heartbeatIntervallId = setInterval(checkPlayerMessages, interv);
-		};
+            clearInterval(heartbeatIntervallId);
+            heartbeatIntervallId = setInterval(checkPlayerMessages, interv);
+        };
 
-		var sendPlayerComunicationToServer = function (packet) {
-			playerComunicationToServer.push(packet);
-		};
+        var sendPlayerComunicationToServer = function (packet) {
+            playerComunicationToServer.push(packet);
+        };
 
-		/*this.registerPlayerComunicationFromServerHandler = function (type, handler) {
-			if (!playerComunicationFromServerHandler[type]) {
-				playerComunicationFromServerHandler[type] = [];
-			}
-		    playerComunicationFromServerHandler[type].push(
-		        {
-		            "handler": handler,
-		            "id": 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-		                var r = Math.random() * 16 | 0, v = c == 'x' ? r : r & 0x3 | 0x8;
-		                return v.toString(16);
-		            }),
-		            "type": type
-		        }
-		    );
-		};*/
-	
+        /*this.registerPlayerComunicationFromServerHandler = function (type, handler) {
+            if (!playerComunicationFromServerHandler[type]) {
+                playerComunicationFromServerHandler[type] = [];
+            }
+            playerComunicationFromServerHandler[type].push(
+                {
+                    "handler": handler,
+                    "id": 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                        var r = Math.random() * 16 | 0, v = c == 'x' ? r : r & 0x3 | 0x8;
+                        return v.toString(16);
+                    }),
+                    "type": type
+                }
+            );
+        };*/
+    
 
-		this.sendDataToServer = function (data, type) {
-			sendPlayerComunicationToServer({
-				"ProfileId": sessionHandler.ownProfileId,
-				"ValidTill": "\/Date(" + (((new Date())).getTime() + 60000) + ")\/",
-				"Type": type,
-				"Data": JSON.stringify(data)
-			});
-		};
+        this.sendDataToServer = function (data, type) {
+            sendPlayerComunicationToServer({
+                "ProfileId": sessionHandler.ownProfileId,
+                "ValidTill": "\/Date(" + (((new Date())).getTime() + 60000) + ")\/",
+                "Type": type,
+                "Data": JSON.stringify(data)
+            });
+        };
 
-		//mim 50ms
-		this.requestIntervall = function (newIntervall) {
-			heartbeatIntervalls.push(newIntervall);
-		};
+        //mim 50ms
+        this.requestIntervall = function (newIntervall) {
+            heartbeatIntervalls.push(newIntervall);
+        };
 
-		this.removeIntervall = function (oldIntervall) {
-			var index = heartbeatIntervalls.indexOf(oldIntervall);
-			if (index > -1) {
-				heartbeatIntervalls.splice(oldIntervall, 1);
-			}
-		};
+        this.removeIntervall = function (oldIntervall) {
+            var index = heartbeatIntervalls.indexOf(oldIntervall);
+            if (index > -1) {
+                heartbeatIntervalls.splice(oldIntervall, 1);
+            }
+        };
 
-		this.reset = function () {
-			playerComunicationToServer = [];
-			playerComunicationFromServerHandler = {};
-			heartbeatIntervalls = [];
-		};
+        this.reset = function () {
+            playerComunicationToServer = [];
+            playerComunicationFromServerHandler = {};
+            heartbeatIntervalls = [];
+        };
 
-		this.subscribe = function (type, handler) {
-		    var newId = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-		        var r = Math.random() * 16 | 0, v = c == 'x' ? r : r & 0x3 | 0x8;
-		        return v.toString(16);
-		    });
+        this.subscribe = function (type, handler) {
+            var newId = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : r & 0x3 | 0x8;
+                return v.toString(16);
+            });
 
-		    if (!playerComunicationFromServerHandler[type]) {
-		        playerComunicationFromServerHandler[type] = [];
-		    }
+            if (!playerComunicationFromServerHandler[type]) {
+                playerComunicationFromServerHandler[type] = [];
+            }
 
-		    playerComunicationFromServerHandler[type].push(
-		        {
-		            "Handler": handler,
-		            "Id": newId,
-		            "Type": type
-		        }
-		    );
+            playerComunicationFromServerHandler[type].push(
+                {
+                    "Handler": handler,
+                    "Id": newId,
+                    "Type": type
+                }
+            );
 
-			this.sendDataToServer({
-				"Type": type,
-				"PlayerId": sessionHandler.ownProfileId
-			},
-			this.EPlayerComunicationType["RegisterSubscription"]);
+            this.sendDataToServer({
+                "Type": type,
+                "PlayerId": sessionHandler.ownProfileId
+            },
+            this.EPlayerComunicationType["RegisterSubscription"]);
 
-		    return newId;
-		};
-		
-		this.unsubscribe = function (id) {
-		    var deletedItemType = null;
-		    for (var type in playerComunicationFromServerHandler) {
-		        if (playerComunicationFromServerHandler[type]) {
-		            for (var i = 0; i < playerComunicationFromServerHandler[type].length; i++) {
-		                if (playerComunicationFromServerHandler[type][i].Id == id) {
-		                    debugger;
-		                    deletedItemType = playerComunicationFromServerHandler[type][i].Id;
-		                    playerComunicationFromServerHandler[type].splice(i,1);
-		                    break;
-		                }
-		            }
-		        }
-		    }
+            return newId;
+        };
+        
+        this.unsubscribe = function (id) {
+            var deletedItemType = null;
+            for (var type in playerComunicationFromServerHandler) {
+                if (playerComunicationFromServerHandler[type]) {
+                    for (var i = 0; i < playerComunicationFromServerHandler[type].length; i++) {
+                        if (playerComunicationFromServerHandler[type][i].Id == id) {
+                            debugger;
+                            deletedItemType = playerComunicationFromServerHandler[type][i].Id;
+                            playerComunicationFromServerHandler[type].splice(i,1);
+                            break;
+                        }
+                    }
+                }
+            }
 
 
-		    if (deletedItemType != null) {
-		        this.sendDataToServer({
-		                "Type": type,
-		                "PlayerId": sessionHandler.ownProfileId
-		            },
-		            this.EPlayerComunicationType["UnregisterSubscription"]);
-		    }
-		    return "";
-		};
+            if (deletedItemType != null) {
+                this.sendDataToServer({
+                        "Type": type,
+                        "PlayerId": sessionHandler.ownProfileId
+                    },
+                    this.EPlayerComunicationType["UnregisterSubscription"]);
+            }
+            return "";
+        };
 
-		this.EPlayerComunicationType = {
-			"RegisterSubscription": 0,
-			"UnregisterSubscription": 1
-		};
+        this.EPlayerComunicationType = {
+            "RegisterSubscription": 0,
+            "UnregisterSubscription": 1
+        };
 
-		init();
-	}
-	
+        init();
+    }
+    
     initMain();
 })();

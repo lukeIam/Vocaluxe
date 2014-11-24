@@ -15,6 +15,8 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Runtime.Serialization;
+
 namespace Vocaluxe.Base.Server
 {
     public struct SLoginData
@@ -34,5 +36,16 @@ namespace Vocaluxe.Base.Server
         public SPicture Avatar;
         public string PlayerName;
         public int Difficulty;
+    }
+
+
+    public class CIdContainer : ISerializable
+    {
+        public int Id { get; set; }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Id",Id);
+        }
     }
 }

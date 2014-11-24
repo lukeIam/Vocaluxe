@@ -6,7 +6,9 @@ namespace ServerLib.DataTypes
     [Serializable]
     public enum EPlayerComunicationType
     {
-        RegisterSubscription,
-        UnregisterSubscription
+        RegisterSubscription = 0,
+        UnregisterSubscription = 1,
+        SongChanged = 2
+
     }
 }

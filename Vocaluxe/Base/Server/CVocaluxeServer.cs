@@ -24,6 +24,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 using ServerLib;
+using ServerLib.DataTypes;
 using Vocaluxe.Lib.Input;
 using Vocaluxe.Lib.Playlist;
 using VocaluxeLib;
@@ -42,16 +43,16 @@ namespace Vocaluxe.Base.Server
                 return "App controller";
             }
 
-            public override void Connect() {}
+            public override void Connect() { }
 
-            public override void Disconnect() {}
+            public override void Disconnect() { }
 
             public override bool IsConnected()
             {
                 return true;
             }
 
-            public override void SetRumble(float duration) {}
+            public override void SetRumble(float duration) { }
         }
 
         private static CServer _Server;
@@ -88,6 +89,7 @@ namespace Vocaluxe.Base.Server
             CServer.RemovePlaylist = _RemovePlaylist;
             CServer.AddPlaylist = _AddPlaylist;
 
+            CGame.SongChanged += (sender, @event) => _SongHasChanged(@event.Song != null ? @event.Song.ID : -1);
             //_Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
         }
 
@@ -171,8 +173,8 @@ namespace Vocaluxe.Base.Server
                             int number;
                             Keys fKey;
 
-                            if (Int32.TryParse(numberString, out number) && number >= 1 
-                                && number <= 12 
+                            if (Int32.TryParse(numberString, out number) && number >= 1
+                                && number <= 12
                                 && Enum.TryParse("F" + number, true, out fKey))
                             {
                                 Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, fKey));
@@ -186,16 +188,16 @@ namespace Vocaluxe.Base.Server
             return result;
         }
 
-        private static bool _sendKeyStringEvent(string keyString, bool isShiftPressed , bool isAltPressed , bool isCtrlPressed )
+        private static bool _sendKeyStringEvent(string keyString, bool isShiftPressed, bool isAltPressed, bool isCtrlPressed)
         {
             bool result = false;
 
             foreach (var key in keyString.ToCharArray())
             {
-                Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, isAltPressed, 
+                Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, isAltPressed,
                     Char.IsUpper(key) || isShiftPressed,
                     isCtrlPressed, true,
-                    isShiftPressed?Char.ToUpper(key) :key,
+                    isShiftPressed ? Char.ToUpper(key) : key,
                     _ParseKeys(key)));
                 result = true;
             }
@@ -240,23 +242,23 @@ namespace Vocaluxe.Base.Server
             if (existingProfile != null)
             {
                 newProfile = new CProfile
-                    {
-                        ID = existingProfile.ID,
-                        FileName = existingProfile.FileName,
-                        Active = existingProfile.Active,
-                        Avatar = existingProfile.Avatar,
-                        Difficulty = existingProfile.Difficulty,
-                        UserRole = existingProfile.UserRole,
-                        PlayerName = existingProfile.PlayerName
-                    };
+                {
+                    ID = existingProfile.ID,
+                    FileName = existingProfile.FileName,
+                    Active = existingProfile.Active,
+                    Avatar = existingProfile.Avatar,
+                    Difficulty = existingProfile.Difficulty,
+                    UserRole = existingProfile.UserRole,
+                    PlayerName = existingProfile.PlayerName
+                };
             }
             else
             {
                 newProfile = new CProfile
-                    {
-                        Active = EOffOn.TR_CONFIG_ON,
-                        UserRole = EUserRole.TR_USERROLE_NORMAL
-                    };
+                {
+                    Active = EOffOn.TR_CONFIG_ON,
+                    UserRole = EUserRole.TR_USERROLE_NORMAL
+                };
             }
 
             if (profile.Avatar != null)
@@ -331,14 +333,14 @@ namespace Vocaluxe.Base.Server
         private static SProfileData _CreateProfileData(CProfile profile, bool isReadonly)
         {
             SProfileData profileData = new SProfileData
-                {
-                    IsEditable = !isReadonly,
-                    ProfileId = profile.ID,
-                    PlayerName = profile.PlayerName,
-                    //Is TR_USERROLE_GUEST or TR_USERROLE_NORMAL?
-                    Type = (profile.UserRole.HasFlag(EUserRole.TR_USERROLE_NORMAL) ? 1 : 0),
-                    Difficulty = (int)profile.Difficulty
-                };
+            {
+                IsEditable = !isReadonly,
+                ProfileId = profile.ID,
+                PlayerName = profile.PlayerName,
+                //Is TR_USERROLE_GUEST or TR_USERROLE_NORMAL?
+                Type = (profile.UserRole.HasFlag(EUserRole.TR_USERROLE_NORMAL) ? 1 : 0),
+                Difficulty = (int)profile.Difficulty
+            };
 
             CAvatar avatar = profile.Avatar;
             if (avatar != null)
@@ -487,6 +489,12 @@ namespace Vocaluxe.Base.Server
             }
             return result;
         }
+
+        private static void _SongHasChanged(int songId)
+        {
+            CPlayerCommunication.AddNewPlayerMessage(EPlayerComunicationType.SongChanged, new CIdContainer() { Id = songId });
+        }
+
         #endregion
 
         #region playlist
@@ -588,12 +596,12 @@ namespace Vocaluxe.Base.Server
         private static SPlaylistInfo _GetPlaylistInfo(CPlaylistFile playlist)
         {
             return new SPlaylistInfo
-                {
-                    PlaylistId = playlist.Id,
-                    PlaylistName = playlist.Name,
-                    SongCount = playlist.Songs.Count,
-                    LastChanged = DateTime.Now.ToLongDateString()
-                };
+            {
+                PlaylistId = playlist.Id,
+                PlaylistName = playlist.Name,
+                SongCount = playlist.Songs.Count,
+                LastChanged = DateTime.Now.ToLongDateString()
+            };
         }
 
         private static void _RemovePlaylist(int playlistId)
@@ -610,6 +618,7 @@ namespace Vocaluxe.Base.Server
 
             return newPlaylistId;
         }
+
         #endregion
 
         #region user management

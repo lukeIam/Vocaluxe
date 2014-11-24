@@ -307,6 +307,7 @@
         this.customSelectPlaylistSongCallback = null;
         this.profileIdRequest = -1;
         this.songIdRequest = -1;
+        this.currentSongMode = false;
 
         this.init = function () {
             replaceTransitionHandler();
@@ -535,6 +536,7 @@
             };
 
             var pagebeforeshowMain = function () {
+                pageHandler.currentSongMode = false;
                 request({
                     url: "hasUserRight?right=" + 2
                 }).done(function (result) {
@@ -577,6 +579,7 @@
                         url: "getCurrentSongId",
                         headers: { "session": sessionHandler.sessionId }
                     }, 'Getting current song...').done(function (result) {
+                        pageHandler.currentSongMode = true;
                         pageHandler.songIdRequest = parseInt(result);
                         $.mobile.changePage("#displaySong", { transition: "slidefade" });
                     });
@@ -1019,12 +1022,28 @@
 
     function SongPageHandler() {
         var allSongsCache = null;
+        var songChangedSubscriptionId = "";
+
+        var songChangedHandler = function(songIdContainer) {
+            if (pageHandler.currentSongMode) {
+                pageHandler.songIdRequest = songIdContainer.Id;
+                getSongAndDisplay();
+            } else if (songChangedSubscriptionId!="") {
+                songChangedSubscriptionId = playerComunication.unsubscribe(songChangedSubscriptionId);
+            }
+        };
 
         var init = function () {
             //pageLoadHandler for displaySong
 
             $(document).on('pagebeforeshow', '#displaySong', pagebeforeshowDisplaySong);
 
+            $("#displaySong").on('pagehide', function() {
+                if (songChangedSubscriptionId != "") {
+                    songChangedSubscriptionId = playerComunication.unsubscribe(songChangedSubscriptionId);
+                }
+                pageHandler.currentSongMode = false;
+            });
 
             //pageLoadHandler for selectSong
             $(document).on('pagebeforeshow', '#selectSong', pagebeforeshowSelectSong);
@@ -1032,6 +1051,15 @@
         };
 
         var pagebeforeshowDisplaySong = function () {
+            // Save promise on page so the transition handler can find it.
+            $(this).data('promise', getSongAndDisplay());
+            
+            if (pageHandler.currentSongMode && songChangedSubscriptionId == "") {
+                songChangedSubscriptionId = playerComunication.subscribe(playerComunication.EPlayerComunicationType["SongChanged"], songChangedHandler);
+            }
+        };
+
+        var getSongAndDisplay = function() {
             var promise = request({
                 url: "getSong?songId=" + pageHandler.songIdRequest
             }).done(function (result) {
@@ -1108,8 +1136,7 @@
                 });
             });
 
-            // Save promise on page so the transition handler can find it.
-            $(this).data('promise', promise);
+            return promise;
         };
 
         var pagebeforeshowSelectSong = function () {
@@ -1620,7 +1647,8 @@
 
         this.EPlayerComunicationType = {
             "RegisterSubscription": 0,
-            "UnregisterSubscription": 1
+            "UnregisterSubscription": 1,
+            "SongChanged": 2
         };
 
         init();

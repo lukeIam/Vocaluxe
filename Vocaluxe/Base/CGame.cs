@@ -135,6 +135,7 @@ namespace Vocaluxe.Base
         public static void NextRound()
         {
             _SongQueue.StartNextRound(Players);
+            SongChanged.Invoke(null, new CSongEvent(GetSong()));
         }
 
         public static bool IsFinished()
@@ -275,7 +276,7 @@ namespace Vocaluxe.Base
 #if DEBUG_HIT
                         || true
 #endif
-                                                         ))
+                        ))
                     {
                         int tone = notes[note].Tone;
                         int tonePlayer = CRecord.GetTone(p);
@@ -463,6 +464,24 @@ namespace Vocaluxe.Base
             }
 
             return new float[] {GetTimeFromBeats(lastStart, GetSong().BPM), nextStart};
+        }
+
+        public static event EventHandler<CSongEvent> SongChanged;
+
+        public class CSongEvent : EventArgs
+        {
+            private readonly CSong _Song;
+
+            public CSongEvent(CSong song)
+            {
+                _Song = song;
+
+            }
+
+            public CSong Song
+            {
+                get { return _Song; }
+            }
         }
     }
 }

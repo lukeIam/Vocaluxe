@@ -88,16 +88,8 @@ namespace ServerLib
                 messages = _OutgoingMessagesPerUser[playerId].ToArray();
                 _OutgoingMessagesPerUser[playerId].Clear();
             }
-            return new SPlayerComunicationFrame[]{
-                 new SPlayerComunicationFrame()
-                 {
-                     ProfileId = 0,
-                     Type = EPlayerComunicationType.RegisterSubscription,
-                     ValidTill = DateTime.Now.AddMinutes(1),
-                     Data = _SerializeHelper(new CPlayerComunicationDataString(){Data = "Test"})
-                 }
-             };
-            //return messages;
+         
+            return messages;
         }
 
         public static void RemoveAllMessages(int playerId, EPlayerComunicationType type)

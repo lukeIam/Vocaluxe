@@ -1625,7 +1625,6 @@
                 if (playerComunicationFromServerHandler[type]) {
                     for (var i = 0; i < playerComunicationFromServerHandler[type].length; i++) {
                         if (playerComunicationFromServerHandler[type][i].Id == id) {
-                            debugger;
                             deletedItemType = playerComunicationFromServerHandler[type][i].Id;
                             playerComunicationFromServerHandler[type].splice(i,1);
                             break;

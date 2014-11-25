@@ -13,7 +13,7 @@ namespace ServerLib.DataTypes
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("Id", Value);
+            info.AddValue("Value", Value);
         }
     }
 }

@@ -1,17 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace ServerLib.DataTypes
 {
     [Serializable]
-    public class CPlayerComunicationDataString : CPlayerComunicationData
+    public class CPlayerComunicationDataInt : CPlayerComunicationData
     {
-        [DataMember]
-        public string Data { get; set; }
+        public int Value { get; set; }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("Data", Data);
+            info.AddValue("Id", Value);
         }
     }
 }

@@ -72,6 +72,7 @@
     <Compile Include="CUserCommunication.cs" />
     <Compile Include="CWebservice.cs" />
     <Compile Include="DataStructs.cs" />
+    <Compile Include="DataTypes\CPlayerComunicationDataInt.cs" />
     <Compile Include="DataTypes\CPlayerComunicationData.cs" />
     <Compile Include="DataTypes\CPlayerComunicationDataString.cs" />
     <Compile Include="DataTypes\CPlayerComunicationDataSubscription.cs" />

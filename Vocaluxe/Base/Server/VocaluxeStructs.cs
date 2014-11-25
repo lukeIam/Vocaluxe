@@ -37,15 +37,4 @@ namespace Vocaluxe.Base.Server
         public string PlayerName;
         public int Difficulty;
     }
-
-
-    public class CIdContainer : ISerializable
-    {
-        public int Id { get; set; }
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("Id",Id);
-        }
-    }
 }

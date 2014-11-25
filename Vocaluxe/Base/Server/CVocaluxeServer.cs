@@ -492,7 +492,7 @@ namespace Vocaluxe.Base.Server
 
         private static void _SongHasChanged(int songId)
         {
-            CPlayerCommunication.AddNewPlayerMessage(EPlayerComunicationType.SongChanged, new CIdContainer() { Id = songId });
+            CPlayerCommunication.AddNewPlayerMessage(EPlayerComunicationType.SongChanged, new CPlayerComunicationDataInt() { Value = songId });
         }
 
         #endregion

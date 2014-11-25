@@ -1026,7 +1026,7 @@
 
         var songChangedHandler = function(songIdContainer) {
             if (pageHandler.currentSongMode) {
-                pageHandler.songIdRequest = songIdContainer.Id;
+                pageHandler.songIdRequest = songIdContainer.Value;
                 getSongAndDisplay();
             } else if (songChangedSubscriptionId!="") {
                 songChangedSubscriptionId = playerComunication.unsubscribe(songChangedSubscriptionId);

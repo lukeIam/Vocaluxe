@@ -22,6 +22,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ServerLib;
 using Vocaluxe.Lib.Input;
@@ -56,12 +57,18 @@ namespace Vocaluxe.Base.Server
 
         private static CServer _Server;
         //private static CDiscover _Discover;
+        private static CServerTaskFactory _ServerTaskFactory;
+        private static readonly Queue<Task> _ServerTaskQueue = new Queue<Task>();
 
         public static readonly CControllerFramework Controller = new CServerController();
 
         public static void Init()
         {
-            _Server = new CServer(CConfig.Config.Server.ServerPort, CConfig.Config.Server.ServerEncryption == EOffOn.TR_CONFIG_ON);
+            _ServerTaskFactory = new CServerTaskFactory();
+            _Server = new CServer(
+                CConfig.Config.Server.ServerPort, 
+                CConfig.Config.Server.ServerEncryption == EOffOn.TR_CONFIG_ON,
+                _ServerTaskFactory);
 
             CServer.SendKeyEvent = _SendKeyEvent;
             CServer.SendKeyStringEvent = _sendKeyStringEvent;
@@ -109,6 +116,25 @@ namespace Vocaluxe.Base.Server
                 _Server.Stop();
                 _Server = null;
                 //_Discover.Stop();
+            }
+        }
+
+        internal static void EnqueueServerTask(Task task)
+        {
+            _ServerTaskQueue.Enqueue(task);
+        }
+
+        public static void ProcessServerTasks()
+        {
+            //Serial processing - one by one
+            while (_ServerTaskQueue.Count > 0)
+            {
+                //Get a task from the queue
+                Task task = _ServerTaskQueue.Dequeue();
+                //Start the task
+                task.Start();
+                //wait for completion with timeout 
+                task.Wait(100);
             }
         }
 
@@ -226,7 +252,7 @@ namespace Vocaluxe.Base.Server
         }
 
         #region profile
-        private static SProfileData _GetProfileData(int profileId, bool isReadonly)
+        internal static SProfileData _GetProfileData(int profileId, bool isReadonly)
         {
             CProfile profile = CProfiles.GetProfile(profileId);
             if (profile == null)

@@ -136,7 +136,11 @@ namespace ServerLib
                 bool isReadonly = (!CSessionControl.RequestRight(sessionKey, EUserRights.EditAllProfiles) &&
                                    CSessionControl.GetUserIdFromSession(sessionKey) != profileId);
 
-                return CServer.GetProfileData(profileId, isReadonly);
+                //return CServer.GetProfileData(profileId, isReadonly);
+
+                var task = CServer.ServerTaskFactory.createTask_GetProfileData(profileId, isReadonly);
+                task.Wait();
+                return task.Result;
             }
             return new SProfileData();
         }

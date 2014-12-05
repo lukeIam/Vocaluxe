@@ -31,6 +31,8 @@ namespace ServerLib
         private ServiceHost _Host;
         private Uri _BaseAddress;
         private bool _Encrypted;
+        internal static IServerTaskFactory ServerTaskFactory;
+      
 
         public static SendKeyEventDelegate SendKeyEvent { internal get; set; }
         public static SendKeyStringEventDelegate SendKeyStringEvent { internal get; set; }
@@ -91,8 +93,9 @@ namespace ServerLib
         public static GetUserIdFromUsernameDelegate GetUserIdFromUsername { internal get; set; }
         #endregion
 
-        public CServer(int port, bool encrypted)
+        public CServer(int port, bool encrypted, IServerTaskFactory serverTaskFactory)
         {
+            ServerTaskFactory = serverTaskFactory;
             _Init(port, encrypted);
         }
 

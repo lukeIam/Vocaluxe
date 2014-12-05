@@ -18,6 +18,7 @@
 using System;
 using System.Threading;
 using Vocaluxe.Base;
+using Vocaluxe.Base.Server;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using System.Diagnostics;
@@ -329,6 +330,7 @@ namespace Vocaluxe.Lib.Draw
             while (_Run)
             {
                 _CheckQueue();
+                CVocaluxeServer.ProcessServerTasks();
 
                 //We want to begin drawing
                 _OnBeforeDraw();

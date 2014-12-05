@@ -219,6 +219,7 @@
     <Compile Include="Base\CCoverGenerator.cs" />
     <Compile Include="Base\CPlaylistElement.cs" />
     <Compile Include="Base\CRecord.cs" />
+    <Compile Include="Base\Server\CServerTaskFactory.cs" />
     <Compile Include="Base\ThemeSystem\CBaseTheme.cs" />
     <Compile Include="Base\ThemeSystem\CPartySkin.cs" />
     <Compile Include="Base\ThemeSystem\CBaseSkin.cs" />

@@ -132,7 +132,7 @@ namespace Vocaluxe.Base.Server
                 //Get a task from the queue
                 Task task = _ServerTaskQueue.Dequeue();
                 //Start the task
-                task.Start();
+                task.RunSynchronously(TaskScheduler.FromCurrentSynchronizationContext());
                 //wait for completion with timeout 
                 task.Wait(100);
             }

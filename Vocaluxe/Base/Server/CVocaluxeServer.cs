@@ -133,8 +133,8 @@ namespace Vocaluxe.Base.Server
                 Task task = _ServerTaskQueue.Dequeue();
                 //Start the task
                 task.RunSynchronously(TaskScheduler.FromCurrentSynchronizationContext());
-                //wait for completion with timeout 
-                task.Wait(100);
+                //wait for completion 
+                task.Wait();
             }
         }
 

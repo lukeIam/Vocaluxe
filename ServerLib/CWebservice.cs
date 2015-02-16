@@ -139,11 +139,8 @@ namespace ServerLib
                 //return CServer.GetProfileData(profileId, isReadonly);
 
                 var task = CServer.ServerTaskFactory.createTask_GetProfileData(profileId, isReadonly);
-                task.Wait(100);
-                if (!task.IsCompleted)
-                {
-                    throw new TimeoutException("The server was to busy to answer the request.");
-                }
+                task.Wait();
+               
                 return task.Result;
             }
             return new SProfileData();

@@ -1,0 +1,3 @@
+language: csharp
+solution: Vocaluxe.sln
+script: xbuild /p:Configuration=ReleaseWin /p:Platform=x64 Vocaluxe.sln

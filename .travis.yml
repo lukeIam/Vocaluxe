@@ -2,3 +2,24 @@ language: csharp
 solution: Vocaluxe.sln
 script:
 - xbuild /p:Configuration=ReleaseLinux /p:Platform=x64 Vocaluxe.sln
+before_deploy:
+- test $TRAVIS_PULL_REQUEST = false \
+&& test $TRAVIS_BRANCH = travisTest \
+&& chmod 600 .travis/travisKey \
+&& ssh-add .travis/travisKey \
+&& git config --global user.email "builds@travis-ci.com" \
+&& git config --global user.name "Travis CI" \
+&& export GIT_TAG=Nightly \
+&& git tag $GIT_TAG -a -m "Generated tag from TravisCI for the latest nightly build" \
+&& git push -q -f https://github.com/lukeIam/Vocaluxe Nightly \
+deploy:
+  provider: releases
+  api_key:
+    secure: Nqs7G2k0k4Ehc66DvRJr/xN6zryh/RrUHJfyZk7GfS0uFB/1VshAlPxgwKcN/DtMsUydwBW91LzF37qKqaM9sKX2yqEEuo6gVmp0tUEfyr6KGJaq6KLpArI9Kw7dXe6VrPX5Vlk844gJRssXapS4QRChpUh3W5NY95xD4wvH3vU=
+  file: Vocaluxe_Linux.zip
+  on:
+    repo: lukeIam/Vocaluxe
+    branch: travisTest
+before_install:
+- openssl aes-256-cbc -K $encrypted_a377c9765acb_key -iv $encrypted_a377c9765acb_iv
+  -in .travis/travisKey.enc -out .travis/travisKey -d

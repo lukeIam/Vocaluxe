@@ -8,5 +8,5 @@ if [[ "${TRAVIS_PULL_REQUEST}" = "false" && "$TRAVIS_BRANCH" = "travisTest" ]]; 
 	git config --global user.name "Travis CI";
 	export GIT_TAG=Nightly;
 	git tag "$GIT_TAG" -a -m "Generated tag from TravisCI for the latest nightly build";
-	git push -q -f https://github.com/lukeIam/Vocaluxe Nightly;
+	git push -q -f git@github.com:lukeIam/Vocaluxe.git Nightly;
 fi

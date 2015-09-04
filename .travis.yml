@@ -15,4 +15,4 @@ deploy:
     repo: lukeIam/Vocaluxe
     branch: travisTest
 before_install:
-openssl aes-256-cbc -K $encrypted_a377c9765acb_key -iv $encrypted_a377c9765acb_iv -in travisKey.enc -out travisKey -d
+- openssl aes-256-cbc -K $encrypted_a377c9765acb_key -iv $encrypted_a377c9765acb_iv -in travisKey.enc -out travisKey -d

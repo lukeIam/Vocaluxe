@@ -1,6 +1,7 @@
 #!/bin/bash
 set -ev
 if [[ "${TRAVIS_PULL_REQUEST}" = "false" && "$TRAVIS_BRANCH" = "travisTest" ]]; then
+	eval "$(ssh-agent -s)";
 	chmod 600 .travis/travisKey;
 	ssh-add .travis/travisKey;
 	git config --global user.email "builds@travis-ci.com";

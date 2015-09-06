@@ -15,6 +15,7 @@ deploy:
   api_key:
     secure: Nqs7G2k0k4Ehc66DvRJr/xN6zryh/RrUHJfyZk7GfS0uFB/1VshAlPxgwKcN/DtMsUydwBW91LzF37qKqaM9sKX2yqEEuo6gVmp0tUEfyr6KGJaq6KLpArI9Kw7dXe6VrPX5Vlk844gJRssXapS4QRChpUh3W5NY95xD4wvH3vU=
   file: "build/Vocaluxe_Linux_x64_Nightly.zip"
+  skip_cleanup: true
   on:
     repo: lukeIam/Vocaluxe
     branch: travisTest

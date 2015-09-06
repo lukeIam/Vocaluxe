@@ -1,10 +1,15 @@
 language: csharp
 solution: Vocaluxe.sln
+env:
+- config=Linux platform=x64
+- config=Linux platform=x86
+- config=Win platform=x64
+- config=Win platform=x86
 branches:
   except:
     - Nightly
 script:
-- xbuild /p:Configuration=ReleaseLinux /p:Platform=x64 Vocaluxe.sln
+- xbuild /p:Configuration=Release$config /p:Platform=$platform Vocaluxe.sln
 before_deploy:
 - chmod ugo+x ./.travis/zip.sh
 - ./.travis/zip.sh
@@ -14,10 +19,10 @@ deploy:
   provider: releases
   api_key:
     secure: Nqs7G2k0k4Ehc66DvRJr/xN6zryh/RrUHJfyZk7GfS0uFB/1VshAlPxgwKcN/DtMsUydwBW91LzF37qKqaM9sKX2yqEEuo6gVmp0tUEfyr6KGJaq6KLpArI9Kw7dXe6VrPX5Vlk844gJRssXapS4QRChpUh3W5NY95xD4wvH3vU=
-  file: "build/Vocaluxe_Linux_x64_Nightly.zip"
+  file: "build/Vocaluxe_$config_$platform_Nightly.zip"
   skip_cleanup: true
   on:
     repo: lukeIam/Vocaluxe
-    branch: travisTest
+    tags: true
 before_install:
 - openssl aes-256-cbc -K $encrypted_0a90ee3b3df7_key -iv $encrypted_0a90ee3b3df7_iv -in ./.travis/travisKey.enc -out ./.travis/travisKey -d

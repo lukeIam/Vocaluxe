@@ -23,6 +23,6 @@ deploy:
   skip_cleanup: true
   on:
     repo: lukeIam/Vocaluxe
-    condition: "$TRAVIS_BRANCH" = "travisTest" || -n "$TRAVIS_TAG"
+    condition: "\"$TRAVIS_BRANCH\" = \"travisTest\" || -n \"$TRAVIS_TAG\""
 before_install:
 - openssl aes-256-cbc -K $encrypted_0a90ee3b3df7_key -iv $encrypted_0a90ee3b3df7_iv -in ./.travis/travisKey.enc -out ./.travis/travisKey -d

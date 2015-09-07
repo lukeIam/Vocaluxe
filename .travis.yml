@@ -9,6 +9,8 @@ branches:
   except:
     - Nightly
 script:
+- if [ $config = 'Linux' ]; make -C PitchTracker; fi
+- if [ $config = 'Linux' ]; make -C Vocaluxe/Lib/Video/Acinerella; fi
 - xbuild /p:Configuration=Release$config /p:Platform=$platform Vocaluxe.sln
 before_deploy:
 - chmod ugo+x ./.travis/zip.sh
@@ -23,6 +25,6 @@ deploy:
   skip_cleanup: true
   on:
     repo: lukeIam/Vocaluxe
-    condition: $TRAVIS_BRANCH = 'travisTest' || -n $TRAVIS_TAG
+    condition: $TRAVIS_BRANCH = 'travisTest'
 before_install:
 - openssl aes-256-cbc -K $encrypted_0a90ee3b3df7_key -iv $encrypted_0a90ee3b3df7_iv -in ./.travis/travisKey.enc -out ./.travis/travisKey -d

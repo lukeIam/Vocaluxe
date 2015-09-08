@@ -1,0 +1,39 @@
+version: '{build}'
+pull_requests:
+  do_not_increment_build_number: true
+configuration: ReleaseWin
+platform:
+- x64
+- x86
+clone_depth: 10
+build:
+  project: Vocaluxe.sln
+  verbosity: normal
+after_build:
+- cd Output
+- 7z a Vocaluxe_Windows_%PLATFORM%.zip *
+- cd ..
+artifacts:
+- path: Output\Vocaluxe_%APPVEYOR_REPO_BRANCH%_Windows_%PLATFORM%.zip
+  name: ReleaseZip
+before_deploy:
+- set GIT_VERSION_TAG=git describe --long
+deploy:
+- provider: GitHub
+  tag: $(APPVEYOR_REPO_TAG_NAME)
+  release: $(APPVEYOR_REPO_TAG_NAME) ($APPVEYOR_REPO_COMMIT_TIMESTAMP)
+  description: 'Version: ($GIT_VERSION_TAG)'
+  auth_token:
+    secure: QBwVoI9PlI+PWfX8vtjH22cSPhj2nwJ78CQcwC4Olsibn1QNar2KX4HEfOGNbazA
+  artifact: ReleaseZip
+  on:
+    APPVEYOR_REPO_TAG: true
+- provider: GitHub
+  tag: Nightly
+  release: Current Nightly ($APPVEYOR_REPO_COMMIT_TIMESTAMP)
+  description: 'Version: ($GIT_VERSION_TAG)'
+  auth_token:
+    secure: QBwVoI9PlI+PWfX8vtjH22cSPhj2nwJ78CQcwC4Olsibn1QNar2KX4HEfOGNbazA
+  artifact: ReleaseZip
+  on:
+    branch: appveyorTest

@@ -6,6 +6,8 @@ platform:
 - x64
 - x86
 clone_depth: 10
+before_build:
+- nuget restore
 build:
   project: Vocaluxe.sln
   verbosity: normal

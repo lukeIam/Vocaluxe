@@ -9,7 +9,7 @@ platform:
 clone_depth: 1
 before_build:
 - ps: >-
-    nuget restore
+    nuget restore -DisableParallelProcessing
 
     (Get-Content -Encoding UTF8 'PitchTracker\PitchTracker.vcxproj') | Foreach-Object {$_ -replace 'v110_xp', 'v120_xp'} | Set-Content -Encoding UTF8 'PitchTracker\PitchTracker.vcxproj'
 build:
@@ -34,6 +34,7 @@ deploy:
   auth_token:
     secure: QBwVoI9PlI+PWfX8vtjH22cSPhj2nwJ78CQcwC4Olsibn1QNar2KX4HEfOGNbazA
   artifact: ReleaseZip
+  prerelease: true
   on:
     APPVEYOR_REPO_TAG: true
 - provider: GitHub

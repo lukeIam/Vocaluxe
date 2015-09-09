@@ -18,6 +18,7 @@ build:
 after_build:
 - cd Output
 - 7z a Vocaluxe_%APPVEYOR_REPO_BRANCH%_Windows_%PLATFORM%.zip *
+- appveyor PushArtifact Vocaluxe_%APPVEYOR_REPO_BRANCH%_Windows_%PLATFORM%.zip -FileName Vocaluxe_%APPVEYOR_REPO_BRANCH%_Windows_%PLATFORM%.zip
 - cd ..
 test: off
 artifacts:

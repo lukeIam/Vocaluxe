@@ -32,10 +32,10 @@ artifacts:
 - path: Output\Vocaluxe_{APPVEYOR_REPO_BRANCH}_Windows_{PLATFORM}.zip
   name: ReleaseZip
 before_deploy:
-- cmd: >-
-    set GIT_VERSION_TAG=git describe --long
+- ps: >-
+    $Env:GIT_VERSION_TAG=$(git describe --long)
 
-    ps: ./.appveyor/prepareDeploy.ps
+    ./.appveyor/prepareDeploy.ps
 deploy:
 - provider: GitHub
   tag: $(APPVEYOR_REPO_TAG_NAME)

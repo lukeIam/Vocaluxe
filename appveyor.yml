@@ -11,7 +11,7 @@ environment:
   GitHubKey:
     secure: QBwVoI9PlI+PWfX8vtjH22cSPhj2nwJ78CQcwC4Olsibn1QNar2KX4HEfOGNbazA
 install:
-- ps: git fetch --tags
+- cmd: git fetch --tags
 before_build:
 - ps: >-
     nuget restore -DisableParallelProcessing

@@ -10,6 +10,8 @@ clone_depth: 50
 environment:
   GitHubKey:
     secure: QBwVoI9PlI+PWfX8vtjH22cSPhj2nwJ78CQcwC4Olsibn1QNar2KX4HEfOGNbazA
+install:
+- ps: git fetch --tags
 before_build:
 - ps: >-
     nuget restore -DisableParallelProcessing
@@ -35,7 +37,7 @@ before_deploy:
 - ps: >-
     $Env:GIT_VERSION_TAG=$(git describe --long)
 
-    ./.appveyor/prepareDeploy.ps
+    ./.appveyor/prepareDeploy.ps1
 deploy:
 - provider: GitHub
   tag: $(APPVEYOR_REPO_TAG_NAME)

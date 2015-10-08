@@ -12,7 +12,7 @@ else{
 	}
 	git config --global user.email "build@vocaluxe.de";
 	git config --global user.name "Vocaluxe_Automatic_Build";
-	git tag "$targetTag" -f -a -m "Latest Vocaluxe nightly build (Generated on $(get-date -f yyyy-MM-dd-_HH_mm_ss))";
+	git tag "$targetTag" -f;
 	git push -q -f "https://$($Env:GitHubKey):x-oauth-basic@github.com/lukeIam/Vocaluxe.git" "$targetTag";
 	
 	Write-Host "Branch $Env:APPVEYOR_REPO_TAG_NAME -> Tag=$targetTag"

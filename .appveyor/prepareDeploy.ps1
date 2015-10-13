@@ -3,7 +3,7 @@ if($Env:APPVEYOR_REPO_TAG -eq "true") {
 	Write-Host "Tag=$targetTag"
 }
 else{
-	if($Env:APPVEYOR_REPO_TAG_NAME -eq "appveyorTest"){		
+	if($Env:APPVEYOR_REPO_BRANCH -eq "appveyorTest"){		
 		$targetTag = "Nightly"		
 	}
 	else{
@@ -15,7 +15,7 @@ else{
 	git tag "$targetTag" -f;
 	git push -q -f "https://$($Env:GitHubKey):x-oauth-basic@github.com/lukeIam/Vocaluxe.git" "$targetTag";
 	
-	Write-Host "Branch $Env:APPVEYOR_REPO_TAG_NAME -> Tag=$targetTag"
+	Write-Host "Branch $Env:APPVEYOR_REPO_BRANCH -> Tag=$targetTag"
 }
 
 $getRelaseInfoParams = @{

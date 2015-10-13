@@ -10,7 +10,14 @@ environment:
   GitHubKey:
     secure: QBwVoI9PlI+PWfX8vtjH22cSPhj2nwJ78CQcwC4Olsibn1QNar2KX4HEfOGNbazA
 install:
-- cmd: git fetch --tags
+- ps: >-
+    $Env:CurrentCommitSha = "$(git rev-parse --verify HEAD)"
+
+    $Env:githubRepoApiUri = "https://api.github.com/repos/Vocaluxe/Vocaluxe/"
+
+    ./.appveyor/gitDescribe.ps1
+
+    $Env:GIT_VERSION_TAG = $Env:VersionTag
 before_build:
 - ps: >-
     nuget restore -DisableParallelProcessing
@@ -33,10 +40,7 @@ artifacts:
 - path: Output\Vocaluxe_{APPVEYOR_REPO_BRANCH}_Windows_{PLATFORM}.zip
   name: ReleaseZip
 before_deploy:
-- ps: >-
-    $Env:GIT_VERSION_TAG=$(git describe --long)
-
-    ./.appveyor/prepareDeploy.ps1
+- ps: ./.appveyor/prepareDeploy.ps1
 deploy:
 - provider: GitHub
   tag: $(APPVEYOR_REPO_TAG_NAME)

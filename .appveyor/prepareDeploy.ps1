@@ -1,4 +1,4 @@
-if($Env:APPVEYOR_REPO_TAG) {
+if($Env:APPVEYOR_REPO_TAG -eq "true") {
 	$targetTag = $Env:APPVEYOR_REPO_TAG_NAME
 	Write-Host "Tag=$targetTag"
 }

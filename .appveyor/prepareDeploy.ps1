@@ -1,6 +1,6 @@
-if($Env:APPVEYOR_REPO_TAG -eq "false" -or $Env:APPVEYOR_REPO_TAG -eq "False") {
+if($Env:APPVEYOR_REPO_TAG) {
 	$targetTag = $Env:APPVEYOR_REPO_TAG_NAME
-	Write-Host "Tag=($Env:APPVEYOR_REPO_TAG_NAME)$targetTag"
+	Write-Host "Tag=$targetTag"
 }
 else{
 	if($Env:APPVEYOR_REPO_TAG_NAME -eq "appveyorTest"){		

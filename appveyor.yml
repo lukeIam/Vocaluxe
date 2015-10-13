@@ -6,6 +6,7 @@ configuration: ReleaseWin
 platform:
 - x64
 - x86
+clone_depth: 10
 environment:
   GitHubKey:
     secure: QBwVoI9PlI+PWfX8vtjH22cSPhj2nwJ78CQcwC4Olsibn1QNar2KX4HEfOGNbazA

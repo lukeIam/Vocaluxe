@@ -18,6 +18,7 @@ before_install:
   - sudo update-alternatives --config gcc
   - sudo update-alternatives --config g++
   - sudo apt-get install -y ffmpeg
+  - sudo apt-get install libavformat53 libavformat-dev libavcodec53
 script:
 - make -C PitchTracker
 - make -C Vocaluxe/Lib/Video/Acinerella

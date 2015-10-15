@@ -14,6 +14,7 @@ before_install:
   - sudo add-apt-repository ppa:pavlyshko/precise -y
   - chmod ugo+x ./.travis/pinFFmpegPackage.sh
   - "./.travis/pinFFmpegPackage.sh"
+  - apt-cache policy ffmpeg
   - sudo apt-get update -qq
   - sudo apt-get install -y gcc-4.8 g++-4.8
   - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 20

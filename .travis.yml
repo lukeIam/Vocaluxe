@@ -13,12 +13,14 @@ before_install:
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
   - sudo add-apt-repository ppa:pavlyshko/precise -y
   - sudo apt-get update -qq
+  - sudo apt-get install -f
+  - sudo apt-get update -qq
   - sudo apt-get install -y gcc-4.8 g++-4.8
   - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 20
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 20
   - sudo update-alternatives --config gcc
   - sudo update-alternatives --config g++
-  - sudo apt-get install -y ffmpeg-opti ffmpeg-real libavcodec56-ffmpeg libavdevice56-ffmpeg libavfilter5-ffmpeg libavformat56-ffmpeg
+  - sudo apt-get install -y ffmpeg-real
 script:
 - make -C PitchTracker
 - make -C Vocaluxe/Lib/Video/Acinerella

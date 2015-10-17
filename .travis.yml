@@ -18,7 +18,7 @@ before_install:
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 20
   - sudo update-alternatives --config gcc
   - sudo update-alternatives --config g++
-  - sudo apt-get install -y ffmpeg-opti ffmpeg-real
+  - sudo apt-get install -y ffmpeg-opti ffmpeg-real libavcodec56-ffmpeg libavdevice56-ffmpeg libavfilter5-ffmpeg libavformat56-ffmpeg
 script:
 - make -C PitchTracker
 - make -C Vocaluxe/Lib/Video/Acinerella

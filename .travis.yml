@@ -27,7 +27,7 @@ before_install:
   - sudo update-alternatives --config gcc
   - sudo update-alternatives --config g++
   - sudo apt-get install -y ffmpeg-real
-  - sudo export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/opt/ffmpeg/lib/"
+  - sudo export LD_LIBRARY_PATH='$LD_LIBRARY_PATH:/opt/ffmpeg/lib/'
 script:
 - make -C PitchTracker
 - make -C Vocaluxe/Lib/Video/Acinerella

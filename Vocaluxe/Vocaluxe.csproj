@@ -517,7 +517,8 @@ powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\Assemb
       <x86FolderFilesToMove Include="$(TargetDir)x86\*.*"/>
     </ItemGroup>
 	<ItemGroup>
-      <OtherFilesToMove Include="$(TargetDir)System.Data.SQLite.xml;"/>
+	  <OtherFilesToMove></OtherFilesToMove>
+      <OtherFilesToMove Condition="Exists('$(TargetDir)System.Data.SQLite.xml')" Include="$(TargetDir)System.Data.SQLite.xml;"/>
     </ItemGroup>
     <Copy
         SourceFiles="@(RootDLLFilesToMove)"

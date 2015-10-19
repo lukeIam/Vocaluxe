@@ -28,7 +28,7 @@ before_install:
   - sudo update-alternatives --config g++
   - sudo apt-get install -y ffmpeg-real
   - export LD_LIBRARY_PATH='$LD_LIBRARY_PATH:/opt/ffmpeg/lib/'
-  - sudo find /opt/ffmpeg/lib/ -name '*.ffmpeg.*' -type f -exec bash -c 'ln -s "$1" "${1/\.ffmpeg\./.}"' -- {} \;
+  - sudo bash -c 'find /opt/ffmpeg/lib/ -name \'*.ffmpeg.*\' -type f -exec bash -c \'ln -s "$1" "${1/\\.ffmpeg\\./.}"\' -- {} \;'
 script:
 - make -C PitchTracker
 - make -C Vocaluxe/Lib/Video/Acinerella

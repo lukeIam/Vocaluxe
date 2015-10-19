@@ -507,6 +507,11 @@ powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\Assemb
   </PropertyGroup>
   <Target Name="managedDepCopyAfterBuild" BeforeTargets="AfterBuild">
     <Message Text="move all libs to the managed dependencies folder" Importance="normal"/>
+	<ItemGroup>
+      <FilesToRemoveLinux Include="$(TargetDir)glib-sharp.dll;$(TargetDir)gstreamer-sharp.dll;"/>
+    </ItemGroup>
+	<Delete
+        Files="@(FilesToRemoveLinux)" Condition=" '$(OS)' != 'Windows_NT' "/>
     <ItemGroup>
       <RootDLLFilesToMove Include="$(TargetDir)*.dll"/>
     </ItemGroup>

@@ -108,7 +108,7 @@ namespace VocaluxeLib.Utils.Player
             if (_Song == null)
                 return;
 
-            if (_Video != null || !SongHasVideo)
+            if (_Video != null || !SongHasVideo || !VideoEnabled)
                 return;
             string videoFilePath = Path.Combine(_Song.Folder, _Song.VideoFileName);
             _Video = CBase.Video.Load(videoFilePath);

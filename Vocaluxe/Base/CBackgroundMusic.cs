@@ -297,6 +297,7 @@ namespace Vocaluxe.Base
                 CSound.SetGlobalVolume(CConfig.PreviewMusicVolume);
             }
 
+            _PreviewPlayer.VideoEnabled = CConfig.Config.Video.VideoPreview == EOffOn.TR_CONFIG_ON;
             _PreviewPlayer.Load(song);
 
             float length = _PreviewPlayer.Length;

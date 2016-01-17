@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Web.Script.Serialization;
-using ServerLib.DataTypes;
+using Vocaluxe.Base.Server.DataTypes;
 
-namespace ServerLib
+namespace Vocaluxe.Base.Server
 {
     public static class CPlayerCommunication
     {

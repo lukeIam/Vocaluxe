@@ -22,6 +22,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
+using Vocaluxe.Base.Server.DataTypes;
 
 namespace Vocaluxe.Base.Server
 {
@@ -156,5 +157,18 @@ namespace Vocaluxe.Base.Server
         public int SongCount;
         [DataMember]
         public string LastChanged;
+    }
+
+    [DataContract]
+    public struct SPlayerComunicationFrame
+    {
+        [DataMember]
+        public int ProfileId;
+        [DataMember]
+        public DateTime ValidTill;
+        [DataMember]
+        public EPlayerComunicationType Type;
+        [DataMember]
+        public string Data;
     }
 }

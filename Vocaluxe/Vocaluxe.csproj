@@ -152,6 +152,7 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
   </ItemGroup>
@@ -160,7 +161,13 @@
     <Compile Include="Base\CCoverGenerator.cs" />
     <Compile Include="Base\CPlaylistElement.cs" />
     <Compile Include="Base\CRecord.cs" />
+    <Compile Include="Base\Server\CUserCommunication.cs" />
     <Compile Include="Base\Server\CWebservice.cs" />
+    <Compile Include="Base\Server\DataTypes\CPlayerComunicationData.cs" />
+    <Compile Include="Base\Server\DataTypes\CPlayerComunicationDataInt.cs" />
+    <Compile Include="Base\Server\DataTypes\CPlayerComunicationDataString.cs" />
+    <Compile Include="Base\Server\DataTypes\CPlayerComunicationDataSubscription.cs" />
+    <Compile Include="Base\Server\DataTypes\EPlayerComunicationType.cs" />
     <Compile Include="Base\Server\ICWebservice.cs" />
     <Compile Include="Base\Server\Session.cs" />
     <Compile Include="Base\Server\SessionControl.cs" />

@@ -1,8 +1,7 @@
-﻿
-using System;
+﻿using System;
 using System.Runtime.Serialization;
 
-namespace ServerLib.DataTypes
+namespace Vocaluxe.Base.Server.DataTypes
 {
     [Serializable]
     public abstract class CPlayerComunicationData : ISerializable

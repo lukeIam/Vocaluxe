@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace ServerLib.DataTypes
+namespace Vocaluxe.Base.Server.DataTypes
 {
     [Serializable]
     public enum EPlayerComunicationType

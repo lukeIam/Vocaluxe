@@ -29,7 +29,7 @@ using System.ServiceModel.Web;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ServerLib.DataTypes;
+using Vocaluxe.Base.Server.DataTypes;
 using Vocaluxe.Lib.Input;
 using Vocaluxe.Lib.Playlist;
 using VocaluxeLib;

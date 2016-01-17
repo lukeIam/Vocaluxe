@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 
-namespace ServerLib.DataTypes
+namespace Vocaluxe.Base.Server.DataTypes
 {
     [Serializable]
     public class CPlayerComunicationDataInt : CPlayerComunicationData

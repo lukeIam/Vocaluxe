@@ -95,6 +95,8 @@ namespace Vocaluxe.Base.Server
             _Host.AddServiceEndpoint(typeof(ICWebservice), wb, "");
 
             CGame.SongChanged += (sender, @event) => _SongHasChanged(@event.Song != null ? @event.Song.ID : -1);
+            CPlayerCommunication.Init();
+
             Start();
 
             //_Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);

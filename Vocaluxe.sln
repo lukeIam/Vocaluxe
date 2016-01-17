@@ -1,11 +1,11 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vocaluxe", "Vocaluxe\Vocaluxe.csproj", "{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{55F89808-4E79-4FFE-BC13-48258913F5C9} = {55F89808-4E79-4FFE-BC13-48258913F5C9}
 		{6F3E1874-F28A-40E9-AFBD-31934D593678} = {6F3E1874-F28A-40E9-AFBD-31934D593678}
 		{6F3E1874-F28A-40E9-AFBD-31934D593679} = {6F3E1874-F28A-40E9-AFBD-31934D593679}
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3} = {EC5167E4-CCFB-4CEE-987C-CF816F1062A3}
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC} = {D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}
 		{5A4053F1-5AD5-441F-B254-D97A088127B6} = {5A4053F1-5AD5-441F-B254-D97A088127B6}
 		{54A48AF7-515C-4EDD-B395-2BFFA096050A} = {54A48AF7-515C-4EDD-B395-2BFFA096050A}
@@ -19,11 +19,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyModeChallenge", "Party
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyModeChallengeMedley", "PartyModes\PartyModeChallengeMedley\PartyModeChallengeMedley.csproj", "{6F3E1874-F28A-40E9-AFBD-31934D593678}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerLib", "ServerLib\ServerLib.csproj", "{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebserverInitalConfig", "WebserverInitalConfig\WebserverInitalConfig.csproj", "{55F89808-4E79-4FFE-BC13-48258913F5C9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PitchTracker", "PitchTracker\PitchTracker.vcxproj", "{54A48AF7-515C-4EDD-B395-2BFFA096050A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VocaluxeTests", "VocaluxeTests\VocaluxeTests.csproj", "{93356718-3A0B-4784-AAE1-215065BFFC66}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2BDDF9CE-271F-49C6-A92E-9CB6185ACF58}"
+	ProjectSection(SolutionItems) = preProject
+		Vocaluxe.testsettings = Vocaluxe.testsettings
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -139,26 +144,6 @@ Global
 		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseWin|x64.Build.0 = ReleaseWin|Any CPU
 		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseWin|x86.ActiveCfg = ReleaseWin|Any CPU
 		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseWin|x86.Build.0 = ReleaseWin|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|x64.ActiveCfg = DebugLinux|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|x64.Build.0 = DebugLinux|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|x86.ActiveCfg = DebugLinux|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|x86.Build.0 = DebugLinux|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x64.ActiveCfg = DebugWin|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x64.Build.0 = DebugWin|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x86.ActiveCfg = DebugWin|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x86.Build.0 = DebugWin|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.InstallerWin|x64.ActiveCfg = ReleaseWin|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.InstallerWin|x64.Build.0 = ReleaseWin|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.InstallerWin|x86.ActiveCfg = ReleaseWin|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.InstallerWin|x86.Build.0 = ReleaseWin|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x64.ActiveCfg = ReleaseLinux|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x64.Build.0 = ReleaseLinux|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x86.ActiveCfg = ReleaseLinux|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x86.Build.0 = ReleaseLinux|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x64.ActiveCfg = ReleaseWin|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x64.Build.0 = ReleaseWin|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x86.ActiveCfg = ReleaseWin|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x86.Build.0 = ReleaseWin|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugLinux|x64.ActiveCfg = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugLinux|x86.ActiveCfg = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugWin|x64.ActiveCfg = Debug|Any CPU
@@ -195,6 +180,26 @@ Global
 		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.ReleaseWin|x64.Build.0 = Release|x64
 		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.ReleaseWin|x86.ActiveCfg = Release|Win32
 		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.ReleaseWin|x86.Build.0 = Release|Win32
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.DebugLinux|x64.ActiveCfg = Debug|x64
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.DebugLinux|x64.Build.0 = Debug|x64
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.DebugLinux|x86.ActiveCfg = Debug|x86
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.DebugLinux|x86.Build.0 = Debug|x86
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.DebugWin|x64.ActiveCfg = Debug|x64
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.DebugWin|x64.Build.0 = Debug|x64
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.DebugWin|x86.ActiveCfg = Debug|x86
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.DebugWin|x86.Build.0 = Debug|x86
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.InstallerWin|x64.ActiveCfg = Release|x64
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.InstallerWin|x64.Build.0 = Release|x64
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.InstallerWin|x86.ActiveCfg = Release|x86
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.InstallerWin|x86.Build.0 = Release|x86
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.ReleaseLinux|x64.ActiveCfg = Release|x64
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.ReleaseLinux|x64.Build.0 = Release|x64
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.ReleaseLinux|x86.ActiveCfg = Release|x86
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.ReleaseLinux|x86.Build.0 = Release|x86
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.ReleaseWin|x64.ActiveCfg = Release|x64
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.ReleaseWin|x64.Build.0 = Release|x64
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.ReleaseWin|x86.ActiveCfg = Release|x86
+		{93356718-3A0B-4784-AAE1-215065BFFC66}.ReleaseWin|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

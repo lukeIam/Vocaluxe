@@ -78,8 +78,8 @@ namespace VocaluxeLib.Songs
 
     public partial class CSong
     {
-        private CTexture _CoverTextureSmall;
-        private CTexture _CoverTextureBig;
+        private CTextureRef _CoverTextureSmall;
+        private CTextureRef _CoverTextureBig;
 
         public SMedley Medley;
 
@@ -104,7 +104,7 @@ namespace VocaluxeLib.Songs
 
         public bool NotesLoaded { get; private set; }
 
-        public CTexture CoverTextureSmall
+        public CTextureRef CoverTextureSmall
         {
             get
             {
@@ -116,7 +116,7 @@ namespace VocaluxeLib.Songs
             set { _CoverTextureSmall = value; }
         }
 
-        public CTexture CoverTextureBig
+        public CTextureRef CoverTextureBig
         {
             get { return _CoverTextureBig ?? _CoverTextureSmall; }
             set { _CoverTextureBig = value; }
@@ -287,6 +287,11 @@ namespace VocaluxeLib.Songs
             return loader.ReadNotes();
         }
 
+        public bool Save()
+        {
+            return Save(Path.Combine(Folder, FileName));
+        }
+
         public bool Save(string filePath)
         {
             var writer = new CSongWriter(this);
@@ -309,11 +314,10 @@ namespace VocaluxeLib.Songs
                 return;
             if (CoverFileName != "")
             {
-                if (!CBase.DataBase.GetCover(Path.Combine(Folder, CoverFileName), ref _CoverTextureSmall, CBase.Config.GetCoverSize()))
-                    _CoverTextureSmall = CBase.Cover.GetNoCover();
+                if (CBase.DataBase.GetCover(Path.Combine(Folder, CoverFileName), ref _CoverTextureSmall, CBase.Config.GetCoverSize()))
+                    return;
             }
-            else
-                _CoverTextureSmall = CBase.Cover.GetNoCover();
+            _CoverTextureSmall = CBase.Cover.GenerateCover(Title, ECoverGeneratorType.Song, null);
         }
 
         private void _CheckFiles()
@@ -398,7 +402,7 @@ namespace VocaluxeLib.Songs
             return series;
         }
 
-        private void _FindRefrain()
+        private void _CalcMedley()
         {
             if (IsDuet)
             {
@@ -406,7 +410,7 @@ namespace VocaluxeLib.Songs
                 return;
             }
 
-            if (!_CalculateMedley)
+            if (!_CalculateMedley || Medley.Source != EDataSource.None)
                 return;
 
             List<SSeries> series = _GetSeries();
@@ -454,14 +458,16 @@ namespace VocaluxeLib.Songs
                     Medley.FadeOutTime = CBase.Settings.GetDefaultMedleyFadeOutTime();
                 }
             }
+        }
 
-            if (Preview.Source == EDataSource.None)
+        private void _CheckPreview()
+        {
+            if (Preview.Source != EDataSource.None)
+                return;
+            if (Medley.Source != EDataSource.None)
             {
-                if (Medley.Source != EDataSource.None)
-                {
-                    Preview.StartTime = CBase.Game.GetTimeFromBeats(Medley.StartBeat, BPM);
-                    Preview.Source = EDataSource.Calculated;
-                }
+                Preview.StartTime = CBase.Game.GetTimeFromBeats(Medley.StartBeat, BPM);
+                Preview.Source = EDataSource.Calculated;
             }
         }
 

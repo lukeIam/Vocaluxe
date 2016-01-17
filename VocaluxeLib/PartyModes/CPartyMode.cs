@@ -15,112 +15,77 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes
 {
     public abstract class CPartyMode : IPartyMode
     {
-        private string _Folder;
-        protected SScreenSongOptions _ScreenSongOptions;
-        protected readonly Dictionary<string, CMenuParty> _Screens;
+        private readonly int _ID;
+        protected SScreenSongOptions _ScreenSongOptions = new SScreenSongOptions {Selection = new SSelectionOptions(), Sorting = new SSortingOptions()};
+        protected readonly Dictionary<string, CMenuParty> _Screens = new Dictionary<string, CMenuParty>();
 
-        protected CPartyMode()
+        protected CPartyMode(int id)
         {
-            _Screens = new Dictionary<string, CMenuParty>();
-            _ScreenSongOptions = new SScreenSongOptions {Selection = new SSelectionOptions(), Sorting = new SSortingOptions()};
+            _ID = id;
         }
 
         #region Implementation
-        public virtual bool Init()
+        public int ID
         {
-            return false;
+            get { return _ID; }
         }
 
-        public void Initialize() {}
+        public int NumPlayers { get; set; }
+        public int NumTeams { get; set; }
+
+        public virtual bool Init()
+        {
+            Debug.Assert(MinPlayers > 0 && MinPlayers <= MaxPlayers);
+            Debug.Assert(MinTeams > 0 && MinTeams <= MaxTeams);
+            return true;
+        }
+
+        public virtual void SetDefaults()
+        {
+            return;
+        }
+
+        public void LoadTheme()
+        {
+            string xmlPath = CBase.Themes.GetThemeScreensPath(ID);
+            foreach (CMenuParty menu in _Screens.Values)
+            {
+                menu.Init();
+                menu.LoadTheme(xmlPath);
+            }
+        }
+
+        public void ReloadSkin()
+        {
+            foreach (CMenuParty menu in _Screens.Values)
+                menu.ReloadSkin();
+        }
+
+        public void ReloadTheme()
+        {
+            string xmlPath = CBase.Themes.GetThemeScreensPath(ID);
+            foreach (CMenuParty menu in _Screens.Values)
+                menu.ReloadTheme(xmlPath);
+        }
 
         public void AddScreen(CMenuParty screen, string screenName)
         {
             _Screens.Add(screenName, screen);
         }
 
-        public virtual void DataFromScreen(string screenName, Object data) {}
-
-        public virtual void UpdateGame() {}
-
-        public virtual CMenuParty GetNextPartyScreen(out EScreens alternativeScreen)
+        public void SaveScreens()
         {
-            alternativeScreen = EScreens.ScreenMain;
-            return null;
+            foreach (KeyValuePair<string, CMenuParty> entry in _Screens)
+                entry.Value.SaveTheme();
         }
-
-        public virtual EScreens GetStartScreen()
-        {
-            return EScreens.ScreenSong;
-        }
-
-        public virtual EScreens GetMainScreen()
-        {
-            return EScreens.ScreenSong;
-        }
-
-        public virtual SScreenSongOptions GetScreenSongOptions()
-        {
-            return new SScreenSongOptions();
-        }
-
-        public virtual void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions) {}
-
-        public virtual void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions) {}
-
-        public virtual int GetMaxPlayer()
-        {
-            return 6;
-        }
-
-        public virtual int GetMinPlayer()
-        {
-            return 1;
-        }
-
-        public virtual int GetMaxTeams()
-        {
-            return 0;
-        }
-
-        public virtual int GetMinTeams()
-        {
-            return 0;
-        }
-
-        public virtual int GetMinPlayerPerTeam()
-        {
-            return GetMinPlayer();
-        }
-
-        public virtual int GetMaxPlayerPerTeam()
-        {
-            return GetMaxPlayer();
-        }
-
-        public virtual int GetMaxNumRounds()
-        {
-            return 1;
-        }
-
-        public string GetFolder()
-        {
-            return _Folder;
-        }
-
-        public void SetFolder(string folder)
-        {
-            _Folder = folder;
-        }
-
-        public virtual void SetSearchString(string searchString, bool visible) {}
 
         public virtual void JokerUsed(int teamNr)
         {
@@ -134,22 +99,40 @@ namespace VocaluxeLib.PartyModes
                 _ScreenSongOptions.Selection.NumJokers[teamNr]--;
         }
 
-        public virtual void SongSelected(int songID) {}
-
         public virtual void FinishedSinging()
         {
-            CBase.Graphics.FadeTo(EScreens.ScreenScore);
+            CBase.Graphics.FadeTo(EScreen.Score);
         }
 
         public virtual void LeavingScore()
         {
-            CBase.Graphics.FadeTo(EScreens.ScreenHighscore);
+            CBase.Graphics.FadeTo(EScreen.Highscore);
         }
 
         public virtual void LeavingHighscore()
         {
-            CBase.Graphics.FadeTo(EScreens.ScreenSong);
+            CBase.Graphics.FadeTo(EScreen.Song);
         }
         #endregion Implementation
+
+        #region Abstract members
+        public abstract int MinMics { get; }
+        public abstract int MaxMics { get; }
+        public abstract int MinPlayers { get; }
+        public abstract int MaxPlayers { get; }
+        public abstract int MinTeams { get; }
+        public abstract int MaxTeams { get; }
+        public abstract int MinPlayersPerTeam { get; }
+        public abstract int MaxPlayersPerTeam { get; }
+
+        public abstract void UpdateGame();
+        public abstract IMenu GetStartScreen();
+        public abstract SScreenSongOptions GetScreenSongOptions();
+        public abstract void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions);
+        public abstract void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions);
+        public abstract void SetSearchString(string searchString, bool visible);
+
+        public abstract void SongSelected(int songID);
+        #endregion Abstract members
     }
 }

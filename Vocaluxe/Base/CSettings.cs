@@ -54,8 +54,6 @@ namespace Vocaluxe.Base
 
         //Adjusting of programName and version now in the assembly config.
         //I'd use the major and minor for Main releases, build number for every public release and revision for every bugfix version without any features
-        //As it is different than before, this is open for discussion.
-        //TODO: Remove this when this is decided
         private const string _ProgramCodeName = "Shining Heaven";
 
         public const ERevision VersionRevision = ERevision.Beta;
@@ -66,6 +64,7 @@ namespace Vocaluxe.Base
 
         public const int RenderW = 1280;
         public const int RenderH = 720;
+        public static readonly SRectF RenderRect = new SRectF(0, 0, RenderW, RenderH, 0);
 
         public const int ZNear = -100;
         public const int ZFar = 100;
@@ -76,6 +75,8 @@ namespace Vocaluxe.Base
 
 #if INSTALLER
         public static readonly string DataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Vocaluxe");
+#elif LINUX
+        public static readonly string DataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Vocaluxe");
 #else
         public static readonly string DataFolder = ProgramFolder;
 #endif
@@ -96,6 +97,8 @@ namespace Vocaluxe.Base
         public const string FileNameDebugLog = "Debug.log";
         public const string FileNameSongInfoLog = "SongInformation.log";
 
+        public const string FileNameRequiredSkinElements = "RequiredSkinElements.xml";
+
         public const string FileNameSoundT440 = "440Hz.mp3";
 
         public const string FolderNameSongs = "Songs";
@@ -114,7 +117,6 @@ namespace Vocaluxe.Base
 
         public const string FolderNamePartyModes = "PartyModes";
         public const string FolderNamePartyModeCode = "Code";
-        public const string FolderNamePartyModeScreens = "Screens";
         public const string FolderNamePartyModeLanguages = "Languages";
         public const string FolderNamePartyModeFonts = "Fonts";
 
@@ -122,6 +124,11 @@ namespace Vocaluxe.Base
         public const string LinkSymbianApp = "https://build.phonegap.com/apps/639714/download/symbian/?qr_key=uY98ymvTr6K144RyTdhs";
         public const string LinkWebOSApp = "https://build.phonegap.com/apps/639714/download/webos/?qr_key=uY98ymvTr6K144RyTdhs";
         public const string LinkWindowsPhoneApp = "https://build.phonegap.com/apps/639714/download/winphone/?qr_key=uY98ymvTr6K144RyTdhs";
+
+        /// <summary>
+        ///     Default name for themes, skins...
+        /// </summary>
+        public const string DefaultName = "Default";
 
         //public const String[] ToneStrings = new String[]{ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
         public const int ToneMin = -36;
@@ -183,7 +190,7 @@ namespace Vocaluxe.Base
             if (VersionRevision != ERevision.Release)
             {
                 // ReSharper restore ConditionIsAlwaysTrueOrFalse
-                var gitversion = Application.ProductVersion;
+                string gitversion = Application.ProductVersion;
                 version += " " + _GetVersionStatus() + String.Format(" ({0})", gitversion);
             }
 
@@ -239,7 +246,7 @@ namespace Vocaluxe.Base
 
         private static void _CreateFolder(string path)
         {
-            if (!Directory.Exists(path))
+            if (path != "" && !Directory.Exists(path))
             {
                 try
                 {

@@ -43,21 +43,21 @@ namespace Vocaluxe.Lib.Input
     {
 #if ARCH_X86
 #if WIN
-        private const string _HIDApiDll = "x86\\hidapi.dll";
+        private const string _HIDApiDll = "hidapi.dll";
 #endif
 
 #if LINUX
-        private const string _HIDApiDll = "libhidapi.so";
+        private const string _HIDApiDll = "libhidapi-libusb.so";
 #endif
 #endif
 
 #if ARCH_X64
 #if WIN
-        private const string _HIDApiDll = "x64\\hidapi.dll";
+        private const string _HIDApiDll = "hidapi.dll";
 #endif
 
 #if LINUX
-        private const string _HIDApiDll = "libhidapi.so";
+        private const string _HIDApiDll = "libhidapi-libusb.so";
 #endif
 #endif
 

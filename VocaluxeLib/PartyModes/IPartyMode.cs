@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes
@@ -80,32 +79,41 @@ namespace VocaluxeLib.PartyModes
     }
     #endregion Structs
 
-    public interface IPartyMode
+    public interface IPartyModeInfo
     {
+        int ID { get; }
+        int MinMics { get; }
+        int MaxMics { get; }
+        int MinPlayers { get; }
+        int MaxPlayers { get; }
+        int MinTeams { get; }
+        int MaxTeams { get; }
+        int MinPlayersPerTeam { get; }
+        int MaxPlayersPerTeam { get; }
+    }
+
+    public interface IPartyMode : IPartyModeInfo
+    {
+        int NumPlayers { get; set; }
+        int NumTeams { get; set; }
+
         bool Init();
-        void Initialize();
+
+        void SetDefaults();
+        void LoadTheme();
+        void ReloadSkin();
+        void ReloadTheme();
+
         void AddScreen(CMenuParty screen, string screenName);
-        void DataFromScreen(string screenName, Object data);
+        void SaveScreens();
 
         void UpdateGame();
 
-        CMenuParty GetNextPartyScreen(out EScreens alternativeScreen);
-        EScreens GetStartScreen();
-        EScreens GetMainScreen();
+        IMenu GetStartScreen();
         SScreenSongOptions GetScreenSongOptions();
 
         void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions);
         void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions);
-
-        int GetMaxPlayer();
-        int GetMinPlayer();
-        int GetMaxTeams();
-        int GetMinTeams();
-        int GetMinPlayerPerTeam();
-        int GetMaxPlayerPerTeam();
-        int GetMaxNumRounds();
-        string GetFolder();
-        void SetFolder(string folder);
 
         void SetSearchString(string searchString, bool visible);
 

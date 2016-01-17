@@ -20,12 +20,16 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Base.Server;
+using Vocaluxe.Base.ThemeSystem;
+
+[assembly: InternalsVisibleTo("VocaluxeTests")]
 
 namespace Vocaluxe
 {
@@ -48,6 +52,15 @@ namespace Vocaluxe
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
 #endif
             AppDomain.CurrentDomain.AssemblyResolve += _AssemblyResolver;
+            COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\"));
+            #if ARCH_X86
+            COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\x86\\"));
+#endif
+#if ARCH_X64
+            COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\x64\\"));
+#endif
+            
+
             // Close program if there is another instance running
             if (!_EnsureSingleInstance())
                 return;
@@ -86,6 +99,7 @@ namespace Vocaluxe
                     return;
                 CProgrammHelper.Init();
 
+                CLog.StartBenchmark("Init Program");
                 CMain.Init();
                 Application.DoEvents();
 
@@ -173,25 +187,31 @@ namespace Vocaluxe
 
                 Application.DoEvents();
 
-                // Init Font
-                CLog.StartBenchmark("Init Font");
-                CFonts.Init();
-                CLog.StopBenchmark("Init Font");
-
-                Application.DoEvents();
-
-                // Load Cover
-                CLog.StartBenchmark("Init Cover");
-                CCover.Init();
-                CLog.StopBenchmark("Init Cover");
+                // Init Fonts
+                CLog.StartBenchmark("Init Fonts");
+                if (!CFonts.Init())
+                    throw new CLoadingException("fonts");
+                CLog.StopBenchmark("Init Fonts");
 
                 Application.DoEvents();
 
                 // Theme System
                 CLog.StartBenchmark("Init Theme");
-                if (!CTheme.Init())
+                if (!CThemes.Init())
                     throw new CLoadingException("theme");
                 CLog.StopBenchmark("Init Theme");
+
+                CLog.StartBenchmark("Load Theme");
+                CThemes.Load();
+                CLog.StopBenchmark("Load Theme");
+
+                Application.DoEvents();
+
+                // Load Cover
+                CLog.StartBenchmark("Init Cover");
+                if (!CCover.Init())
+                    throw new CLoadingException("covertheme");
+                CLog.StopBenchmark("Init Cover");
 
                 Application.DoEvents();
 
@@ -228,13 +248,15 @@ namespace Vocaluxe
 
                 // Init Party Modes;
                 CLog.StartBenchmark("Init Party Modes");
-                CParty.Init();
+                if (!CParty.Init())
+                    throw new CLoadingException("Party Modes");
                 CLog.StopBenchmark("Init Party Modes");
 
                 Application.DoEvents();
                 //Only reasonable point to call GC.Collect() because initialization may cause lots of garbage
                 //Rely on GC doing its job afterwards and call Dispose methods where appropriate
                 GC.Collect();
+                CLog.StopBenchmark("Init Program");
             }
             catch (Exception e)
             {
@@ -250,7 +272,6 @@ namespace Vocaluxe
             // Start Main Loop
             if (_SplashScreen != null)
                 _SplashScreen.Close();
-            CVocaluxeServer.Start();
 
             CDraw.MainLoop();
         }
@@ -263,16 +284,25 @@ namespace Vocaluxe
                 CController.Close();
                 CVocaluxeServer.Close();
                 CGraphics.Close();
+                CThemes.Close();
                 CCover.Close();
+                CFonts.Close();
                 CBackgroundMusic.Close();
                 CWebcam.Close();
                 CDataBase.Close();
                 CVideo.Close();
                 CRecord.Close();
                 CSound.Close();
-                CDraw.Unload();
-                GC.Collect(); // Do a GC run here before we close logs to have finalizers run
-                CLog.CloseAll(); // Do this last, so we get all log entries!
+                CDraw.Close();
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Error during shutdown!", false, false, e);
+            }
+            GC.Collect(); // Do a GC run here before we close logs to have finalizers run
+            try
+            {
+                CLog.Close(); // Do this last, so we get all log entries!
             }
             catch (Exception) {}
             Environment.Exit(Environment.ExitCode);
@@ -329,6 +359,9 @@ namespace Vocaluxe
                         CLog.LogError("Cannot load assembly " + args.Name + " from " + path + ": " + e + "\r\nOuter Error: " + e1);
                     }
                 }
+                #if LINUX
+                catch(FileNotFoundException){}
+                #endif
             }
             return assembly;
         }

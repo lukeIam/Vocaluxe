@@ -76,5 +76,11 @@
     "discoverConnectServerAddress": "serveradress:",
     "discoverConnectButton": "Anslut",
     "Checking...": "Kontrollerar...",
-    "timeout": "Timeout"
+    "timeout": "Timeout",
+    "keyboardButtonShift": "Shift",
+    "keyboardButtonAlt": "Alt",
+    "keyboardButtonCtrl": "Control",
+    "keyboardButtonBackspace": "Backsteg",
+    "keyboardAutoSend": "Auto skicka knappar",
+    "keyboardButtonSend": "Skicka"
 }

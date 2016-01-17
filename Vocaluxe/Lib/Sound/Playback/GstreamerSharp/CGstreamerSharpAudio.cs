@@ -16,6 +16,9 @@
 #endregion
 
 using Gst;
+using System;
+using Vocaluxe.Base;
+using System.IO;
 
 namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 {
@@ -25,16 +28,37 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
         {
             if (_Initialized)
                 return false;
+            #if WIN
 #if ARCH_X86
-            const string path = ".\\x86\\gstreamer";
+            const string varName = "GSTREAMER_1_0_ROOT_X86";
 #endif
 #if ARCH_X64
-            const string path = ".\\x64\\gstreamer";
+            const string varName = "GSTREAMER_1_0_ROOT_X86_64";
 #endif
-            //SetDllDirectory(path);
+            string gstreamerEnvVar = Environment.GetEnvironmentVariable(varName, EnvironmentVariableTarget.User);
+            string dllDirectory;
+            if (gstreamerEnvVar == null || !Directory.Exists(gstreamerEnvVar))
+            {
+#if ARCH_X86
+                dllDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\gstreamer86\\bin\\");
+#endif
+#if ARCH_X64
+                dllDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\gstreamer64\\bin\\");
+#endif
+                if (!Directory.Exists(dllDirectory))
+                {
+                    CLog.LogError("Gstreamer not found! Make sure you installed it correctly and if it set the environment variable '" + varName + "'!", true);
+                    return false;
+                }
+            }
+            else
+            {
+                dllDirectory = gstreamerEnvVar + "bin\\";
+            }
+            
+            COSFunctions.AddEnvironmentPath(dllDirectory);
+            #endif
             Application.Init();
-            Registry reg = Registry.Get();
-            reg.ScanPath(path);
 
             _Initialized = Application.IsInitialized;
             return _Initialized;

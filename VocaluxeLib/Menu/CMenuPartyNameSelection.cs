@@ -22,14 +22,21 @@ using VocaluxeLib.Profile;
 
 namespace VocaluxeLib.Menu
 {
-    public struct SPartyNameOptions
-    {
-        public int[] NumPlayerTeams;
-        public List<int>[] TeamList;
-    }
-
     public abstract class CMenuPartyNameSelection : CMenuParty
     {
+        private bool _AllPlayerSelected
+        {
+            get
+            {
+                for (int team = 0; team < _NumTeams; team++)
+                {
+                    if (_TeamList[team].Count < _NumPlayerTeams[team])
+                        return false;
+                }
+                return true;
+            }
+        }
+
         private bool _Teams;
         protected int _NumTeams = -1;
         protected int _NumPlayer = -1;
@@ -63,7 +70,7 @@ namespace VocaluxeLib.Menu
         private const string _SelectSlidePlayer = "SelectSlidePlayer";
         private const string _NameSelection = "NameSelection";
 
-        private List<int>[] _TeamList;
+        protected List<int>[] _TeamList;
 
         public override void Init()
         {
@@ -105,12 +112,14 @@ namespace VocaluxeLib.Menu
             _LoadProfiles();
             _UpdateButtonVisibility();
             _UpdateButtonState();
+            _UpdateNextButtonVisibility();
         }
 
         public void SetPartyModeProfiles(List<int>[] teamProfiles)
         {
             _TeamList = teamProfiles;
             _UpdateSlides();
+            _UpdateNextButtonVisibility();
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -140,7 +149,7 @@ namespace VocaluxeLib.Menu
                         {
                             if (!_ChangePlayerNumDynamic && _TeamList[_CurrentTeam].Count == _NumPlayerTeams[_CurrentTeam])
                                 resetSelection = true;
-                            else if (_TeamList[_CurrentTeam].Count == _PartyMode.GetMaxPlayerPerTeam())
+                            else if (_TeamList[_CurrentTeam].Count == _PartyMode.MaxPlayersPerTeam)
                                 resetSelection = true;
                         }
                         else if (!_SelectingFast)
@@ -337,13 +346,13 @@ namespace VocaluxeLib.Menu
 
                 if (numPressed > 0)
                 {
-                    if (_ChangeTeamNumDynamic && numPressed < _PartyMode.GetMaxTeams() && numPressed > _SelectSlides[_SelectSlideTeams].NumValues)
+                    if (_ChangeTeamNumDynamic && numPressed < _PartyMode.MaxTeams && numPressed > _SelectSlides[_SelectSlideTeams].NumValues)
                     {
-                        while (numPressed < _PartyMode.GetMaxTeams())
+                        while (numPressed < _PartyMode.MaxTeams)
                             IncreaseTeamNum();
                     }
                     if (numPressed <= _SelectSlides[_SelectSlideTeams].NumValues)
-                        _SelectSlides[_SelectSlideTeams].SetSelectionByValueIndex(numPressed - 1);
+                        _SelectSlides[_SelectSlideTeams].SelectedTag = numPressed;
                 }
             }
             if (_SelectingFastPlayerNr > 0 && _SelectingFastPlayerNr <= _NumPlayerTeams[_CurrentTeam])
@@ -379,8 +388,8 @@ namespace VocaluxeLib.Menu
                         //Update of Drag/Drop-Texture
                         CStatic selectedPlayer = _NameSelections[_NameSelection].TilePlayerAvatar(mouseEvent);
                         _ChooseAvatarStatic.Visible = true;
-                        _ChooseAvatarStatic.Rect = selectedPlayer.Rect;
-                        _ChooseAvatarStatic.Rect.Z = CBase.Settings.GetZNear();
+                        _ChooseAvatarStatic.MaxRect = selectedPlayer.Rect;
+                        _ChooseAvatarStatic.Z = CBase.Settings.GetZNear();
                         _ChooseAvatarStatic.Color = new SColorF(1, 1, 1, 1);
                         _ChooseAvatarStatic.Texture = selectedPlayer.Texture;
                     }
@@ -390,8 +399,8 @@ namespace VocaluxeLib.Menu
             if (mouseEvent.LBH && _SelectedProfileID >= 0 && !_SelectingFast)
             {
                 //Update coords for Drag/Drop-Texture
-                _ChooseAvatarStatic.Rect.X += mouseEvent.X - _OldMouseX;
-                _ChooseAvatarStatic.Rect.Y += mouseEvent.Y - _OldMouseY;
+                _ChooseAvatarStatic.X += mouseEvent.X - _OldMouseX;
+                _ChooseAvatarStatic.Y += mouseEvent.Y - _OldMouseY;
                 _OldMouseX = mouseEvent.X;
                 _OldMouseY = mouseEvent.Y;
             }
@@ -426,7 +435,7 @@ namespace VocaluxeLib.Menu
 
                         if (!_ChangePlayerNumDynamic && _TeamList[_CurrentTeam].Count == _NumPlayerTeams[_CurrentTeam])
                             stopSelectingFast = true;
-                        else if (_TeamList[_CurrentTeam].Count == _PartyMode.GetMaxPlayerPerTeam())
+                        else if (_TeamList[_CurrentTeam].Count == _PartyMode.MaxPlayersPerTeam)
                             stopSelectingFast = true;
                     }
                     else
@@ -434,7 +443,7 @@ namespace VocaluxeLib.Menu
                 }
             }
 
-            else if (mouseEvent.LB && _IsMouseOver(mouseEvent))
+            else if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonBack].Selected)
                     Back();
@@ -481,7 +490,7 @@ namespace VocaluxeLib.Menu
             else if (mouseEvent.RB)
             {
                 bool exit = true;
-                if (_SelectSlides[_SelectSlidePlayer].Selected && _TeamList[_CurrentTeam].Count > 0)
+                if (_SelectSlides[_SelectSlidePlayer].Selected && _TeamList[_CurrentTeam].Count > _SelectSlides[_SelectSlidePlayer].Selection)
                 {
                     int currentSelection = _SelectSlides[_SelectSlidePlayer].Selection;
                     int id = _TeamList[_CurrentTeam][currentSelection];
@@ -498,7 +507,7 @@ namespace VocaluxeLib.Menu
             {
                 if (!_ChangePlayerNumDynamic && _TeamList[_CurrentTeam].Count == _NumPlayerTeams[_CurrentTeam])
                     stopSelectingFast = true;
-                else if (_TeamList[_CurrentTeam].Count == _PartyMode.GetMaxPlayerPerTeam())
+                else if (_TeamList[_CurrentTeam].Count == _PartyMode.MaxPlayersPerTeam)
                     stopSelectingFast = true;
             }
             else if (mouseEvent.MB)
@@ -532,8 +541,9 @@ namespace VocaluxeLib.Menu
         public override void LoadTheme(string xmlPath)
         {
             base.LoadTheme(xmlPath);
-            _SelectSlides[_SelectSlidePlayer].WithTextures = true;
-            _SelectSlides[_SelectSlidePlayer].SelectionByHover = true;
+            _SelectSlides[_SelectSlidePlayer].DrawTextures = true;
+            _SelectSlides[_SelectSlidePlayer].SelectByHovering = true;
+            _AddStatic(_ChooseAvatarStatic);
         }
 
         public override bool UpdateGame()
@@ -552,33 +562,18 @@ namespace VocaluxeLib.Menu
 
             _UpdateButtonVisibility();
             _UpdateButtonState();
-        }
-
-        public override bool Draw()
-        {
-            base.Draw();
-
-            if (_ChooseAvatarStatic.Visible)
-                _ChooseAvatarStatic.Draw();
-
-            return true;
+            _UpdateNextButtonVisibility();
         }
 
         public abstract void Back();
         public abstract void Next();
-
-        public SPartyNameOptions GetData()
-        {
-            SPartyNameOptions option = new SPartyNameOptions {NumPlayerTeams = _NumPlayerTeams, TeamList = _TeamList};
-            return option;
-        }
 
         public void IncreaseTeamNum()
         {
             if (!_AllowChangeTeamNum)
                 return;
 
-            if (_NumTeams + 1 <= _PartyMode.GetMaxTeams())
+            if (_NumTeams + 1 <= _PartyMode.MaxTeams)
             {
                 _NumTeams++;
                 int[] numPlayerTeams = _NumPlayerTeams;
@@ -607,7 +602,7 @@ namespace VocaluxeLib.Menu
             if (!_AllowChangeTeamNum)
                 return;
 
-            if (_NumTeams - 1 >= _PartyMode.GetMinTeams())
+            if (_NumTeams - 1 >= _PartyMode.MinTeams)
                 _NumTeams--;
             _UpdateButtonState();
         }
@@ -618,7 +613,7 @@ namespace VocaluxeLib.Menu
                 return;
             if (_NumPlayerTeams.Length > team)
             {
-                if (_NumPlayerTeams[team] + 1 <= _PartyMode.GetMaxPlayerPerTeam())
+                if (_NumPlayerTeams[team] + 1 <= _PartyMode.MaxPlayersPerTeam)
                     _NumPlayerTeams[team]++;
                 _UpdatePlayerSlide();
             }
@@ -631,7 +626,7 @@ namespace VocaluxeLib.Menu
                 return;
             if (_NumPlayerTeams.Length > team)
             {
-                if (_NumPlayerTeams[team] - 1 >= _PartyMode.GetMinPlayerPerTeam())
+                if (_NumPlayerTeams[team] - 1 >= _PartyMode.MinPlayersPerTeam)
                     _NumPlayerTeams[team]--;
                 if (_TeamList[team].Count > _NumPlayerTeams[team])
                     _RemovePlayerByIndex(team, _NumPlayerTeams[team] - 1);
@@ -674,6 +669,7 @@ namespace VocaluxeLib.Menu
 
             _CurrentTeam = _SelectSlides[_SelectSlideTeams].Selection;
             _UpdatePlayerSlide();
+            _UpdateButtonState();
         }
 
         private void _UpdatePlayerSlide()
@@ -683,14 +679,14 @@ namespace VocaluxeLib.Menu
             for (int i = 0; i < _TeamList[_CurrentTeam].Count; i++)
             {
                 string name = CBase.Profiles.GetPlayerName(_TeamList[_CurrentTeam][i]);
-                CTexture avatar = CBase.Profiles.GetAvatar(_TeamList[_CurrentTeam][i]);
+                CTextureRef avatar = CBase.Profiles.GetAvatar(_TeamList[_CurrentTeam][i]);
                 _SelectSlides[_SelectSlidePlayer].AddValue(name, avatar);
             }
             for (int i = _TeamList[_CurrentTeam].Count; i < _NumPlayerTeams[_CurrentTeam]; i++)
                 _SelectSlides[_SelectSlidePlayer].AddValue("", _NameSelections[_NameSelection].TextureEmptyTile);
             if (selection >= _TeamList[_CurrentTeam].Count)
                 selection = _TeamList[_CurrentTeam].Count - 1;
-            _SelectSlides[_SelectSlidePlayer].SetSelectionByValueIndex(selection);
+            _SelectSlides[_SelectSlidePlayer].Selection = selection;
         }
 
         private void _UpdateTeamSlide()
@@ -698,30 +694,30 @@ namespace VocaluxeLib.Menu
             _SelectSlides[_SelectSlideTeams].Visible = _Teams;
             _SelectSlides[_SelectSlideTeams].Clear();
             for (int i = 1; i <= _NumTeams; i++)
-                _SelectSlides[_SelectSlideTeams].AddValue("Team " + i);
+                _SelectSlides[_SelectSlideTeams].AddValue("Team " + i, null, i);
         }
 
         private void _UpdateButtonVisibility()
         {
-            _Buttons[_ButtonIncreaseTeams].Visible = _AllowChangePlayerNum && _Teams && _PartyMode.GetMinTeams() != _PartyMode.GetMaxTeams();
-            _Buttons[_ButtonDecreaseTeams].Visible = _AllowChangePlayerNum && _Teams && _PartyMode.GetMinTeams() != _PartyMode.GetMaxTeams();
+            _Buttons[_ButtonIncreaseTeams].Visible = _AllowChangePlayerNum && _Teams && _PartyMode.MinTeams != _PartyMode.MaxTeams;
+            _Buttons[_ButtonDecreaseTeams].Visible = _AllowChangePlayerNum && _Teams && _PartyMode.MinTeams != _PartyMode.MaxTeams;
             _Buttons[_ButtonIncreasePlayer].Visible = _AllowChangePlayerNum;
             _Buttons[_ButtonDecreasePlayer].Visible = _AllowChangePlayerNum;
         }
 
         private void _UpdateButtonState()
         {
-            _Buttons[_ButtonIncreaseTeams].Enabled = _NumTeams < _PartyMode.GetMaxTeams();
-            _Buttons[_ButtonDecreaseTeams].Enabled = _NumTeams > _PartyMode.GetMinTeams();
+            _Buttons[_ButtonIncreaseTeams].Selectable = _NumTeams < _PartyMode.MaxTeams;
+            _Buttons[_ButtonDecreaseTeams].Selectable = _NumTeams > _PartyMode.MinTeams;
             if (_NumPlayerTeams != null && _NumPlayerTeams.Length > _CurrentTeam)
             {
-                _Buttons[_ButtonIncreasePlayer].Enabled = _NumPlayerTeams[_CurrentTeam] < _PartyMode.GetMaxPlayerPerTeam();
-                _Buttons[_ButtonDecreasePlayer].Enabled = _NumPlayerTeams[_CurrentTeam] > _PartyMode.GetMinPlayerPerTeam();
+                _Buttons[_ButtonIncreasePlayer].Selectable = _NumPlayerTeams[_CurrentTeam] < _PartyMode.MaxPlayersPerTeam;
+                _Buttons[_ButtonDecreasePlayer].Selectable = _NumPlayerTeams[_CurrentTeam] > _PartyMode.MinPlayersPerTeam;
             }
             else
             {
-                _Buttons[_ButtonIncreasePlayer].Enabled = false;
-                _Buttons[_ButtonDecreasePlayer].Enabled = false;
+                _Buttons[_ButtonIncreasePlayer].Selectable = false;
+                _Buttons[_ButtonDecreasePlayer].Selectable = false;
             }
         }
 
@@ -729,13 +725,14 @@ namespace VocaluxeLib.Menu
         {
             if (_NumPlayerTeams[team] == _TeamList[team].Count && !_ChangePlayerNumDynamic)
                 return;
-            if (_NumPlayerTeams[team] == _PartyMode.GetMaxPlayerPerTeam())
+            if (_NumPlayerTeams[team] == _PartyMode.MaxPlayersPerTeam)
                 return;
 
             _NameSelections[_NameSelection].UseProfile(profileID);
             _TeamList[team].Add(profileID);
 
             _UpdatePlayerSlide();
+            _UpdateNextButtonVisibility();
         }
 
         private void _RemoveAllPlayer()
@@ -757,12 +754,16 @@ namespace VocaluxeLib.Menu
                 _TeamList[team].RemoveAt(index);
                 _NameSelections[_NameSelection].RemoveUsedProfile(id);
             }
+
+            _UpdateNextButtonVisibility();
         }
 
         private void _RemovePlayer(int team, int profileID)
         {
             _TeamList[team].Remove(profileID);
             _NameSelections[_NameSelection].RemoveUsedProfile(profileID);
+
+            _UpdateNextButtonVisibility();
         }
 
         private void _SelectRandom()
@@ -776,6 +777,11 @@ namespace VocaluxeLib.Menu
                     _AddPlayer(t, profileID);
                 }
             }
+        }
+
+        private void _UpdateNextButtonVisibility()
+        {
+            _Buttons[_ButtonNext].Visible = _AllPlayerSelected;
         }
         #endregion
     }

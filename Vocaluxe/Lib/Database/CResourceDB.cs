@@ -28,6 +28,10 @@ using System.Data.SQLite;
 
 #else
 using Mono.Data.Sqlite;
+using SQLiteCommand = Mono.Data.Sqlite.SqliteCommand;
+using SQLiteConnection = Mono.Data.Sqlite.SqliteConnection;
+using SQLiteDataReader = Mono.Data.Sqlite.SqliteDataReader;
+using SQLiteTransaction = Mono.Data.Sqlite.SqliteTransaction;
 #endif
 
 namespace Vocaluxe.Lib.Database
@@ -38,7 +42,7 @@ namespace Vocaluxe.Lib.Database
         private readonly string[] _FilesV1 = new string[]
             {
                 "Logo_voc.png", "PerfectNoteStar.png", "redDot.png", "blueDot.png", "brunzel.png", "Darkice.png", "flokuep.png", "flamefire.png", "bohning.png", "mesand.png",
-                "babene03.png", "pantero.png", "Pinky007.png"
+                "babene03.png", "lukeIam.png"
             };
 #endif
         public CResourceDB(string filePath) : base(filePath) {}
@@ -66,7 +70,7 @@ namespace Vocaluxe.Lib.Database
             return true;
         }
 
-        public bool GetCreditsRessource(string fileName, ref CTexture tex)
+        public bool GetCreditsRessource(string fileName, ref CTextureRef tex)
         {
             if (_Connection == null)
                 return false;

@@ -420,6 +420,11 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
+        protected override COGLTexture _CreateTexture(Size dataSize, EColorFormat format)
+        {
+            throw new NotImplementedException();
+        }
+
         private void _ClearTexture(COGLTexture texture)
         {
             if (texture.DataSize.Equals(texture.Size))
@@ -443,6 +448,11 @@ namespace Vocaluxe.Lib.Draw
             GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
+        }
+
+        protected override void _WriteDataToTextureYuv(COGLTexture texture, byte[] data)
+        {
+        throw new NotImplementedException();
         }
 
         protected override void _WriteDataToTexture(COGLTexture texture, IntPtr data)
@@ -504,6 +514,11 @@ namespace Vocaluxe.Lib.Draw
 
             GL.Disable(EnableCap.Blend);
             GL.BindTexture(TextureTarget.Texture2D, 0);
+        }
+
+        protected override void _CopyAndConvertTexture(COGLTexture source, COGLTexture target)
+        {
+            throw new NotImplementedException();
         }
     }
 }

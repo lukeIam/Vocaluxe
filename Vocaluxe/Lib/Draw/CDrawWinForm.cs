@@ -461,5 +461,15 @@ namespace Vocaluxe.Lib.Draw
 
             return newBitmap;
         }
+
+        public CTextureRef AddTexture(int w, int h, byte[] data, EColorFormat format)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateTexture(CTextureRef texture, int w, int h, byte[] data, EColorFormat format)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

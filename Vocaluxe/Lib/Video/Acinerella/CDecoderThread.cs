@@ -20,6 +20,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Vocaluxe.Base;
+using Vocaluxe.Lib.Draw;
 using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Video.Acinerella
@@ -207,9 +208,9 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 if (curFrame != null)
                 {
                     if (frame == null)
-                        frame = CDraw.AddTexture(_Width, _Height, curFrame.Data);
+                        frame = CDraw.AddTexture(_Width, _Height, curFrame.Data, EColorFormat.Yuv2);
                     else
-                        CDraw.UpdateTexture(frame, _Width, _Height, curFrame.Data);
+                        CDraw.UpdateTexture(frame, _Width, _Height, curFrame.Data, EColorFormat.Yuv2);
                     if (!_Paused)
                         curFrame.SetRead();
                     time = curFrame.Time;
@@ -292,7 +293,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             if (decoder.StreamInfo.VideoInfo.FramesPerSecond > 0)
                 _FrameDuration = 1f / (float)decoder.StreamInfo.VideoInfo.FramesPerSecond;
 
-            _Framebuffer.Init(_Width * _Height * 4);
+            _Framebuffer.Init((int)Math.Round(_Width * _Height * 1.5));
             _FrameAvailable = false;
             return true;
         }

@@ -180,6 +180,19 @@ namespace Vocaluxe.Base
         }
 
         /// <summary>
+        ///     Adds a texture from a byte array<br />
+        ///     Must be called from main thread!
+        /// </summary>
+        /// <param name="w">Width of the image</param>
+        /// <param name="h">Height of the image</param>
+        /// <param name="data">Array of 4 byte values for each pixel</param>
+        /// <returns>Reference to texture</returns>
+        public static CTextureRef AddTexture(int w, int h, byte[] data, EColorFormat format)
+        {
+            return _Draw.AddTexture(w, h, data, format);
+        }
+
+        /// <summary>
         ///     Requests aadding a texture from a byte array <br />
         ///     Use this if you add textures from another thread or don't need it immediatelly
         /// </summary>
@@ -247,6 +260,18 @@ namespace Vocaluxe.Base
         public static void UpdateTexture(CTextureRef textureRef, int w, int h, byte[] data)
         {
             _Draw.UpdateTexture(textureRef, w, h, data);
+        }
+
+        /// <summary>
+        ///     Updates a texture, filling it with the new data
+        /// </summary>
+        /// <param name="textureRef"></param>
+        /// <param name="w">Width of the image</param>
+        /// <param name="h">Height of the image</param>
+        /// <param name="data">Array of 4 byte values for each pixel</param>
+        public static void UpdateTexture(CTextureRef textureRef, int w, int h, byte[] data, EColorFormat format)
+        {
+            _Draw.UpdateTexture(textureRef, w, h, data, format);
         }
 
         /// <summary>

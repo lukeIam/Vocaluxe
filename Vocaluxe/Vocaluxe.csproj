@@ -182,6 +182,7 @@
     <Compile Include="Lib\Database\CResourceDB.cs" />
     <Compile Include="Lib\Draw\CDrawBase.cs" />
     <Compile Include="Lib\Draw\CDrawBaseWindows.cs" />
+    <Compile Include="Lib\Draw\EColorFormat.cs" />
     <Compile Include="Lib\Draw\CTextureBase.cs" />
     <Compile Include="Lib\Draw\CTextureProvider.cs" />
     <Compile Include="Lib\Input\CGamePad.cs" />

@@ -227,12 +227,16 @@ namespace Vocaluxe.Lib.Draw
 
         protected abstract void _WriteDataToTexture(TTextureType texture, byte[] data);
 
+        protected abstract void _WriteDataToTextureYuv(TTextureType texture, byte[] data);
+
         protected virtual void _WriteDataToTexture(TTextureType texture, IntPtr data)
         {
             byte[] dataArray = new byte[4 * texture.DataSize.Width * texture.DataSize.Height];
             Marshal.Copy(data, dataArray, 0, dataArray.Length);
             _WriteDataToTexture(texture, dataArray);
         }
+
+        protected abstract void _CopyAndConvertTexture(TTextureType source, TTextureType target);
 
         /// <summary>
         ///     Factory method to create a texture of the actual type <br />
@@ -241,6 +245,8 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="dataSize"></param>
         /// <returns></returns>
         protected abstract TTextureType _CreateTexture(Size dataSize);
+
+        protected abstract TTextureType _CreateTexture(Size dataSize, EColorFormat format);
 
         /// <summary>
         ///     Creates the texture specified by the reference and fills it with the given data
@@ -252,6 +258,22 @@ namespace Vocaluxe.Lib.Draw
         {
             TTextureType texture = _CreateTexture(dataSize);
             _WriteDataToTexture(texture, data);
+            return texture;
+        }
+
+        private TTextureType _CreateAndFillTexture(Size dataSize, byte[] data, EColorFormat type)
+        {
+            TTextureType texture = _CreateTexture(dataSize, type);
+            if (type == EColorFormat.Yuv2 || type == EColorFormat.Uyvy)
+            {
+                _WriteDataToTextureYuv(texture, data);
+               
+            }
+            else
+            {
+                _WriteDataToTexture(texture, data);
+            }
+            
             return texture;
         }
 
@@ -704,6 +726,14 @@ namespace Vocaluxe.Lib.Draw
             return _GetTextureReference(w, h, texture);
         }
 
+        public CTextureRef AddTexture(int w, int h, byte[] data, EColorFormat format)
+        {
+            _EnsureMainThread();
+            TTextureType unconvertedTexture = _CreateAndFillTexture(new Size(w, h), data, format);
+         
+            return _GetTextureReference(w, h, unconvertedTexture);
+        }
+
         public CTextureRef EnqueueTexture(int w, int h, byte[] data)
         {
             lock (_TextureQueue)
@@ -784,6 +814,11 @@ namespace Vocaluxe.Lib.Draw
             UpdateTexture(textureRef, new Size(w, h), data);
         }
 
+        public void UpdateTexture(CTextureRef textureRef, int w, int h, byte[] data, EColorFormat format)
+        {
+            UpdateTexture(textureRef, new Size(w, h), data, format);
+        }
+
         /// <summary>
         ///     Updates the data of a texture
         /// </summary>
@@ -807,6 +842,41 @@ namespace Vocaluxe.Lib.Draw
             {
                 _DisposeTexture(texture);
                 texture = _CreateAndFillTexture(dataSize, data);
+                texture.RefCount = 1;
+                _Textures[textureRef.ID] = texture;
+            }
+        }
+        
+        /// <summary>
+        ///     Updates the data of a texture
+        /// </summary>
+        /// <param name="textureRef">The texture to update</param>
+        /// <param name="dataSize"></param>
+        /// <param name="data">A byte array containing the new texture's data</param>
+        /// <returns>True if succeeded</returns>
+        public void UpdateTexture(CTextureRef textureRef, Size dataSize, byte[] data, EColorFormat format)
+        {
+            _EnsureMainThread();
+            TTextureType texture;
+            if (!_GetTexture(textureRef, out texture, false))
+                return;
+            bool reuseTexture = _IsTextureUsable(texture, dataSize);
+            if (reuseTexture && texture.RefCount == 1)
+            {
+                texture.DataSize = dataSize;
+                if (format == EColorFormat.Yuv2 || format == EColorFormat.Uyvy)
+                {
+                    _WriteDataToTextureYuv(texture, data);
+                }
+                else
+                {
+                   _WriteDataToTexture(texture, data);
+                }
+            }
+            else
+            {
+                _DisposeTexture(texture);
+                texture = _CreateAndFillTexture(dataSize, data, format);
                 texture.RefCount = 1;
                 _Textures[textureRef.ID] = texture;
             }

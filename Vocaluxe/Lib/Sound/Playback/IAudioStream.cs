@@ -46,5 +46,6 @@ namespace Vocaluxe.Lib.Sound.Playback
         void Stop();
         void Fade(float targetVolume, float seconds, EStreamAction afterFadeAction);
         void CancelFading();
+        void SetKaraokeEffectLevel(float level);
     }
 }

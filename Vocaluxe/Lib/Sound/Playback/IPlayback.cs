@@ -59,6 +59,8 @@ namespace Vocaluxe.Lib.Sound.Playback
         bool IsPaused(int streamID);
         bool IsFinished(int streamID);
 
+        void SetKaraokeEffectLevel(int streamID, float level);
+
         void Update();
         #endregion stream Handling
     }

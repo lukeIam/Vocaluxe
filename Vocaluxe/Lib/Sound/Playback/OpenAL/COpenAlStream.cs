@@ -148,6 +148,11 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             Position = 0f;
         }
 
+        public override void SetKaraokeEffectLevel(float level)
+        {
+            //Not supported here -> do nothing
+        }
+
         public override bool Open(bool prescan)
         {
             Debug.Assert(!_FileOpened);

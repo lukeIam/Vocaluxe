@@ -116,6 +116,7 @@ namespace Vocaluxe.Screens
 
         private bool _Pause;
         private bool _Webcam;
+        private bool _KaraokeEffect;
 
         private CBackground _SlideShow;
 
@@ -247,6 +248,18 @@ namespace Vocaluxe.Screens
 
                         if (CConfig.Config.Debug.SaveModifiedSongs == EOffOn.TR_CONFIG_ON)
                             song.Save();
+                        break;
+                    case Keys.K:
+                        if (_KaraokeEffect)
+                        {
+                            CSound.SetKaraokeEffectLevel(_CurrentStream, 0f);
+                            _KaraokeEffect = false;
+                        }
+                        else
+                        {
+                            CSound.SetKaraokeEffectLevel(_CurrentStream, 1f);
+                            _KaraokeEffect = true;
+                        }
                         break;
                 }
             }

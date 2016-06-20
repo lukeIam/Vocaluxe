@@ -138,6 +138,12 @@ namespace Vocaluxe.Base
             _Playback.SetStreamVolume(stream, volume);
         }
 
+        public static void SetKaraokeEffectLevel(int stream, float level)
+        {
+            _Playback.SetKaraokeEffectLevel(stream, level);
+        }
+
+
         public static float GetLength(int stream)
         {
             return _Playback.GetLength(stream);

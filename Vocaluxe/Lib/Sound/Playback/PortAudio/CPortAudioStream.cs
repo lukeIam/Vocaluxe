@@ -250,6 +250,11 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             Position = 0f;
         }
 
+        public override void SetKaraokeEffectLevel(float level)
+        {
+            //Not supported here -> do nothing
+        }
+
         #region Threading
         private void _DoSkip()
         {

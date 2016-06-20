@@ -25,6 +25,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
     class CGstreamerSharpAudioStream : CAudioStreamBase
     {
         private Element _Element;
+        private Element _Audiokaraoke;
         private bool _FileOpened;
 
         private volatile bool _IsFinished;
@@ -111,6 +112,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             Length = -1;
             Element convert = ElementFactory.Make("audioconvert", "convert");
             Element audiosink = ElementFactory.Make("autoaudiosink", "audiosink");
+            _Audiokaraoke = ElementFactory.Make("audiokaraoke", "karaoke");
 
             if (convert == null || audiosink == null)
             {
@@ -123,9 +125,16 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             }
 
             var audioSinkBin = new Bin("Audiosink");
+            audioSinkBin.Add(_Audiokaraoke);
             audioSinkBin.Add(convert);
             audioSinkBin.Add(audiosink);
-            convert.Link(audiosink);
+
+            _Audiokaraoke.Link(audiosink);
+            _Audiokaraoke["level"] = 0;
+            _Audiokaraoke["mono-level"] = 0;
+
+
+            convert.Link(_Audiokaraoke);
             Pad pad = convert.GetStaticPad("sink");
             GhostPad ghostpad = new GhostPad("sink", pad);
 
@@ -227,6 +236,16 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             if (_Element != null)
                 _Element.SetState(State.Ready);
             Position = 0;
+        }
+
+        public override void SetKaraokeEffectLevel(float level)
+        {
+            if (level < 0 || level > 1)
+            {
+                throw new ArgumentException("KaraokeEffectLevel must be in [0,1].");
+            }
+            _Audiokaraoke["level"] = level;
+            _Audiokaraoke["mono-level"] = level;
         }
 
         private void _SetElementVolume()

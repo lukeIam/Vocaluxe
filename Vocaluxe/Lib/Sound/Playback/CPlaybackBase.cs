@@ -192,6 +192,8 @@ namespace Vocaluxe.Lib.Sound.Playback
             }
         }
 
+
+
         public void SetStreamVolume(int streamID, int volume)
         {
             if (!_Initialized)
@@ -277,6 +279,17 @@ namespace Vocaluxe.Lib.Sound.Playback
                     return _Streams[_GetStreamIndex(streamID)].IsFinished;
             }
             return true;
+        }
+
+        public void SetKaraokeEffectLevel(int streamID, float level)
+        {
+            if (!_Initialized)
+                return;
+            lock (_Streams)
+            {
+                if (_StreamExists(streamID))
+                    _Streams[_GetStreamIndex(streamID)].SetKaraokeEffectLevel(level);
+            }
         }
 
         /// <summary>

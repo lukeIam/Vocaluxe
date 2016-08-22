@@ -49,7 +49,9 @@ namespace Vocaluxe.Lib.Video.Acinerella
         ACOutputBGR24 = 1,
         ACOutputRGBA32 = 2,
         ACOutputBGra32 = 3,
-        ACOutputYuv420P = 4
+        ACOutputYuv420P = 4,
+        ACOutputUyvy422 = 5,
+        ACOutputYuyv422 = 6
     }
 
     // ReSharper disable MemberCanBePrivate.Global
@@ -245,7 +247,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             lock (_Lock)
             {
-                return _ac_init(EACOutputFormat.ACOutputYuv420P);
+                return _ac_init(EACOutputFormat.ACOutputYuyv422);
             }
         }
 

@@ -67,12 +67,12 @@ namespace Vocaluxe.Lib.Draw
                     fmt=Format.Yuy2;
                     break;
                 case EColorFormat.Uyvy:
-                    fmt=Format.Uyvy;
+                    fmt = Format.Uyvy;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(format), format, null);
             }
-            D3DTexture = device == null ? null : new Texture(device, texWidth, texHeight, 0, Usage.AutoGenerateMipMap, fmt, Pool.Managed);
+            D3DTexture = device == null ? null : new Texture(device, texWidth, texHeight, 0, (fmt == Format.Uyvy || fmt == Format.Yuy2) ? Usage.Dynamic: Usage.AutoGenerateMipMap, fmt, (fmt == Format.Uyvy || fmt == Format.Yuy2) ? Pool.Default : Pool.Managed);
         }
 
         public override bool IsLoaded
@@ -103,11 +103,14 @@ namespace Vocaluxe.Lib.Draw
         private readonly Queue<Texture> _VerticesTextures = new Queue<Texture>();
         private readonly Queue<Matrix> _VerticesRotationMatrices = new Queue<Matrix>();
 
+        private Texture _TempRtTexture;
+
         /// <summary>
         ///     Creates a new Instance of the CDirect3D Class
         /// </summary>
         public CDirect3D()
         {
+
             _Form = new CRenderFormHook {ClientSize = new Size(CConfig.Config.Graphics.ScreenW, CConfig.Config.Graphics.ScreenH)};
 
             try
@@ -510,12 +513,28 @@ namespace Vocaluxe.Lib.Draw
                 //Apply texture
 
                 var texture = _VerticesTextures.Dequeue();
-                var surface = texture.GetSurfaceLevel(0);
-
-                if (surface.Description.Format == Format.Yuy2)
+                Surface surface = texture.GetSurfaceLevel(0);
+                
+                if (surface.Description.Format == Format.Yuy2 || surface.Description.Format == Format.Uyvy)
                 {
-                    //_Device.SetTexture(0, texture);
-                    _Device.StretchRectangle(surface, _Device.GetRenderTarget(0), TextureFilter.None);
+                    if (_TempRtTexture == null)
+                    {
+                        _TempRtTexture = new Texture(_Device, surface.Description.Width, surface.Description.Height, 0, Usage.RenderTarget, Format.A8R8G8B8, Pool.Default);
+                    }
+
+                    var sur = _TempRtTexture.GetSurfaceLevel(0);
+
+                    if (sur.Description.Height != surface.Description.Height || sur.Description.Width != surface.Description.Width)
+                    {
+                        _TempRtTexture.Dispose();
+                       
+                        _TempRtTexture = new Texture(_Device, surface.Description.Width, surface.Description.Height, 0, Usage.RenderTarget, Format.A8R8G8B8, Pool.Default);
+                        
+                        sur = _TempRtTexture.GetSurfaceLevel(0);
+                    }
+
+                    _Device.StretchRectangle(surface, new Rectangle(0,0,surface.Description.Width, surface.Description.Height), sur, new Rectangle(0, 0, surface.Description.Width, surface.Description.Height), TextureFilter.None);
+                    _Device.SetTexture(0, _TempRtTexture);
                 }
                 else
                 {
@@ -654,7 +673,7 @@ namespace Vocaluxe.Lib.Draw
         {
             //Lock the texture and fill it with the data
             DataRectangle rect = texture.D3DTexture.LockRectangle(0, LockFlags.Discard);
-            int rowWidth = (int)Math.Round(1.5 * texture.DataSize.Width);
+            int rowWidth = (int)Math.Round(2.0 * texture.DataSize.Width);
             if (rowWidth == rect.Pitch)
                 rect.Data.Write(data, 0, data.Length);
             else

@@ -17,8 +17,9 @@ before_install:
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 20
   - sudo update-alternatives --config gcc
   - sudo update-alternatives --config g++
-  - sudo apt-get install -y ffmpeg
-  - sudo apt-get install libavformat53 libavformat-dev libavcodec53 libswscale-dev libswresample-ffmpeg-dev
+  - chmod ugo+x ./.travis/installFFmpeg.sh
+  - sudo "./.travis/installFFmpeg.sh"
+  #- sudo apt-get install libavformat53 libavformat-dev libavcodec53 libswscale-dev libswresample-ffmpeg-dev
 script:
 - make -C PitchTracker
 - make -C Vocaluxe/Lib/Video/Acinerella
@@ -26,8 +27,8 @@ script:
 before_deploy:
 - chmod ugo+x ./.travis/packArtifact.sh
 - "./.travis/packArtifact.sh"
-- chmod ugo+x ./.travis/moveTagForSpecialBranches.sh
-- "./.travis/moveTagForSpecialBranches.sh"
+#- chmod ugo+x ./.travis/moveTagForSpecialBranches.sh
+#- "./.travis/moveTagForSpecialBranches.sh"
 deploy:
   provider: releases
   api_key: $GITHUB_KEY

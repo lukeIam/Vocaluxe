@@ -30,8 +30,7 @@ install:
 
     $Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK = $Env:APPVEYOR_REPO_BRANCH
 
-    }
-    
+    }    
 before_build:
 - ps: >-
     nuget restore -DisableParallelProcessing
@@ -51,7 +50,7 @@ after_build:
     cd ..
 
     .\.appveyor\nightlyDetect.ps1
-	.\.appveyor\moveTagForSpecialBranches.ps1
+    .\.appveyor\moveTagForSpecialBranches.ps1
 test: off
 before_deploy:
 - ps: ./.appveyor/prepareDeploy.ps1

@@ -12,9 +12,10 @@ environment:
     secure: JSlN/em0JdspVn8jwaQ4IjugY6OQi0au4Qq0rhctJmcfGMaEGnUAOmDFULI48REW
 install:
 - ps: >-
-    $Env:CurrentCommitSha = "$(git rev-parse --verify HEAD)"
-
-    $Env:githubRepoApiUri = "https://api.github.com/repos/Vocaluxe/Vocaluxe/"
+    $Env:CurrentCommitSha = "$(git rev-parse --verify HEAD)"    
+    if((-not $Env:githubRepoApiUri) -or ($Env:APPVEYOR_ACCOUNT_NAME -eq "VocaluxeBuildBot")){
+        $Env:githubRepoApiUri = "https://api.github.com/repos/Vocaluxe/Vocaluxe/"
+    }
 
     ./.appveyor/gitDescribe.ps1
 
@@ -37,15 +38,22 @@ build:
 after_build:
 - ps: >-
     cd Output
+    if($Env:APPVEYOR_REPO_NAME -eq "Vocaluxe/Vocaluxe"){
+        $Env:MAIN_REPO = $True
+    }
+    
+    $forkBuildTag = ""
+    if(($Env:MAIN_REPO -ne $True) -or ($Env:APPVEYOR_ACCOUNT_NAME -ne "VocaluxeBuildBot")){
+        $forkBuildTag = "_non-official-by-${$Env:APPVEYOR_ACCOUNT_NAME}"
+    }
 
-    7z a "Vocaluxe_$($Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK)_Windows_$($Env:PLATFORM).zip" *
+    7z a "Vocaluxe_$($Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK)_Windows_$($Env:PLATFORM)${$forkBuildTag}.zip" *
 
-    appveyor PushArtifact "Vocaluxe_$($Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK)_Windows_$($Env:PLATFORM).zip" -FileName "Vocaluxe_$($Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK)_Windows_$($Env:PLATFORM).zip" -DeploymentName ReleaseZip
+    appveyor PushArtifact "Vocaluxe_$($Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK)_Windows_$($Env:PLATFORM)${$forkBuildTag}.zip" -FileName "Vocaluxe_$($Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK)_Windows_$($Env:PLATFORM)${$forkBuildTag}.zip" -DeploymentName ReleaseZip
 
     cd ..
     
-    if($Env:APPVEYOR_REPO_NAME -eq "Vocaluxe/Vocaluxe"){
-        $Env:MAIN_REPO = $True
+    if($Env:MAIN_REPO -eq $True){
         .\.appveyor\nightlyDetect.ps1
         .\.appveyor\moveTagForSpecialBranches.ps1
     }

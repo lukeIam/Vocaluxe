@@ -44,6 +44,7 @@ after_build:
     }
     
     $forkBuildTag = ""
+
     if(($Env:MAIN_REPO -ne $True) -or ($Env:APPVEYOR_ACCOUNT_NAME -ne "VocaluxeBuildBot")){
         $forkBuildTag = "_non-official-by-${$Env:APPVEYOR_ACCOUNT_NAME}"
     }
@@ -56,6 +57,7 @@ after_build:
     
     if($Env:MAIN_REPO -eq $True){
         .\.appveyor\nightlyDetect.ps1
+
         .\.appveyor\moveTagForSpecialBranches.ps1
     }
 test: off

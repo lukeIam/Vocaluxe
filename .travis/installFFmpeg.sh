@@ -2,7 +2,7 @@
 
 #https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu
 
-curr_dir=${pwd`}
+curr_dir=${pwd}
 
 sudo apt-get -y install autoconf automake build-essential libass-dev libfreetype6-dev \
   libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \

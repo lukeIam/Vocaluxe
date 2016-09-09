@@ -1,0 +1,48 @@
+language: csharp
+solution: Vocaluxe.sln
+env:
+  matrix:
+  - config=Linux platform=x64
+  - config=Linux platform=x86
+  global:
+    secure: XkVcuPYLSv+mvClWTUbnxfA162oCt+hkV7VYu//HRmDGW3xYFh8MbrKl4DQursABTJ1ogPiKaTnj+m0LyhP851NhO3dKbk4rtH0afVWQEAXo3up4O5MbURe4cqBCEdC6+sX45oXR/s6IHT6VZUhX9I7mkRc1Y8o5BkWPDEf5Scw=
+branches:
+  except:
+  - Nightly
+before_install:
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+  - sudo add-apt-repository ppa:pavlyshko/precise -y
+  - sudo add-apt-repository ppa:lyrasis/precise-backports -y
+  - sudo add-apt-repository ppa:ubuntu-sdk-team/ppa -y
+  - sudo add-apt-repository ppa:chris-lea/zeromq -y
+  - sudo add-apt-repository ppa:djcj/tools -y
+  - sudo add-apt-repository ppa:chris-lea/libsodium -y
+  - sudo add-apt-repository ppa:chris-lea/cython -y
+  - sudo add-apt-repository ppa:chris-lea/libpgm -y
+  - sudo add-apt-repository ppa:frodo-vdr/unstable-main -y
+  - sudo apt-get update -qq
+  - sudo apt-get install -y gcc-4.8 g++-4.8
+  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 20
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 20
+  - sudo update-alternatives --config gcc
+  - sudo update-alternatives --config g++
+  - sudo apt-get install -y ffmpeg-real
+  - export LD_LIBRARY_PATH='$LD_LIBRARY_PATH:/opt/ffmpeg/lib/'
+  - sudo find /opt/ffmpeg/lib/ -name '*.ffmpeg.*' -type f -exec bash -c 'ln -s "$1" "${1/\.ffmpeg\./.}"' -- {} \;
+script:
+- make -C PitchTracker
+- make -C Vocaluxe/Lib/Video/Acinerella
+- xbuild /p:Configuration=Release$config /p:Platform=$platform Vocaluxe.sln
+before_deploy:
+- chmod ugo+x ./.travis/packArtifact.sh
+- "./.travis/packArtifact.sh"
+- chmod ugo+x ./.travis/moveTagForSpecialBranches.sh
+- "./.travis/moveTagForSpecialBranches.sh"
+deploy:
+  provider: releases
+  api_key: $GITHUB_KEY
+  file: build/Vocaluxe_$GIT_TAG_$config_$platform.zip
+  skip_cleanup: true
+  on:
+    repo: lukeIam/Vocaluxe
+    condition: "${GIT_TAG} = 'Nightly' || -n ${TRAVIS_TAG}"

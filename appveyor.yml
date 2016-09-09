@@ -12,7 +12,8 @@ environment:
     secure: JSlN/em0JdspVn8jwaQ4IjugY6OQi0au4Qq0rhctJmcfGMaEGnUAOmDFULI48REW
 install:
 - ps: >-
-    $Env:CurrentCommitSha = "$(git rev-parse --verify HEAD)"    
+    $Env:CurrentCommitSha = "$(git rev-parse --verify HEAD)"
+
     if((-not $Env:githubRepoApiUri) -or ($Env:APPVEYOR_ACCOUNT_NAME -eq "VocaluxeBuildBot")){
         $Env:githubRepoApiUri = "https://api.github.com/repos/Vocaluxe/Vocaluxe/"
     }

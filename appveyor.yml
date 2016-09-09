@@ -48,7 +48,7 @@ after_build:
         $Env:MAIN_REPO = $True
         .\.appveyor\nightlyDetect.ps1
         .\.appveyor\moveTagForSpecialBranches.ps1
-	}
+    }
 test: off
 before_deploy:
 - ps: ./.appveyor/prepareDeploy.ps1

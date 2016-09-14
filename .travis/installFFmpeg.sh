@@ -28,15 +28,6 @@ PATH="$HOME/bin:$PATH" make
 make install
 make distclean
 
-sudo apt-get install cmake mercurial
-cd ~/ffmpeg_sources
-hg clone https://bitbucket.org/multicoreware/x265
-cd ~/ffmpeg_sources/x265/build/linux
-PATH="$HOME/bin:$PATH" cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$HOME/ffmpeg_build" -DENABLE_SHARED:bool=off ../../source
-make
-make install
-make distclean
-
 cd ~/ffmpeg_sources
 wget -O fdk-aac.tar.gz https://github.com/mstorsjo/fdk-aac/tarball/master
 tar xzvf fdk-aac.tar.gz
@@ -95,7 +86,6 @@ PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./conf
   --enable-libvorbis \
   --enable-libvpx \
   --enable-libx264 \
-  --enable-libx265 \
   --enable-nonfree
 PATH="$HOME/bin:$PATH" make
 make install

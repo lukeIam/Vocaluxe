@@ -70,11 +70,11 @@ cd ~/ffmpeg_sources
 wget http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
 tar xjvf ffmpeg-snapshot.tar.bz2
 cd ffmpeg
-PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure \
-  --prefix="$HOME/ffmpeg_build" \
+PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="/usr/local/lib/pkgconfig" ./configure \
+  --prefix="/usr/local" \
   --pkg-config-flags="--static" \
-  --extra-cflags="-I$HOME/ffmpeg_build/include" \
-  --extra-ldflags="-L$HOME/ffmpeg_build/lib" \
+  --extra-cflags="/usr/local/include" \
+  --extra-ldflags="/usr/local/lib" \
   --bindir="$HOME/bin" \
   --enable-gpl \
   --enable-libass \
@@ -91,7 +91,5 @@ PATH="$HOME/bin:$PATH" make
 make install
 make distclean
 hash -r
-
-ln ~/ffmpeg_build/include/* /usr/local/include/
 
 cd $curr_dir

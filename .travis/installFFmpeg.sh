@@ -92,4 +92,6 @@ make install
 make distclean
 hash -r
 
+ln ~/ffmpeg_build/include/* /usr/local/include/
+
 cd $curr_dir

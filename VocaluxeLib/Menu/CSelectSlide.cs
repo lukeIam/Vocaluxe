@@ -63,7 +63,7 @@ namespace VocaluxeLib.Menu
         public int NumVisible;
     }
 
-    public sealed class CSelectSlide : CMenuElementBase, IMenuElement, IThemeable
+    public class CSelectSlide : CMenuElementBase, IMenuElement, IThemeable
     {
         private struct SValue
         {
@@ -783,5 +783,47 @@ namespace VocaluxeLib.Menu
             }
         }
         #endregion ThemeEdit
+    }
+
+    public class CSelectSlide<T> : CSelectSlide
+    {
+        private readonly Dictionary<CSelectSlide, T> _GenericTags = new Dictionary<CSelectSlide, T>();
+
+        public CSelectSlide(int partyModeID) : base(partyModeID) { }
+        public CSelectSlide(CSelectSlide slide) : base(slide) { }
+        public CSelectSlide(SThemeSelectSlide theme, int partyModeID) : base(theme, partyModeID) { }
+
+        /// <summary>
+        ///     Adds an entry to the slide.
+        /// </summary>
+        /// <param name="text">Label to show</param>
+        /// <param name="texture">Texture to show</param>
+        /// <param name="tag">User value (e.g. id of entry)</param>
+        /// <param name="genericTag">User value (generic)</param>
+        public void AddValue(string text, CTextureRef texture = null, int tag = 0, T genericTag = default(T))
+        {
+            base.AddValue(text, texture, tag);
+            _GenericTags[this] = genericTag;
+        }
+
+        /// <summary>
+        ///     Adds an entry to the slide.
+        /// </summary>
+        /// <param name="text">Label to show</param>
+        /// <param name="translationId">Translation id to use for the text</param>
+        /// <param name="texture">Texture to show</param>
+        /// <param name="tag">User value (e.g. id of entry)</param>
+        /// <param name="genericTag">User value (generic)</param>
+        public void AddValue(string text, int translationId, CTextureRef texture = null, int tag = 0, T genericTag = default(T))
+        {
+            base.AddValue(text, translationId, texture, tag);
+            _GenericTags[this] = genericTag;
+        }
+
+        public T SelectedGenericTag
+        {
+            get { return _GenericTags[this]; }
+            set { _GenericTags[this] = value; }
+        }
     }
 }

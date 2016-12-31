@@ -76,6 +76,7 @@ PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="/usr/local/lib/pkgconfig" ./configure \
   --extra-cflags="/usr/local/include" \
   --extra-ldflags="/usr/local/lib" \
   --bindir="$HOME/bin" \
+  --enable-shared
   --enable-gpl \
   --enable-libass \
   --enable-libfdk-aac \
@@ -86,6 +87,7 @@ PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="/usr/local/lib/pkgconfig" ./configure \
   --enable-libvorbis \
   --enable-libvpx \
   --enable-libx264 \
+  --enable-version3 \
   --enable-nonfree
 PATH="$HOME/bin:$PATH" make
 make install

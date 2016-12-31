@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 PROJECT=$1
 cd $PROJECT
 arch=$2

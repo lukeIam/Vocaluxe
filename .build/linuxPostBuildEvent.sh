@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 PROJECT=$1
 cd $PROJECT
 sed -i -r -e 's/AssemblyInformationalVersion\(".*?"\)/AssemblyInformationalVersion("GITVERSION")/' $PROJECT/Properties/AssemblyInfo.cs

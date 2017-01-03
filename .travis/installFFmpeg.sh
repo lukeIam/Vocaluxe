@@ -71,6 +71,7 @@ wget http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
 tar xjf ffmpeg-snapshot.tar.bz2
 cd ffmpeg
 PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="/usr/local/lib/pkgconfig" ./configure \
+  --cc=CC
   --prefix="/usr/local" \
   --pkg-config-flags="--static" \
   --extra-cflags="/usr/local/include" \

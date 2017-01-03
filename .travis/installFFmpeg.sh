@@ -90,6 +90,7 @@ PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="/usr/local/lib/pkgconfig" ./configure \
   --enable-libx264 \
   --enable-version3 \
   --enable-nonfree
+PATH="$HOME/bin:$PATH" gcc --version
 PATH="$HOME/bin:$PATH" make
 make install
 make distclean

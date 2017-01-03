@@ -17,6 +17,7 @@ before_install:
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 20
   - sudo update-alternatives --config gcc
   - sudo update-alternatives --config g++
+  - ls -l /usr/
   - chmod ugo+x ./.build/linuxPostBuildEvent.sh
   - chmod ugo+x ./.build/linuxPreBuildEvent.sh
   - chmod ugo+x ./.travis/installFFmpeg.sh

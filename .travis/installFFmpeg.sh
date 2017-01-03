@@ -76,7 +76,7 @@ PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="/usr/local/lib/pkgconfig" ./configure \
   --extra-cflags="/usr/local/include" \
   --extra-ldflags="/usr/local/lib" \
   --bindir="$HOME/bin" \
-  --enable-shared
+  --enable-shared \
   --enable-gpl \
   --enable-libass \
   --enable-libfdk-aac \

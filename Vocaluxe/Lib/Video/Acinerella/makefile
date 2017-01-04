@@ -1,5 +1,5 @@
 acinerella: acinerella.c acinerella.h
-	gcc -c -fPIC acinerella.c -I /usr/local/include
+	gcc -c -fPIC acinerella.c -I /usr/include
 
 ifeq ($(shell uname),Linux)
 	gcc -shared -o libacinerella.so acinerella.o -lavformat -lavcodec -lavutil -lm -lswscale -lswresample

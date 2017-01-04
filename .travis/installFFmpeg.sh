@@ -89,8 +89,8 @@ make install
 cd -
 
 cd ~/ffmpeg_sources
-#wget http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
-#tar xjf ffmpeg-snapshot.tar.bz2
+wget http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
+tar xjf ffmpeg-snapshot.tar.bz2
 cd ffmpeg
 PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="/usr/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig" ./configure \
   --cc=gcc \

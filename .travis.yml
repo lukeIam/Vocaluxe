@@ -38,4 +38,4 @@ deploy:
   skip_cleanup: true
   on:
     repo: lukeIam/Vocaluxe
-    condition: "${GIT_TAG} = 'Nightly' || -n ${TRAVIS_TAG}"
+#    condition: "${GIT_TAG} = 'Nightly' || -n ${TRAVIS_TAG}"

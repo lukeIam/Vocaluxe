@@ -4,7 +4,7 @@ set -ev
 export GIT_TAG="$TRAVIS_TAG";
 
 if [[ "${TRAVIS_PULL_REQUEST}" = "false" && -z "$TRAVIS_TAG" ]]; then	
-	if [[ "$TRAVIS_BRANCH" = "travisTest" ]]; then	
+	if [[ "$TRAVIS_BRANCH" = "travis" ]]; then	
 		export GIT_TAG="Nightly";
 	else		
 		exit 0;

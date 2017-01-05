@@ -17,9 +17,11 @@ before_install:
   - sudo update-alternatives --config g++
   - chmod ugo+x ./.build/linuxPostBuildEvent.sh
   - chmod ugo+x ./.build/linuxPreBuildEvent.sh
+  - chmod ugo+x ./.travis/gitDescribe.sh
   - chmod ugo+x ./.travis/installFFmpeg.sh
   - sudo ./.travis/installFFmpeg.sh
 script:
+- ./.travis/gitDescribe.sh
 - make -C PitchTracker
 - make -C Vocaluxe/Lib/Video/Acinerella
 - xbuild /p:Configuration=Release$config /p:Platform=$platform Vocaluxe.sln

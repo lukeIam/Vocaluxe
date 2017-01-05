@@ -4,8 +4,6 @@ env:
   matrix:
   - config=Linux platform=x64
   - config=Linux platform=x86
-  global:
-    secure: XkVcuPYLSv+mvClWTUbnxfA162oCt+hkV7VYu//HRmDGW3xYFh8MbrKl4DQursABTJ1ogPiKaTnj+m0LyhP851NhO3dKbk4rtH0afVWQEAXo3up4O5MbURe4cqBCEdC6+sX45oXR/s6IHT6VZUhX9I7mkRc1Y8o5BkWPDEf5Scw=
 branches:
   except:
   - Nightly

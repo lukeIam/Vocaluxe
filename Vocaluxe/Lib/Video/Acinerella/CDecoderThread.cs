@@ -85,9 +85,14 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 if (ok)
                     return true;
                 _Free();
+                CLog.LogError("Error opening video file: " + _FileName);
             }
-            catch (Exception) {}
-            CLog.LogError("Error opening video file: " + _FileName);
+            catch (Exception ex)
+            {
+                CLog.LogError("Error opening video file: " + _FileName + "\n"
+                              + ex.ToString());
+            }
+            
             _Instance = IntPtr.Zero;
             return false;
         }
@@ -279,9 +284,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 decoder = (SACDecoder)Marshal.PtrToStructure(_Videodecoder, typeof(SACDecoder));
                 videoStreamIndex = decoder.StreamIndex;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                CLog.LogError("Error opening video file (can't find decoder): " + _FileName);
+                CLog.LogError("Error opening video file (can't find decoder): " + _FileName + "\n" 
+                    + ex.ToString());
                 return false;
             }
 

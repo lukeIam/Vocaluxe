@@ -63,8 +63,10 @@ namespace Vocaluxe.Base
             get { return _CurrentPartyMode.ID; }
             set
             {
-                if (_CurrentPartyMode.ID == value)
+                if (_CurrentPartyMode.ID == value) {
+                    _CurrentPartyMode.SetDefaults();
                     return;
+                }
                 if (value != -1 && !_PartyModes.ContainsKey(value))
                     throw new ArgumentException("Partymode with ID=" + value + " does not exist!");
                 IPartyMode pm = _PartyModes[value].PartyMode;
@@ -281,7 +283,7 @@ namespace Vocaluxe.Base
             compilerParams.ReferencedAssemblies.Add("System.Windows.Forms.dll");
             compilerParams.ReferencedAssemblies.Add("System.dll");
             compilerParams.ReferencedAssemblies.Add("System.Core.dll");
-            compilerParams.ReferencedAssemblies.Add("libs\\managed\\VocaluxeLib.dll");
+            compilerParams.ReferencedAssemblies.Add(Path.Combine("libs","managed","VocaluxeLib.dll"));
             compilerParams.GenerateInMemory = true;
 #if DEBUG
             compilerParams.IncludeDebugInformation = true;

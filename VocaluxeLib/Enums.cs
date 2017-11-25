@@ -215,6 +215,13 @@ namespace VocaluxeLib
         NoDuets
     }
 
+    public enum ESongSource
+    {
+        TR_SONGSOURCE_ALLSONGS,
+        TR_SONGSOURCE_CATEGORY,
+        TR_SONGSOURCE_PLAYLIST
+    }
+
     public enum ESongSorting
     {
         // ReSharper disable InconsistentNaming
@@ -322,10 +329,10 @@ namespace VocaluxeLib
 
     public enum ELyricStyle
     {
-        Fill,
-        Jump,
-        Slide,
-        Zoom
+        TR_CONFIG_LYRICSTYLE_FILL,
+        TR_CONFIG_LYRICSTYLE_JUMP,
+        TR_CONFIG_LYRICSTYLE_SLIDE,
+        TR_CONFIG_LYRICSTYLE_ZOOM
     }
     #endregion Config
 
@@ -368,6 +375,12 @@ namespace VocaluxeLib
         Preview,
         BackgroundPreview,
         Game
+    }
+
+    public enum EHighscoreStyle
+    {
+        TR_CONFIG_HIGHSCORE_LIST_ALL,
+        TR_CONFIG_HIGHSCORE_LIST_BEST
     }
 
     /// <summary>

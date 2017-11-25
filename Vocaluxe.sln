@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.10
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vocaluxe", "Vocaluxe\Vocaluxe.csproj", "{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -180,6 +180,26 @@ Global
 		{93356718-3A0B-4784-AAE1-215065BFFC66}.ReleaseWin|x64.Build.0 = Release|x64
 		{93356718-3A0B-4784-AAE1-215065BFFC66}.ReleaseWin|x86.ActiveCfg = Release|x86
 		{93356718-3A0B-4784-AAE1-215065BFFC66}.ReleaseWin|x86.Build.0 = Release|x86
+		{31F375DC-696E-46B3-828A-021B4F870996}.DebugLinux|x64.ActiveCfg = DebugLinux|Any CPU
+		{31F375DC-696E-46B3-828A-021B4F870996}.DebugLinux|x64.Build.0 = DebugLinux|Any CPU
+		{31F375DC-696E-46B3-828A-021B4F870996}.DebugLinux|x86.ActiveCfg = DebugLinux|Any CPU
+		{31F375DC-696E-46B3-828A-021B4F870996}.DebugLinux|x86.Build.0 = DebugLinux|Any CPU
+		{31F375DC-696E-46B3-828A-021B4F870996}.DebugWin|x64.ActiveCfg = DebugWin|Any CPU
+		{31F375DC-696E-46B3-828A-021B4F870996}.DebugWin|x64.Build.0 = DebugWin|Any CPU
+		{31F375DC-696E-46B3-828A-021B4F870996}.DebugWin|x86.ActiveCfg = DebugWin|Any CPU
+		{31F375DC-696E-46B3-828A-021B4F870996}.DebugWin|x86.Build.0 = DebugWin|Any CPU
+		{31F375DC-696E-46B3-828A-021B4F870996}.InstallerWin|x64.ActiveCfg = InstallerWin|Any CPU
+		{31F375DC-696E-46B3-828A-021B4F870996}.InstallerWin|x64.Build.0 = InstallerWin|Any CPU
+		{31F375DC-696E-46B3-828A-021B4F870996}.InstallerWin|x86.ActiveCfg = InstallerWin|Any CPU
+		{31F375DC-696E-46B3-828A-021B4F870996}.InstallerWin|x86.Build.0 = InstallerWin|Any CPU
+		{31F375DC-696E-46B3-828A-021B4F870996}.ReleaseLinux|x64.ActiveCfg = ReleaseLinux|Any CPU
+		{31F375DC-696E-46B3-828A-021B4F870996}.ReleaseLinux|x64.Build.0 = ReleaseLinux|Any CPU
+		{31F375DC-696E-46B3-828A-021B4F870996}.ReleaseLinux|x86.ActiveCfg = ReleaseLinux|Any CPU
+		{31F375DC-696E-46B3-828A-021B4F870996}.ReleaseLinux|x86.Build.0 = ReleaseLinux|Any CPU
+		{31F375DC-696E-46B3-828A-021B4F870996}.ReleaseWin|x64.ActiveCfg = ReleaseWin|Any CPU
+		{31F375DC-696E-46B3-828A-021B4F870996}.ReleaseWin|x64.Build.0 = ReleaseWin|Any CPU
+		{31F375DC-696E-46B3-828A-021B4F870996}.ReleaseWin|x86.ActiveCfg = ReleaseWin|Any CPU
+		{31F375DC-696E-46B3-828A-021B4F870996}.ReleaseWin|x86.Build.0 = ReleaseWin|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

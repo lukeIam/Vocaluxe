@@ -30,7 +30,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseWin|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Output\libs\managed</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -38,6 +38,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DefineConstants>WIN</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugLinux|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>

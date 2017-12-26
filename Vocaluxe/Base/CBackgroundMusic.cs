@@ -327,11 +327,6 @@ namespace Vocaluxe.Base
             {
                 lock (_PreviewStartHelperTaskLock)
                 {
-                    // Check if the old _PreviewStartHelperTask needs to disposed
-                    if (_PreviewStartHelperTask != null)
-                    {
-                        _PreviewStartHelperTask.Dispose();
-                    }
                     _PreviewStartHelperTask = new Task(() =>
                     {
                         float length = _PreviewPlayer.Length;
@@ -357,12 +352,7 @@ namespace Vocaluxe.Base
                 {
                     lock (_PreviewStartHelperTaskLock)
                     {
-                        // Recheck the condition as it cloud have change before we got the lock
-                        if (_PreviewStartHelperTask != null)
-                        {
-                            _PreviewStartHelperTask.Dispose();
-                            _PreviewStartHelperTask = null;
-                        }
+                        _PreviewStartHelperTask = null;   
                     }
                 }
                 _PreviewPlayer.Position = _CurPlayer.Position;

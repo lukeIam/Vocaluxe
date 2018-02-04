@@ -45,17 +45,12 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
             {
                 _PaHandle = new CPortAudioHandle();
 
-                int hostAPI = _PaHandle.GetHostApi();
-                int numDevices = PortAudioSharp.PortAudio.Pa_GetDeviceCount();
-                for (int i = 0; i < numDevices; i++)
+                
+                foreach (var deviceInfo in CPortAudioDeviceHelper.GetPossibleDevices(true, false))
                 {
-                    PortAudioSharp.PortAudio.PaDeviceInfo info = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(i);
-                    if (info.hostApi == hostAPI && info.maxInputChannels > 0)
-                    {
-                        var dev = new CRecordDevice(i, info.name, info.name + i, info.maxInputChannels);
-
-                        _Devices.Add(dev);
-                    }
+                    var dev = new CRecordDevice(deviceInfo.DeviceId, deviceInfo.DeviceInfo.name, deviceInfo.DeviceInfo.name + deviceInfo.DeviceId, deviceInfo.DeviceInfo.maxInputChannels);
+                    _Devices.Add(dev);
+                    CLog.Information("Added recording device {DeviceName} with {NumberOfChannels} channels using {HostApi} api", CLog.Params(deviceInfo.DeviceInfo.name, deviceInfo.DeviceInfo.maxInputChannels, deviceInfo.HostAPI));
                 }
 
                 _RecHandle = new IntPtr[_Devices.Count];

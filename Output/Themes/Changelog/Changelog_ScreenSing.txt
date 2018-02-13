@@ -1,6 +1,24 @@
 ScreenSing
 
 +++++++++
+Version 9
+
+Add:
+<ProgressBarRatingP$N$>
+<ButtonRestartRound>
+<ButtonRestartGame>
+
++++++++++
+Version 8
+
+Add:
+<SkinFillLeft>
+<SkinFillMiddle>
+<SkinFillRight>
+
+Skins for separated note fill graphics
+
++++++++++
 Version 7
 
 Add:

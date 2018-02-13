@@ -17,6 +17,8 @@
 
 //Uncomment to make the engine hit every note
 //#define DEBUG_HIT
+//Uncomment to only hit notes for player one
+//#define DEBUG_HIT_1
 
 using System;
 using System.Collections.Generic;
@@ -199,6 +201,7 @@ namespace Vocaluxe.Base
                 Players[i].Points = 0f;
                 Players[i].PointsLineBonus = 0f;
                 Players[i].PointsGoldenNotes = 0f;
+                Players[i].Rating = 0.5f;
                 Players[i].VoiceNr = 0;
                 Players[i].NoteDiff = 0;
                 Players[i].SungLines = new List<CSungLine>();
@@ -279,6 +282,8 @@ namespace Vocaluxe.Base
                     if (notes[note].PointsForBeat > 0 && (CRecord.ToneValid(p)
 #if DEBUG_HIT
                         || true
+#elif DEBUG_HIT_1
+                        || (true && p == 0)
 #endif
                                                          ))
                     {
@@ -293,6 +298,8 @@ namespace Vocaluxe.Base
 
 #if DEBUG_HIT
                             tonePlayer = tone;
+#elif DEBUG_HIT_1
+                            if(p == 0) tonePlayer = tone;
 #endif
 
                         Players[p].NoteDiff = Math.Abs(tone - tonePlayer);
@@ -343,10 +350,11 @@ namespace Vocaluxe.Base
                         }
                     }
 
-                    // Line Bonus
+                    // Check if line ended
                     int numLinesWithPoints = song.Notes.GetNumLinesWithPoints(Players[p].VoiceNr);
                     if (beat == lines[line].LastNoteBeat && lines[line].Points > 0 && numLinesWithPoints > 0)
                     {
+                        // Line Bonus
                         double factor = Players[p].SungLines[line].Points / (double)lines[line].Points;
                         if (factor <= 0.4)
                             factor = 0.0;
@@ -363,6 +371,11 @@ namespace Vocaluxe.Base
                         Players[p].Points += points;
                         Players[p].PointsLineBonus += points;
                         Players[p].SungLines[line].BonusPoints += points;
+
+                        //Calculate rating
+                        //Shift fraction of correct sung notes to [-0.1, 0.1], player needs to sing five lines fully correctly to get highest ranking
+                        double current = Players[p].SungLines[line].Points / (double)lines[line].Points;
+                        Players[p].Rating = (Players[p].Rating + (current * 0.2 - 0.1)).Clamp(0, 1);
                     }
                 }
             }

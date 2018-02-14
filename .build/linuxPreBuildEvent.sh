@@ -1,7 +1,16 @@
 #!/bin/bash
+
 PROJECT=$1
 cd $PROJECT
 arch=$2
+
+#name building as some problems use fixed names for now
+version='0.0.0-376-gade9319'
+shortVersionClean='0.0.0'
+fullVersionName="Vocaluxe LinxBuild($arch) (dummy-376-gade9319)"
+
+
+: <<'COMMENT'
 if [ -z "$VersionTag" ]; then
     version=$(git describe --long)
 else
@@ -27,6 +36,7 @@ esac
 
 versionName=$(grep -oP "\"${shortVersionClean%.*}.\" *: *\"\K([^\"]+)(?=\")" ../.build/versionNames.json)
 fullVersionName="Vocaluxe $([ "$versionName" == "" ] && echo "" || echo "'$versionName' ")$shortVersion ($arch) $([ "$releaseType" == "Release" ] && echo "" || echo "$releaseType ")($version)"
+COMMENT
 
 sed -i -e s/GITVERSION/"$version"/ $PROJECT/Properties/AssemblyInfo.cs
 sed -i -e s/SHORTVERSION/"$shortVersionClean"/ $PROJECT/Properties/AssemblyInfo.cs

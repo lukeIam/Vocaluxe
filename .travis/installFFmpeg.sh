@@ -4,13 +4,9 @@
 
 curr_dir=${pwd}
 
-apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-echo "deb http://download.mono-project.com/repo/ubuntu stable-trusty main" | tee /etc/apt/sources.list.d/mono-official-stable.list
-apt-get update
-
 apt-get -y install autoconf automake build-essential libass-dev libfreetype6-dev \
   libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \
-  libxcb-xfixes0-dev pkg-config texinfo zlib1g-dev mono-complete
+  libxcb-xfixes0-dev pkg-config texinfo zlib1g-dev
 
 mkdir ~/ffmpeg_sources
 

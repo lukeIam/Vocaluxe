@@ -8,13 +8,10 @@ branches:
   except:
   - Nightly
 before_install:
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+  - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+  - sudo echo "deb http://download.mono-project.com/repo/ubuntu stable-trusty main" | tee /etc/apt/sources.list.d/mono-official-stable.list
   - sudo apt-get update -qq
-  - sudo apt-get install -y gcc-4.8 g++-4.8
-  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 20
-  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 20
-  - sudo update-alternatives --config gcc
-  - sudo update-alternatives --config g++
+  - sudo apt-get install -y mono-complete
   - chmod ugo+x ./.build/linuxPostBuildEvent.sh
   - chmod ugo+x ./.build/linuxPreBuildEvent.sh
   - chmod ugo+x ./.travis/gitDescribe.sh

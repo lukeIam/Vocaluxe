@@ -19,12 +19,14 @@ before_install:
   - chmod ugo+x ./.build/linuxPreBuildEvent.sh
   - chmod ugo+x ./.travis/gitDescribe.sh
   - chmod ugo+x ./.travis/installFFmpeg.sh
+  - wget https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -P ./.travis/
   - sudo ./.travis/installFFmpeg.sh
 script:
 - ./.travis/gitDescribe.sh
+- mono ./.travis/nuget.exe restore
 - make -C PitchTracker
 - make -C Vocaluxe/Lib/Video/Acinerella
-- xbuild /p:Configuration=Release$config /p:Platform=$platform Vocaluxe.sln
+- msbuild /p:Configuration=Release$config /p:Platform=$platform /p:TargetFrameworkVersion=v4.7 Vocaluxe.sln
 before_deploy:
 - chmod ugo+x ./.travis/packArtifact.sh
 - "./.travis/packArtifact.sh"

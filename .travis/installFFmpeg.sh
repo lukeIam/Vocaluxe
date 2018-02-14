@@ -4,11 +4,23 @@
 
 curr_dir=${pwd}
 
-sudo apt-get -y install autoconf automake build-essential libass-dev libfreetype6-dev \
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+echo "deb http://download.mono-project.com/repo/ubuntu stable-trusty main" | tee /etc/apt/sources.list.d/mono-official-stable.list
+apt-get update
+
+apt-get -y install autoconf automake build-essential libass-dev libfreetype6-dev \
   libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \
-  libxcb-xfixes0-dev pkg-config texinfo zlib1g-dev
+  libxcb-xfixes0-dev pkg-config texinfo zlib1g-dev mono-complete
 
 mkdir ~/ffmpeg_sources
+
+#Download and install nasm 2.13
+wget http://www.nasm.us/pub/nasm/releasebuilds/2.13.01/nasm-2.13.01.tar.xz
+tar -xvf nasm-2.13.01.tar.xz
+cd nasm-2.13.01
+./configure
+make
+make install
 
 cd ~/ffmpeg_sources
 wget http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz
@@ -20,8 +32,8 @@ make install
 make distclean
 
 cd ~/ffmpeg_sources
-wget http://download.videolan.org/pub/x264/snapshots/last_x264.tar.bz2
-tar xjf last_x264.tar.bz2
+wget http://download.videolan.org/pub/x264/snapshots/x264-snapshot-20170106-2245.tar.bz2
+tar xjf x264-snapshot*.tar.bz2
 cd x264-snapshot*
 PATH="$HOME/bin:$PATH" ./configure --prefix="/usr" --bindir="$HOME/bin" --enable-static --disable-opencl --enable-shared
 PATH="$HOME/bin:$PATH" make
@@ -38,7 +50,6 @@ make
 make install
 make distclean
 
-sudo apt-get install nasm
 cd ~/ffmpeg_sources
 wget http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz
 tar xzf lame-3.99.5.tar.gz
@@ -89,9 +100,9 @@ make install
 cd -
 
 cd ~/ffmpeg_sources
-wget http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
-tar xjf ffmpeg-snapshot.tar.bz2
-cd ffmpeg
+wget http://ffmpeg.org/releases/ffmpeg-3.2.9.tar.bz2
+tar xjf ffmpeg-3.2.9.tar.bz2
+cd ffmpeg-3.2.9
 PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="/usr/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig" ./configure \
   --cc=gcc \
   --prefix="/usr" \

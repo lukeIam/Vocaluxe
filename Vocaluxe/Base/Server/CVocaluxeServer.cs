@@ -430,7 +430,7 @@ namespace Vocaluxe.Base.Server
                 newProfile.Avatar = CProfiles.GetAvatars().First();
 
                 /*CAvatar avatar = new CAvatar(-1);
-                avatar.LoadFromFile("Profiles\\Avatar_f.png");
+                avatar.LoadFromFile($"Profiles{Path.DirectorySeparatorChar}Avatar_f.png");
                 CProfiles.AddAvatar(avatar);
                 newProfile.Avatar = avatar;*/
             }
@@ -670,11 +670,11 @@ namespace Vocaluxe.Base.Server
                 {
                     if (song.CoverFileName == "")
                     {
-                        result.Cover = new CBase64Image(_CreateDelayedImage("Website\\img\\noCover.png"));
+                        result.Cover = new CBase64Image(_CreateDelayedImage(Path.Combine("Website", "img", "noCover.png")));
                     }
                     else
                     {
-                        result.Cover = new CBase64Image(_CreateDelayedImage(song.Folder + "\\" + song.CoverFileName));
+                        result.Cover = new CBase64Image(_CreateDelayedImage(Path.Combine(song.Folder, song.CoverFileName)));
                     }
                 }
                     

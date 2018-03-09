@@ -60,7 +60,7 @@ namespace VocaluxeLib.Songs
                     {
                         _Song.FolderName = _Song.Folder.Substring(folder.Length + 1);
 
-                        int pos = _Song.FolderName.IndexOf("\\", StringComparison.Ordinal);
+                        int pos = _Song.FolderName.IndexOf(Path.DirectorySeparatorChar);
                         if (pos >= 0)
                             _Song.FolderName = _Song.FolderName.Substring(0, pos);
                     }

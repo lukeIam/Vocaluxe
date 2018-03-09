@@ -209,7 +209,7 @@ namespace Vocaluxe.Base.Server
                     DateTime.UtcNow.AddYears(1).ToString("r"));
             }
 
-            byte[] data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "css\\images\\" + filename);
+            byte[] data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, Path.Combine("css", "images", filename));
 
             if (data != null)
                 return new MemoryStream(data);

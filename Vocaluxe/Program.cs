@@ -54,12 +54,12 @@ namespace Vocaluxe
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
 #endif
             AppDomain.CurrentDomain.AssemblyResolve += _AssemblyResolver;
-            COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\"));
-            #if ARCH_X86
-            COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\x86\\"));
+            COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"libs{Path.DirectorySeparatorChar}unmanaged{Path.DirectorySeparatorChar}"));
+#if ARCH_X86
+            COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"libs{Path.DirectorySeparatorChar}unmanaged{Path.DirectorySeparatorChar}x86{Path.DirectorySeparatorChar}"));
 #endif
 #if ARCH_X64
-            COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\x64\\"));
+            COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"libs{Path.DirectorySeparatorChar}unmanaged{Path.DirectorySeparatorChar}x64{Path.DirectorySeparatorChar}"));
 #endif
             
 

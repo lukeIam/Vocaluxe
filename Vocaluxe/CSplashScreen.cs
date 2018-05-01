@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -26,11 +27,14 @@ namespace Vocaluxe
 {
     class CSplashScreen : Form
     {
+        private string _DummyVar = "asdqwe";
+        public List<string> DummyList = new List<string>() {"asd", "qwe"};
         private readonly Bitmap _Logo;
 
         public CSplashScreen()
         {
             string path = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameGraphics, CSettings.FileNameLogo);
+
             if (File.Exists(path))
             {
                 try
@@ -81,8 +85,7 @@ namespace Vocaluxe
             get { return base.BackColor; }
             set { base.BackColor = value; }
         }
-
-        protected override void OnPaint(PaintEventArgs e) {}
+        protected override void OnPaint(PaintEventArgs e) { }
 
         protected override void OnPaintBackground(PaintEventArgs e)
         {

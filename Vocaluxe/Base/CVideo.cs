@@ -21,7 +21,7 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Base
 {
-    static class CVideo
+    internal static class CVideo
     {
         #region VideoDecoder
         private static IVideoDecoder _VideoDecoder;

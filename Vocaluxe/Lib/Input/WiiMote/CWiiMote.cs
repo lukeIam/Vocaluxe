@@ -24,7 +24,7 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Input.WiiMote
 {
-    class CWiiMote : CControllerFramework
+    internal class CWiiMote : CControllerFramework
     {
         private CWiiMoteLib _WiiMote;
 

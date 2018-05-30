@@ -28,13 +28,13 @@ using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base.ThemeSystem
 {
-    class CVideoSkinElement
+    internal class CVideoSkinElement
     {
         public string FileName;
         public CVideoStream VideoStream;
     }
 
-    abstract class CSkin
+    internal abstract class CSkin
     {
         private const int _SkinSystemVersion = 4;
 
@@ -44,7 +44,7 @@ namespace Vocaluxe.Base.ThemeSystem
             [XmlElement("Textures")]
             public string TexturesStr
             {
-                get { return string.Join("\r\n", Textures); }
+                get => string.Join("\r\n", Textures);
                 set
                 {
                     string[] entries = value.Split(new string[] {"\r\n", "\n"}, StringSplitOptions.RemoveEmptyEntries);
@@ -54,7 +54,7 @@ namespace Vocaluxe.Base.ThemeSystem
             [XmlElement("Videos")]
             public string VideosStr
             {
-                get { return string.Join("\r\n", Videos); }
+                get => string.Join("\r\n", Videos);
                 set
                 {
                     string[] entries = value.Split(new string[] {"\r\n", "\n"}, StringSplitOptions.RemoveEmptyEntries);
@@ -64,7 +64,7 @@ namespace Vocaluxe.Base.ThemeSystem
             [XmlElement("Colors")]
             public string ColorsStr
             {
-                get { return string.Join("\r\n", Colors); }
+                get => string.Join("\r\n", Colors);
                 set
                 {
                     string[] entries = value.Split(new string[] {"\r\n", "\n"}, StringSplitOptions.RemoveEmptyEntries);
@@ -80,10 +80,7 @@ namespace Vocaluxe.Base.ThemeSystem
         protected readonly CTheme _Parent;
 
         protected SSkin _Data;
-        public String Name
-        {
-            get { return _Data.Info.Name; }
-        }
+        public String Name => _Data.Info.Name;
 
         protected readonly Dictionary<string, CTextureRef> _Textures = new Dictionary<string, CTextureRef>();
         protected readonly Dictionary<string, CVideoSkinElement> _Videos = new Dictionary<string, CVideoSkinElement>();

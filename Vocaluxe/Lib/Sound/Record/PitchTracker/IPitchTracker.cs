@@ -24,7 +24,7 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
     ///     Base class/Interface for pitch detectors
     ///     Most likely some structures or system resources are used, hence it should be disposed if no longer needed
     /// </summary>
-    abstract class CPitchTracker : IDisposable
+    internal abstract class CPitchTracker : IDisposable
     {
         //Default number of half tones (1 octave)
         protected const int NumHalfTonesDef = 12;

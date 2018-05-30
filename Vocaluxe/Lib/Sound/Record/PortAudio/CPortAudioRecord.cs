@@ -25,7 +25,7 @@ using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Record.PortAudio
 {
-    class CPortAudioRecord : CRecordBase, IRecord
+    internal class CPortAudioRecord : CRecordBase, IRecord
     {
         private bool _Initialized;
         private CPortAudioHandle _PaHandle;

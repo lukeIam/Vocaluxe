@@ -23,7 +23,7 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Base
 {
-    class CSongFilter : CObservable
+    internal class CSongFilter : CObservable
     {
         private readonly List<CSong> _FilteredSongs = new List<CSong>();
 
@@ -42,7 +42,7 @@ namespace Vocaluxe.Base
 
         public String SearchString
         {
-            get { return _SearchString; }
+            get => _SearchString;
             set
             {
                 if (value != _SearchString)
@@ -55,7 +55,7 @@ namespace Vocaluxe.Base
 
         public EDuetOptions DuetOptions
         {
-            get { return _DuetOptions; }
+            get => _DuetOptions;
             set
             {
                 if (value != _DuetOptions)

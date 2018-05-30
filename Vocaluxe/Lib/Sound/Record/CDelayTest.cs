@@ -19,7 +19,7 @@ using Vocaluxe.Base;
 
 namespace Vocaluxe.Lib.Sound.Record
 {
-    class CDelayTest
+    internal class CDelayTest
     {
         private struct SDelayChannel
         {

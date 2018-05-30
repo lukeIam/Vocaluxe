@@ -65,15 +65,9 @@ namespace VocaluxeLib.Menu.SingNotes
         public readonly List<CNoteBars> PlayerNotes = new List<CNoteBars>();
 
         private SRectF _Rect;
-        public override SRectF Rect
-        {
-            get { return _Rect; }
-        }
+        public override SRectF Rect => _Rect;
 
-        public bool Selectable
-        {
-            get { return false; }
-        }
+        public bool Selectable => false;
 
         /// <summary>
         ///     Player bar positions

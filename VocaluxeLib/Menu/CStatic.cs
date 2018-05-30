@@ -46,17 +46,14 @@ namespace VocaluxeLib.Menu
 
         public bool ThemeLoaded { get; private set; }
 
-        public bool Selectable
-        {
-            get { return false; }
-        }
+        public bool Selectable => false;
 
         private CTextureRef _Texture;
         public CTextureRef Texture
         {
-            get { return _Texture ?? CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeID); }
+            get => _Texture ?? CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeID);
 
-            set { _Texture = value; }
+            set => _Texture = value;
         }
 
         public SColorF Color;

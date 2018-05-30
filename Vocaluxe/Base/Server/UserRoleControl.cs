@@ -20,7 +20,7 @@ using System.Linq;
 
 namespace Vocaluxe.Base.Server
 {
-    static class CUserRoleControl
+    internal static class CUserRoleControl
     {
         private static readonly Dictionary<EUserRoles, EUserRights> _RoleRightsMapping = new Dictionary<EUserRoles, EUserRights>
             {

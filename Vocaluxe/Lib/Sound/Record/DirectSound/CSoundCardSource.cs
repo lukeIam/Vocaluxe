@@ -53,7 +53,7 @@ namespace Vocaluxe.Lib.Sound.Record.DirectSound
 
         public double SampleRateKhz
         {
-            get { return _SampleRate; }
+            get => _SampleRate;
 
             set
             {

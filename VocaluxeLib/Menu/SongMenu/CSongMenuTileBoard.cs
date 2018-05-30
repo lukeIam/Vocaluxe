@@ -25,7 +25,7 @@ using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.Menu.SongMenu
 {
-    class CSongMenuTileBoard : CSongMenuFramework
+    internal class CSongMenuTileBoard : CSongMenuFramework
     {
         private SRectF _ScrollRect;
         private List<CStatic> _Tiles;
@@ -60,10 +60,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private readonly List<IMenuElement> _SubElements = new List<IMenuElement>();
 
-        public override float SelectedTileZoomFactor
-        {
-            get { return 1.2f; }
-        }
+        public override float SelectedTileZoomFactor => 1.2f;
 
         protected override int _SelectionNr
         {

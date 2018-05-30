@@ -34,7 +34,7 @@ namespace Vocaluxe.Base
         public int VersionMinor;
     }
 
-    struct SThemeCursor
+    internal struct SThemeCursor
     {
         [XmlElement("Skin")] public string SkinName;
 
@@ -44,7 +44,7 @@ namespace Vocaluxe.Base
         public SThemeColor Color;
     }
 
-    struct STheme
+    internal struct STheme
     {
         public int ThemeSystemVersion;
         public SInfo Info;
@@ -52,7 +52,7 @@ namespace Vocaluxe.Base
         public SThemeCursor? Cursor;
     }
 
-    struct SDefaultFonts
+    internal struct SDefaultFonts
     {
         [XmlArray] public SFontFamily[] Fonts;
     }
@@ -61,7 +61,7 @@ namespace Vocaluxe.Base
     ///     Struct used for describing a font family (a type of text with 4 different styles)
     /// </summary>
     [XmlType("Font")]
-    struct SFontFamily
+    internal struct SFontFamily
     {
         public string Name;
         [XmlIgnore] public int PartyModeID;
@@ -91,7 +91,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    struct SSkin
+    internal struct SSkin
     {
         public int SkinSystemVersion;
         public SInfo Info;
@@ -100,19 +100,19 @@ namespace Vocaluxe.Base
         public Dictionary<string, string> Videos;
     }
 
-    struct SPlaylistInfo
+    internal struct SPlaylistInfo
     {
         [XmlElement("PlaylistName")] public string Name;
     }
 
-    struct SPlaylist
+    internal struct SPlaylist
     {
         public SPlaylistInfo Info;
         [XmlArray] public SPlaylistSong[] Songs;
     }
 
     #region Partymode
-    struct SPartyModeInfos
+    internal struct SPartyModeInfos
     {
         public string Name;
         public string Description;
@@ -125,7 +125,7 @@ namespace Vocaluxe.Base
         [XmlIgnore] public IPartyModeInfo ExtInfo;
     }
 
-    struct SPartyMode
+    internal struct SPartyMode
     {
         public int PartyModeSystemVersion;
         [XmlArray("PartyScreens"), XmlArrayItem("ScreenFile")] public List<string> ScreenFiles;

@@ -102,7 +102,7 @@ namespace VocaluxeLib.Menu
         private EAlignment _Align = EAlignment.Left;
         public EAlignment Align
         {
-            get { return _Align; }
+            get => _Align;
             set
             {
                 if (_Align != value)
@@ -116,7 +116,7 @@ namespace VocaluxeLib.Menu
         private EHAlignment _ResizeAlign = EHAlignment.Center;
         public EHAlignment ResizeAlign
         {
-            get { return _ResizeAlign; }
+            get => _ResizeAlign;
             set
             {
                 if (_ResizeAlign != value)
@@ -130,7 +130,7 @@ namespace VocaluxeLib.Menu
         private CFont _Font = new CFont();
         public CFont Font
         {
-            get { return _Font; }
+            get => _Font;
             set
             {
                 if (!_Font.Equals(value))
@@ -156,10 +156,7 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        public bool Selectable
-        {
-            get { return false; }
-        }
+        public bool Selectable => false;
 
         public SColorF Color; //normal Color
         public SColorF SelColor; //selected Color for Buttons
@@ -172,7 +169,7 @@ namespace VocaluxeLib.Menu
         private string _Text = String.Empty;
         public string Text
         {
-            get { return _Theme.Text; }
+            get => _Theme.Text;
             set
             {
                 string translation = CBase.Language.Translate(value, _TranslationID);
@@ -186,14 +183,11 @@ namespace VocaluxeLib.Menu
                 }
             }
         }
-        public string TranslatedText
-        {
-            get { return _Text; }
-        }
+        public string TranslatedText => _Text;
 
         public int TranslationID
         {
-            get { return _TranslationID; }
+            get => _TranslationID;
             set
             {
                 if (_TranslationID != value)
@@ -208,7 +202,7 @@ namespace VocaluxeLib.Menu
         private bool _EditMode;
         public bool EditMode
         {
-            get { return _EditMode; }
+            get => _EditMode;
             set
             {
                 if (_EditMode != value)

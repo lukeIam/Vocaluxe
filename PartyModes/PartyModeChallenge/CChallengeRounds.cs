@@ -27,15 +27,9 @@ namespace VocaluxeLib.PartyModes.Challenge
     {
         private readonly List<CRound> _Rounds = new List<CRound>();
 
-        public int Count
-        {
-            get { return _Rounds.Count; }
-        }
+        public int Count => _Rounds.Count;
 
-        public CRound this[int index]
-        {
-            get { return _Rounds[index]; }
-        }
+        public CRound this[int index] => _Rounds[index];
 
         public CChallengeRounds(int numRounds, int numPlayer, int playersPerRound)
         {

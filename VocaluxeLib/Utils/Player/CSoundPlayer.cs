@@ -38,30 +38,18 @@ namespace VocaluxeLib.Utils.Player
                     return;
                 CBase.Sound.SetPosition(_StreamID, value);
             }
-            get { return !SoundLoaded ? -1 : CBase.Sound.GetPosition(_StreamID); }
+            get => !SoundLoaded ? -1 : CBase.Sound.GetPosition(_StreamID);
         }
 
-        public float Length
-        {
-            get { return !SoundLoaded ? -1 : CBase.Sound.GetLength(_StreamID); }
-        }
+        public float Length => !SoundLoaded ? -1 : CBase.Sound.GetLength(_StreamID);
 
         public bool IsPlaying { get; private set; }
 
-        public bool IsFinished
-        {
-            get { return !Loop && (CBase.Sound.IsFinished(_StreamID) || !IsPlaying); }
-        }
+        public bool IsFinished => !Loop && (CBase.Sound.IsFinished(_StreamID) || !IsPlaying);
 
-        public bool SoundLoaded
-        {
-            get { return _StreamID != -1; }
-        }
+        public bool SoundLoaded => _StreamID != -1;
 
-        public virtual string ArtistAndTitle
-        {
-            get { return string.IsNullOrEmpty(FilePath) ? "" : Path.GetFileNameWithoutExtension(FilePath); }
-        }
+        public virtual string ArtistAndTitle => string.IsNullOrEmpty(FilePath) ? "" : Path.GetFileNameWithoutExtension(FilePath);
 
         public CSoundPlayer(bool loop = false)
         {

@@ -28,14 +28,14 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    enum EDirection
+    internal enum EDirection
     {
         Left,
         Right,
         Up
     }
 
-    class CCreditTranslation
+    internal class CCreditTranslation
     {
         private readonly string _Language;
         private readonly List<CText> _Texts;
@@ -43,7 +43,7 @@ namespace Vocaluxe.Screens
 
         public float Y
         {
-            get { return _Texts[0].Y; }
+            get => _Texts[0].Y;
             set
             {
                 float diff = value - _Texts[0].Y;
@@ -54,7 +54,7 @@ namespace Vocaluxe.Screens
 
         public float Alpha
         {
-            get { return _Texts[0].Alpha; }
+            get => _Texts[0].Alpha;
             set
             {
                 foreach (CText t in _Texts)
@@ -101,7 +101,7 @@ namespace Vocaluxe.Screens
         }
     }
 
-    class CCreditName
+    internal class CCreditName
     {
         private readonly CStatic _Image;
         private readonly CStatic _ImgDot;
@@ -123,7 +123,7 @@ namespace Vocaluxe.Screens
 
         public float X
         {
-            get { return _Image.X; }
+            get => _Image.X;
             set
             {
                 _Image.X = value;
@@ -133,7 +133,7 @@ namespace Vocaluxe.Screens
         }
         public float Y
         {
-            get { return _Image.Rect.Y; }
+            get => _Image.Rect.Y;
             set
             {
                 _Image.Y = value;
@@ -142,19 +142,13 @@ namespace Vocaluxe.Screens
             }
         }
 
-        public float W
-        {
-            get { return _Image.Rect.W; }
-        }
+        public float W => _Image.Rect.W;
 
-        public float H
-        {
-            get { return _Image.Rect.H; }
-        }
+        public float H => _Image.Rect.H;
 
         public float Alpha
         {
-            get { return _Image.Alpha; }
+            get => _Image.Alpha;
             set
             {
                 _Image.Alpha = value;
@@ -170,17 +164,14 @@ namespace Vocaluxe.Screens
                 _ImgDot.Visible = value;
                 _Particle.Visible = value;
             }
-            get { return _Image.Visible; }
+            get => _Image.Visible;
         }
     }
 
     public class CScreenCredits : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion
-        {
-            get { return 1; }
-        }
+        protected override int _ScreenVersion => 1;
 
         private CStatic _Logo;
         private CParticleEffect _StarsRed;
@@ -215,10 +206,7 @@ namespace Vocaluxe.Screens
 
         private SThemeBackground _BGTheme;
 
-        public override EMusicType CurrentMusicType
-        {
-            get { return EMusicType.None; }
-        }
+        public override EMusicType CurrentMusicType => EMusicType.None;
 
         public override void Init()
         {

@@ -33,14 +33,8 @@ namespace VocaluxeLib.Songs
                 _Lines.Add(new CSongLine(line));
         }
 
-        public CSongLine[] Lines
-        {
-            get { return _Lines.ToArray(); }
-        }
-        public int NumLines
-        {
-            get { return _Lines.Count; }
-        }
+        public CSongLine[] Lines => _Lines.ToArray();
+        public int NumLines => _Lines.Count;
 
         /// <summary>
         ///     Total song length in beats

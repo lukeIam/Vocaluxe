@@ -16,6 +16,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Linq;
 using Vocaluxe.Base.Server;
 using Vocaluxe.Lib.Input;
 using Vocaluxe.Lib.Input.WiiMote;
@@ -23,7 +24,7 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Base
 {
-    static class CController
+    internal static class CController
     {
         private static List<IController> _Controller;
 
@@ -73,8 +74,7 @@ namespace Vocaluxe.Base
 
         public static bool IsConnected()
         {
-            //return _Controller.IsConnected();
-            return false; //should be changed
+            return _Controller.Any(c => c.IsConnected());
         }
 
         public static void Update()

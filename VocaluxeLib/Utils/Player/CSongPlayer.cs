@@ -31,7 +31,7 @@ namespace VocaluxeLib.Utils.Player
 
         public bool VideoEnabled
         {
-            get { return _VideoEnabled; }
+            get => _VideoEnabled;
             set
             {
                 if (_VideoEnabled == value)
@@ -44,19 +44,10 @@ namespace VocaluxeLib.Utils.Player
             }
         }
 
-        public int SongID
-        {
-            get { return _Song == null ? -1 : _Song.ID; }
-        }
+        public int SongID => _Song == null ? -1 : _Song.ID;
 
-        public bool SongHasVideo
-        {
-            get
-            {
-                return _Song != null && !String.IsNullOrEmpty(_Song.Folder) && !String.IsNullOrEmpty(_Song.VideoFileName) &&
-                       File.Exists(Path.Combine(_Song.Folder, _Song.VideoFileName));
-            }
-        }
+        public bool SongHasVideo => _Song != null && !String.IsNullOrEmpty(_Song.Folder) && !String.IsNullOrEmpty(_Song.VideoFileName) &&
+                                    File.Exists(Path.Combine(_Song.Folder, _Song.VideoFileName));
 
         public override string ArtistAndTitle
         {
@@ -68,10 +59,7 @@ namespace VocaluxeLib.Utils.Player
             }
         }
 
-        public CTextureRef Cover
-        {
-            get { return _Song == null ? CBase.Cover.GetNoCover() : _Song.CoverTextureBig; }
-        }
+        public CTextureRef Cover => _Song == null ? CBase.Cover.GetNoCover() : _Song.CoverTextureBig;
 
         public CSongPlayer(bool loop = false) : base(loop) {}
 

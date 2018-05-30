@@ -25,10 +25,7 @@ namespace VocaluxeLib.Xml
         private readonly FieldInfo _Field;
         private readonly PropertyInfo _Property;
 
-        public Type Type
-        {
-            get { return _Field != null ? _Field.FieldType : _Property.PropertyType; }
-        }
+        public Type Type => _Field != null ? _Field.FieldType : _Property.PropertyType;
         public string Name;
         public string AltName;
         public object DefaultValue;

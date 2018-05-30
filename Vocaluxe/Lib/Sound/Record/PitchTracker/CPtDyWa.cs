@@ -23,7 +23,7 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
     /// <summary>
     ///     Pitchtracker (Pt) that uses a dynamic wavelet (DyWa) algorithm
     /// </summary>
-    class CPtDyWa : CPitchTracker
+    internal class CPtDyWa : CPitchTracker
     {
         #region Imports
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -71,8 +71,8 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
 
         public override float VolumeTreshold
         {
-            get { return PtDyWa_GetVolumeThreshold(_Instance); }
-            set { PtDyWa_SetVolumeThreshold(_Instance, value); }
+            get => PtDyWa_GetVolumeThreshold(_Instance);
+            set => PtDyWa_SetVolumeThreshold(_Instance, value);
         }
 
         protected override void _Dispose(bool disposing)

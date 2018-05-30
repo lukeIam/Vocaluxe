@@ -26,7 +26,7 @@ using VocaluxeLib.Utils.Player;
 
 namespace Vocaluxe.Base
 {
-    static class CBackgroundMusic
+    internal static class CBackgroundMusic
     {
         private static bool _Initialized;
 
@@ -55,8 +55,8 @@ namespace Vocaluxe.Base
 
         public static bool VideoEnabled
         {
-            get { return _CurPlayer.VideoEnabled; }
-            set { _CurPlayer.VideoEnabled = value; }
+            get => _CurPlayer.VideoEnabled;
+            set => _CurPlayer.VideoEnabled = value;
         }
 
         public static bool CanSing
@@ -71,7 +71,7 @@ namespace Vocaluxe.Base
 
         public static bool Disabled
         {
-            get { return _Disabled; }
+            get => _Disabled;
             set
             {
                 if (Disabled == value)
@@ -89,28 +89,19 @@ namespace Vocaluxe.Base
         /// </summary>
         public static bool RepeatSong
         {
-            get { return _BGPlayer.Loop; }
-            set { _BGPlayer.Loop = value; }
+            get => _BGPlayer.Loop;
+            set => _BGPlayer.Loop = value;
         }
 
-        public static int SongID
-        {
-            get { return _CurPlayer.SongID; }
-        }
+        public static int SongID => _CurPlayer.SongID;
 
-        public static bool SongHasVideo
-        {
-            get { return _CurPlayer.SongHasVideo; }
-        }
+        public static bool SongHasVideo => _CurPlayer.SongHasVideo;
 
-        public static bool IsPlaying
-        {
-            get { return _CurPlayer.IsPlaying; }
-        }
+        public static bool IsPlaying => _CurPlayer.IsPlaying;
 
         public static bool IsPlayingPreview
         {
-            get { return _CurPlayer == _PreviewPlayer; }
+            get => _CurPlayer == _PreviewPlayer;
             set
             {
                 if (IsPlayingPreview == value)
@@ -121,25 +112,16 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static string ArtistAndTitle
-        {
-            get { return _CurPlayer.ArtistAndTitle; }
-        }
+        public static string ArtistAndTitle => _CurPlayer.ArtistAndTitle;
 
-        public static float Length
-        {
-            get { return _CurPlayer.Length; }
-        }
+        public static float Length => _CurPlayer.Length;
 
-        public static CTextureRef Cover
-        {
-            get { return _CurPlayer.Cover; }
-        }
+        public static CTextureRef Cover => _CurPlayer.Cover;
 
         //Use this to set whether own songs are available for access
         public static bool OwnSongsAvailable
         {
-            get { return _OwnSongsAvailable; }
+            get => _OwnSongsAvailable;
             set
             {
                 _OwnSongsAvailable = value;
@@ -347,25 +329,22 @@ namespace Vocaluxe.Base
             }
             else
             {
-                if (_PreviewStartHelperTask != null)
+                lock (_PreviewStartHelperTaskLock)
                 {
-                    lock (_PreviewStartHelperTaskLock)
+                    // Recheck the condition as it cloud have change before we got the lock
+                    #pragma warning disable S3440 // Variables should not be checked against the values they're about to be assigned
+                    // ReSharper disable once RedundantCheckBeforeAssignment
+                    if (_PreviewStartHelperTask != null)
+                    #pragma warning restore S3440 // Variables should not be checked against the values they're about to be assigned
                     {
-                        // Recheck the condition as it cloud have change before we got the lock
-                        if (_PreviewStartHelperTask != null)
-                        {
-                            _PreviewStartHelperTask = null;
-                        }
+                        _PreviewStartHelperTask = null;
                     }
                 }
+
                 _PreviewPlayer.Position = _CurPlayer.Position;
                 _CurPlayer = _PreviewPlayer;
                 Play();
             }
-
-            
-
-            
         }
 
         public static void StopPreview()

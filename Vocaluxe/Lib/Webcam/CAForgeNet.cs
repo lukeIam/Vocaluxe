@@ -27,7 +27,7 @@ using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Webcam
 {
-    class CAForgeNet : IWebcam
+    internal class CAForgeNet : IWebcam
     {
         private readonly List<SWebcamDevice> _Devices = new List<SWebcamDevice>();
         private bool _Paused;
@@ -122,7 +122,7 @@ namespace Vocaluxe.Lib.Webcam
         }
         #endregion
 
-        public bool Select(SWebcamConfig config)
+        public bool Select(SWebcamConfig webcamConfig)
         {
             //Close old camera connection
             DeSelect();
@@ -131,11 +131,11 @@ namespace Vocaluxe.Lib.Webcam
                 return false;
 
             string moniker = _Devices[0].MonikerString;
-            if (config.MonikerString != "")
+            if (webcamConfig.MonikerString != "")
             {
                 foreach (SWebcamDevice device in _Devices)
                 {
-                    if (device.MonikerString == config.MonikerString)
+                    if (device.MonikerString == webcamConfig.MonikerString)
                     {
                         moniker = device.MonikerString;
                         break;
@@ -144,7 +144,7 @@ namespace Vocaluxe.Lib.Webcam
             }
             _Webcam = new VideoCaptureDevice(moniker);
 
-            _Webcam.VideoResolution = _SelectWebcamConfig(_Webcam.VideoCapabilities, config);
+            _Webcam.VideoResolution = _SelectWebcamConfig(_Webcam.VideoCapabilities, webcamConfig);
 
             _Config.Framerate = _Webcam.VideoResolution.AverageFrameRate;
             _Config.Height = _Webcam.VideoResolution.FrameSize.Height;

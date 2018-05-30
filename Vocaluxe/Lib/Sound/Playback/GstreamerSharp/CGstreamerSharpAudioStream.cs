@@ -24,7 +24,7 @@ using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 {
-    class CGstreamerSharpAudioStream : CAudioStreamBase
+    internal class CGstreamerSharpAudioStream : CAudioStreamBase
     {
         private Element _Element;
         private bool _FileOpened;
@@ -37,7 +37,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 
         public override float Volume
         {
-            get { return base.Volume; }
+            get => base.Volume;
             set
             {
                 base.Volume = value;
@@ -47,7 +47,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 
         public override float VolumeMax
         {
-            get { return base.VolumeMax; }
+            get => base.VolumeMax;
             set
             {
                 base.VolumeMax = value;
@@ -94,14 +94,11 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             }
         }
 
-        public override bool IsFinished
-        {
-            get { return _Element == null || _IsFinished; }
-        }
+        public override bool IsFinished => _Element == null || _IsFinished;
 
         public override bool IsPaused
         {
-            get { return _Element == null || _Element.TargetState == State.Paused; }
+            get => _Element == null || _Element.TargetState == State.Paused;
             set
             {
                 if (_Element != null)

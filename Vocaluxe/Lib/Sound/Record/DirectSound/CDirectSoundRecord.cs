@@ -21,7 +21,7 @@ using SlimDX.DirectSound;
 
 namespace Vocaluxe.Lib.Sound.Record.DirectSound
 {
-    class CDirectSoundRecord : CRecordBase, IRecord
+    internal class CDirectSoundRecord : CRecordBase, IRecord
     {
         private bool _Initialized;
 

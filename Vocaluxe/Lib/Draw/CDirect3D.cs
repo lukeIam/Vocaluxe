@@ -32,7 +32,7 @@ using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Draw
 {
-    class CRenderFormHook : RenderForm, IFormHook
+    internal class CRenderFormHook : RenderForm, IFormHook
     {
         public MessageEventHandler OnMessage { private get; set; }
 
@@ -43,7 +43,7 @@ namespace Vocaluxe.Lib.Draw
         }
     }
 
-    class CD3DTexture : CTextureBase
+    internal class CD3DTexture : CTextureBase
     {
         public readonly Texture D3DTexture;
 
@@ -54,10 +54,7 @@ namespace Vocaluxe.Lib.Draw
             D3DTexture = device == null ? null : new Texture(device, texWidth, texHeight, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
         }
 
-        public override bool IsLoaded
-        {
-            get { return D3DTexture != null; }
-        }
+        public override bool IsLoaded => D3DTexture != null;
 
         public override void Dispose()
         {
@@ -67,7 +64,7 @@ namespace Vocaluxe.Lib.Draw
         }
     }
 
-    class CDirect3D : CDrawBaseWindows<CD3DTexture>, IDraw
+    internal class CDirect3D : CDrawBaseWindows<CD3DTexture>, IDraw
     {
         private readonly Direct3D _D3D;
         private readonly Device _Device;

@@ -19,7 +19,7 @@ using System;
 
 namespace Vocaluxe.Base
 {
-    class CObservable
+    internal class CObservable
     {
         public event EventHandler ObjectChanged = delegate { };
         protected bool _Changed = true;

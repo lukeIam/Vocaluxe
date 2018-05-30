@@ -127,17 +127,14 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public bool ThemeLoaded { get; private set; }
 
-        public bool Selectable
-        {
-            get { return Visible; }
-        }
+        public bool Selectable => Visible;
 
         protected bool _Initialized;
 
         private int _PreviewNrInternal = -1;
         protected virtual int _PreviewNr
         {
-            get { return _PreviewNrInternal; }
+            get => _PreviewNrInternal;
             set
             {
                 if (_PreviewNrInternal == value)
@@ -162,10 +159,7 @@ namespace VocaluxeLib.Menu.SongMenu
         protected System.Timers.Timer _AutoplayTimer = new System.Timers.Timer();
 
         private SColorF _ColorInternal;
-        protected SColorF _Color
-        {
-            get { return _ColorInternal; }
-        }
+        protected SColorF _Color => _ColorInternal;
 
         public int GetPreviewSong()
         {

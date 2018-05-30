@@ -30,10 +30,7 @@ namespace Vocaluxe.Screens
     public class CScreenHighscore : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion
-        {
-            get { return 2; }
-        }
+        protected override int _ScreenVersion => 2;
 
         private const int _NumEntrys = 10;
         private const string _TextSongName = "TextSongName";
@@ -50,10 +47,7 @@ namespace Vocaluxe.Screens
         private int _Pos;
         private bool _IsDuet;
 
-        public override EMusicType CurrentMusicType
-        {
-            get { return EMusicType.BackgroundPreview; }
-        }
+        public override EMusicType CurrentMusicType => EMusicType.BackgroundPreview;
 
         public override void Init()
         {

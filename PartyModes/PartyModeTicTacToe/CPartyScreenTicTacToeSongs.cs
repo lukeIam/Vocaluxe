@@ -20,12 +20,9 @@ using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes.TicTacToe
 {
-    class CPartyScreenTicTacToeSongs : CMenuPartySongSelection
+    internal class CPartyScreenTicTacToeSongs : CMenuPartySongSelection
     {
-        protected override int _ScreenVersion
-        {
-            get { return 1; }
-        }
+        protected override int _ScreenVersion => 1;
 
         private new CPartyModeTicTacToe _PartyMode;
 

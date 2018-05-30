@@ -26,7 +26,7 @@ using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 {
-    class CPortAudioStream : CAudioStreamBase
+    internal class CPortAudioStream : CAudioStreamBase
     {
         private const int _Bufsize = 1000000;
         private const int _BeginRefill = 800000;
@@ -96,7 +96,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 
         public override bool IsPaused
         {
-            get { return _Paused; }
+            get => _Paused;
             set
             {
                 if (_Paused == value)

@@ -20,7 +20,7 @@ using System;
 namespace Vocaluxe.Base.Server
 {
     [Flags]
-    enum EUserRoles
+    internal enum EUserRoles
     {
         // ReSharper disable InconsistentNaming
         TR_USERROLE_GUEST = 0,

@@ -51,10 +51,7 @@ namespace VocaluxeLib.Songs
         #region Properties
         public new double Points;
         // for drawing player notes
-        public bool Hit
-        {
-            get { return HitNote != null; }
-        }
+        public bool Hit => HitNote != null;
         public CSongNote HitNote { get; private set; }
         // for drawing perfect note effect
         public bool Perfect { get; set; }
@@ -76,9 +73,6 @@ namespace VocaluxeLib.Songs
         }
         #endregion Methods
 
-        public override int PointsForBeat
-        {
-            get { return (HitNote == null) ? 0 : HitNote.PointsForBeat; }
-        }
+        public override int PointsForBeat => (HitNote == null) ? 0 : HitNote.PointsForBeat;
     }
 }

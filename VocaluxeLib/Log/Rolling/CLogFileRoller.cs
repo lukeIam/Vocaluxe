@@ -22,7 +22,7 @@ using System.Text.RegularExpressions;
 
 namespace VocaluxeLib.Log.Rolling
 {
-    static class CLogFileRoller
+    internal static class CLogFileRoller
     {
         public static void RollLogs(string mainLogFile, int numLogsToKeep)
         {

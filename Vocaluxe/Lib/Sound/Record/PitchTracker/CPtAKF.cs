@@ -24,7 +24,7 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
     ///     Pitchtracker (Pt) that uses autocorrelation (AKF) and AMDF
     ///     Quite fast and perfect in artificial tests, but may fail in real world scenarios (e.g. missing fundamental)
     /// </summary>
-    class CPtAKF : CPitchTracker
+    internal class CPtAKF : CPitchTracker
     {
         #region Imports
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -63,8 +63,8 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
 
         public override float VolumeTreshold
         {
-            get { return PtAKF_GetVolumeThreshold(_Instance); }
-            set { PtAKF_SetVolumeThreshold(_Instance, value); }
+            get => PtAKF_GetVolumeThreshold(_Instance);
+            set => PtAKF_SetVolumeThreshold(_Instance, value);
         }
 
         public override void Input(byte[] data)

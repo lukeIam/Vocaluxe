@@ -6,12 +6,9 @@ using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes.Challenge
 {
-    class CPartyScreenChallengeSongs : CMenuPartySongSelection
+    internal class CPartyScreenChallengeSongs : CMenuPartySongSelection
     {
-        protected override int _ScreenVersion
-        {
-            get { return 1; }
-        }
+        protected override int _ScreenVersion => 1;
 
         private new CPartyModeChallenge _PartyMode;
 

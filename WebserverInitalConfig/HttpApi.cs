@@ -26,7 +26,7 @@ using System.Security.Cryptography.X509Certificates;
 namespace WebserverInitalConfig
 {
     // ReSharper disable InconsistentNaming
-    static class HttpApi
+    internal static class HttpApi
     {
         private static readonly HTTPAPI_VERSION HttpApiVersion = new HTTPAPI_VERSION(1, 0);
 

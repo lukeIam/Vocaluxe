@@ -30,7 +30,7 @@ using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {
-    static class CParty
+    internal static class CParty
     {
         private const int _PartyModeSystemVersion = 2;
 
@@ -61,7 +61,7 @@ namespace Vocaluxe.Base
 
         public static int CurrentPartyModeID
         {
-            get { return _CurrentPartyMode.ID; }
+            get => _CurrentPartyMode.ID;
             set
             {
                 if (_CurrentPartyMode.ID == value) {
@@ -81,10 +81,7 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static int Count
-        {
-            get { return _PartyModes.Count; }
-        }
+        public static int Count => _PartyModes.Count;
 
         public static void ReloadTheme()
         {

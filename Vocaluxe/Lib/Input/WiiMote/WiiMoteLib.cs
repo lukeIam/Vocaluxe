@@ -194,7 +194,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
         private bool _Connected;
         public bool Connected
         {
-            get { return _Connected; }
+            get => _Connected;
             private set
             {
                 _Connected = value;
@@ -539,10 +539,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 _ReadDone.Set();
         }
 
-        private byte _RumbleBit
-        {
-            get { return (byte)(_WiiMoteState.Rumble ? 1 : 0); }
-        }
+        private byte _RumbleBit => (byte)(_WiiMoteState.Rumble ? 1 : 0);
 
         private bool _ReadCalibration()
         {

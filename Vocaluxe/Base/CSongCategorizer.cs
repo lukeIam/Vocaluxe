@@ -23,7 +23,7 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Base
 {
-    class CSongCategorizer : CObservable
+    internal class CSongCategorizer : CObservable
     {
         private readonly List<CCategory> _Categories = new List<CCategory>();
         private EOffOn _Tabs = CConfig.Config.Game.Tabs;
@@ -44,7 +44,7 @@ namespace Vocaluxe.Base
 
         public EOffOn Tabs
         {
-            get { return _Tabs; }
+            get => _Tabs;
             set
             {
                 if (value == _Tabs)

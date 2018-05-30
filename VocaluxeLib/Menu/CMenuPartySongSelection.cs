@@ -38,7 +38,7 @@ namespace VocaluxeLib.Menu
         protected int Playlist;
         protected EGameMode SongMode
         {
-            get { return AllowedSongModes[_SongMode]; }
+            get => AllowedSongModes[_SongMode];
             set
             {
                 _SongMode = 0;
@@ -56,7 +56,7 @@ namespace VocaluxeLib.Menu
 
         protected ESongSource Source
         {
-            get { return AllowedSongSources[_Source]; }
+            get => AllowedSongSources[_Source];
             set
             {
                 _Source = 0;
@@ -74,7 +74,7 @@ namespace VocaluxeLib.Menu
 
         protected ESongSorting Sorting
         {
-            get { return AllowedSongSorting[_Sorting]; }
+            get => AllowedSongSorting[_Sorting];
             set
             {
                 _Sorting = 0;

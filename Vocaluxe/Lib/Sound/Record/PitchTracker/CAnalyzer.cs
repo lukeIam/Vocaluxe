@@ -24,7 +24,7 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
     ///     Analyzer from Performous
     ///     Should be very reliable but needs some proof (artificial tests show some errors)
     /// </summary>
-    class CAnalyzer : CPitchTracker
+    internal class CAnalyzer : CPitchTracker
     {
         #region Imports
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -100,8 +100,8 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
 
         public override float VolumeTreshold
         {
-            get { return _VolumeTreshold; }
-            set { _VolumeTreshold = value; }
+            get => _VolumeTreshold;
+            set => _VolumeTreshold = value;
         }
     }
 }

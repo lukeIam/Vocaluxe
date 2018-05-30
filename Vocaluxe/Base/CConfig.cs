@@ -33,13 +33,13 @@ using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {
-    static class CConfig
+    internal static class CConfig
     {
         private static bool _Initialized;
 
         // Base file and folder names (formerly from CSettings but they can be changed)
-        public static string FolderPlaylists = Path.Combine(CSettings.DataFolder, "Playlists");
-        public static string FileHighscoreDB = Path.Combine(CSettings.DataFolder, "HighscoreDB.sqlite");
+        public static string FolderPlaylists { get; private set; } = Path.Combine(CSettings.DataFolder, "Playlists");
+        public static string FileHighscoreDB { get; private set; } = Path.Combine(CSettings.DataFolder, "HighscoreDB.sqlite");
         private static string _FileConfig = Path.Combine(CSettings.DataFolder, "Config.xml");
 
         // ReSharper disable UnassignedField.Global
@@ -238,8 +238,8 @@ namespace Vocaluxe.Base
 
         //Folders
         //We need full path for folders for matching folder path with textfile path when loading
-        public static readonly List<string> SongFolders = new List<string>
-            {
+        private static readonly List<string> _SongFolders = new List<string>
+        {
 #if INSTALLER
             Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs),
             Path.Combine(CSettings.ProgramFolder, FolderNameSongs)
@@ -248,13 +248,16 @@ namespace Vocaluxe.Base
 #elif LINUX
             Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs)
 #endif
-            };
+        };
+
+        public static ReadOnlyCollection<string> SongFolders => _SongFolders.AsReadOnly();
+
         /// <summary>
         ///     Folders with profiles
         ///     First one is used for new profiles
         /// </summary>
-        public static readonly List<string> ProfileFolders = new List<string>
-            {
+        private static readonly List<string> _ProfileFolders = new List<string>
+        {
 #if INSTALLER
             Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles),
             CSettings.FolderNameProfiles
@@ -264,6 +267,8 @@ namespace Vocaluxe.Base
             Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles)
 #endif
         };
+
+        public static ReadOnlyCollection<string> ProfileFolders => _ProfileFolders.AsReadOnly();
 
         //Lists to save parameters and values
         private static readonly List<string> _Params = new List<string>();
@@ -308,7 +313,7 @@ namespace Vocaluxe.Base
 
         public static int BackgroundMusicVolume
         {
-            get { return Config.Sound.BackgroundMusicVolume; }
+            get => Config.Sound.BackgroundMusicVolume;
             set
             {
                 Config.Sound.BackgroundMusicVolume = value.Clamp(0, 100);
@@ -318,7 +323,7 @@ namespace Vocaluxe.Base
 
         public static int GameMusicVolume
         {
-            get { return Config.Sound.GameMusicVolume; }
+            get => Config.Sound.GameMusicVolume;
             set
             {
                 Config.Sound.GameMusicVolume = value.Clamp(0, 100);
@@ -328,7 +333,7 @@ namespace Vocaluxe.Base
 
         public static int PreviewMusicVolume
         {
-            get { return Config.Sound.PreviewMusicVolume; }
+            get => Config.Sound.PreviewMusicVolume;
             set
             {
                 Config.Sound.PreviewMusicVolume = value.Clamp(0, 100);
@@ -338,7 +343,7 @@ namespace Vocaluxe.Base
 
         public static ESongMenu SongMenu
         {
-            get { return Config.Game.SongMenu; }
+            get => Config.Game.SongMenu;
             set
             {
                 if (Config.Game.SongMenu == value)
@@ -362,21 +367,18 @@ namespace Vocaluxe.Base
             _Initialized = true;
         }
 
-        private static bool _XmlErrorsOccured;
-
-        private static void _HandleXmlError(CXmlException e)
-        {
-            _XmlErrorsOccured = true;
-        }
-
         private static void _LoadConfig()
         {
-            _XmlErrorsOccured = false;
-            var xml = new CXmlDeserializer(new CXmlErrorHandler(_HandleXmlError));
+            bool xmlErrorsOccured = false;
+            var xml = new CXmlDeserializer(new CXmlErrorHandler(ex =>
+            {
+                xmlErrorsOccured = true;
+            }));
+
             if (File.Exists(_FileConfig))
             {
                 Config = xml.Deserialize<SConfig>(_FileConfig);
-                if (_XmlErrorsOccured)
+                if (xmlErrorsOccured)
                     CLog.Error("There were some warnings or errors loading the config file. Some values might have been reset to their defaults.");
             }
             else
@@ -395,8 +397,7 @@ namespace Vocaluxe.Base
                 Config.Graphics.NumScreens = 1;
 
             bool langExists = CLanguage.SetLanguage(Config.Game.Language);
-
-            if (langExists == false)
+            if (!langExists)
             {
                 Config.Game.Language = CSettings.FallbackLanguage;
                 CLanguage.SetLanguage(Config.Game.Language);
@@ -613,12 +614,11 @@ namespace Vocaluxe.Base
         }
 
         /// <summary>
-        ///     Try to assign automatically player 1 and 2 to usb-mics.
+        /// Try to assign automatically player 1 and 2 to usb-mics.
         /// </summary>
         public static bool AutoAssignMics()
         {
             //Look for (usb-)mic
-            //SRecordDevice[] Devices = new SRecordDevice[CRecord.RecordGetDevices().Length];
             ReadOnlyCollection<CRecordDevice> devices = CRecord.GetDevices();
             if (devices == null)
                 return false;
@@ -626,47 +626,39 @@ namespace Vocaluxe.Base
             foreach (CRecordDevice device in devices)
             {
                 //Has Device some signal-names in name -> This could be a (usb-)mic
-                if (Regex.IsMatch(device.Name, "Usb|Wireless", RegexOptions.IgnoreCase))
+                if (!Regex.IsMatch(device.Name, "Usb|Wireless", RegexOptions.IgnoreCase) || device.Channels < 2)
+                    continue;
+
+                //Set this device to player 1
+                Config.Record.MicConfig[0].DeviceName = device.Name;
+                Config.Record.MicConfig[0].DeviceDriver = device.Driver;
+                Config.Record.MicConfig[0].Channel = 1;
+                //Set this device to player 2
+                Config.Record.MicConfig[1].DeviceName = device.Name;
+                Config.Record.MicConfig[1].DeviceDriver = device.Driver;
+                Config.Record.MicConfig[1].Channel = 2;
+
+                return true;
+            }
+            //If no usb-mics found -> Look for Devices with "mic" or "mik" 
+            foreach (CRecordDevice device in devices)
+            {
+                //Has Device some signal-names in name -> This could be a mic
+                if (Regex.IsMatch(device.Name, "Mic|Mik", RegexOptions.IgnoreCase) && device.Channels >= 1)
                 {
-                    //Check if there is one or more channels
+                    //Set this device to player 1
+                    Config.Record.MicConfig[0].DeviceName = device.Name;
+                    Config.Record.MicConfig[0].DeviceDriver = device.Driver;
+                    Config.Record.MicConfig[0].Channel = 1;
+
                     if (device.Channels >= 2)
                     {
-                        //Set this device to player 1
-                        Config.Record.MicConfig[0].DeviceName = device.Name;
-                        Config.Record.MicConfig[0].DeviceDriver = device.Driver;
-                        Config.Record.MicConfig[0].Channel = 1;
                         //Set this device to player 2
                         Config.Record.MicConfig[1].DeviceName = device.Name;
                         Config.Record.MicConfig[1].DeviceDriver = device.Driver;
                         Config.Record.MicConfig[1].Channel = 2;
 
                         return true;
-                    }
-                }
-            }
-            //If no usb-mics found -> Look for Devices with "mic" or "mik" 
-            foreach (CRecordDevice device in devices)
-            {
-                //Has Device some signal-names in name -> This could be a mic
-                if (Regex.IsMatch(device.Name, "Mic|Mik", RegexOptions.IgnoreCase))
-                {
-                    //Check if there is one or more channels
-                    if (device.Channels >= 1)
-                    {
-                        //Set this device to player 1
-                        Config.Record.MicConfig[0].DeviceName = device.Name;
-                        Config.Record.MicConfig[0].DeviceDriver = device.Driver;
-                        Config.Record.MicConfig[0].Channel = 1;
-
-                        if (device.Channels >= 2)
-                        {
-                            //Set this device to player 2
-                            Config.Record.MicConfig[1].DeviceName = device.Name;
-                            Config.Record.MicConfig[1].DeviceDriver = device.Driver;
-                            Config.Record.MicConfig[1].Channel = 2;
-
-                            return true;
-                        }
                     }
                 }
             }
@@ -682,19 +674,19 @@ namespace Vocaluxe.Base
             //Check if there are configured songfolders
             if (Config.Game.SongFolder.Length > 0 && Config.Game.SongFolder[0] != "")
             {
-                SongFolders.Clear();
+                _SongFolders.Clear();
 
                 foreach (string folder in Config.Game.SongFolder)
                 {
                     //Check if folder exists
                     if (Directory.Exists(folder))
-                        SongFolders.Add(folder);
+                        _SongFolders.Add(folder);
                 }
             }
             
             //Test if songfolders are still empty or now empty
             if(Config.Game.SongFolder.Length == 0)
-                Config.Game.SongFolder = SongFolders.ToArray();
+                Config.Game.SongFolder = _SongFolders.ToArray();
         }
 
         /// <summary>
@@ -779,8 +771,8 @@ namespace Vocaluxe.Base
                         break;
 
                     case "profilefolder":
-                        ProfileFolders.Clear();
-                        ProfileFolders.Add(value);
+                        _ProfileFolders.Clear();
+                        _ProfileFolders.Add(value);
                         break;
                 }
             }
@@ -808,11 +800,11 @@ namespace Vocaluxe.Base
                     case "songpath":
                         if (!songFoldersOverwritten)
                         {
-                            SongFolders.Clear();
+                            _SongFolders.Clear();
                             songFoldersOverwritten = true;
                         }
                         if (!SongFolders.Contains(value))
-                            SongFolders.Add(value);
+                            _SongFolders.Add(value);
                         break;
                 }
             }

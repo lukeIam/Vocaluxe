@@ -54,13 +54,10 @@ namespace VocaluxeLib.Menu
 
         private CVideoStream _VideoStream;
 
-        public bool Selectable
-        {
-            get { return false; }
-        }
+        public bool Selectable => false;
 
-        public SColorF Color;
-        public bool ThemeLoaded { get; private set; }
+        private SColorF _Color;
+        public bool ThemeLoaded { get; }
 
         public string GetThemeName()
         {
@@ -74,7 +71,7 @@ namespace VocaluxeLib.Menu
             ThemeLoaded = false;
             _Theme = new SThemeBackground {SlideShowTextures = new List<string>()};
 
-            Color = new SColorF(0f, 0f, 0f, 1f);
+            _Color = new SColorF(0f, 0f, 0f, 1f);
         }
 
         public CBackground(SThemeBackground theme, int partyModeID)
@@ -139,7 +136,7 @@ namespace VocaluxeLib.Menu
         {
             if (!ThemeLoaded)
                 return;
-            _Theme.Color.Get(_PartyModeID, out Color);
+            _Theme.Color.Get(_PartyModeID, out _Color);
 
             if (_Theme.Type == EBackgroundTypes.SlideShow)
             {
@@ -185,30 +182,15 @@ namespace VocaluxeLib.Menu
         #endregion public
 
         #region internal
-        public override float X
-        {
-            get { return 0; }
-        }
-        public override float Y
-        {
-            get { return 0; }
-        }
-        public override float Z
-        {
-            get { return CBase.Settings.GetZFar() / 4; }
-        }
-        public override float W
-        {
-            get { return CBase.Settings.GetRenderW(); }
-        }
-        public override float H
-        {
-            get { return CBase.Settings.GetRenderH(); }
-        }
+        public override float X => 0;
+        public override float Y => 0;
+        public override float Z => CBase.Settings.GetZFar() / 4;
+        public override float W => CBase.Settings.GetRenderW();
+        public override float H => CBase.Settings.GetRenderH();
 
         private void _DrawColor()
         {
-            CBase.Drawing.DrawRect(Color, Rect);
+            CBase.Drawing.DrawRect(_Color, Rect);
         }
 
         private bool _DrawTexture()
@@ -298,9 +280,17 @@ namespace VocaluxeLib.Menu
         #endregion internal
 
         #region ThemeEdit
-        public void MoveElement(int stepX, int stepY) {}
+        public void MoveElement(int stepX, int stepY)
+        {
+            // Background can't be moved
+            // TODO: Fix Refused Bequest
+        }
 
-        public void ResizeElement(int stepW, int stepH) {}
+        public void ResizeElement(int stepW, int stepH)
+        {
+            // Background can't be moved
+            // TODO: Fix Refused Bequest
+        }
         #endregion ThemeEdit
     }
 }

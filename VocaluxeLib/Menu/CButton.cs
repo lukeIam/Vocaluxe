@@ -25,7 +25,6 @@ namespace VocaluxeLib.Menu
     public struct SThemeButton
     {
         [XmlAttribute(AttributeName = "Name")] public string Name;
-
         public string Skin;
         public string SkinSelected;
         public SRectF Rect;
@@ -42,12 +41,22 @@ namespace VocaluxeLib.Menu
         private SThemeButton _Theme;
         private readonly int _PartyModeID;
 
-        public CTextureRef Texture;
-        public CTextureRef SelTexture;
-        public SColorF Color;
-        public SColorF SelColor;
+        public CTextureRef Texture { get; set; }
+        private readonly CTextureRef _SelTexture;
+        private SColorF _Color;
+        public SColorF Color
+        {
+            get => _Color;
+            set => _Color = value;
+        }
+        private SColorF _SelColor;
+        public SColorF SelColor
+        {
+            get => _SelColor;
+            set => _SelColor = value;
+        }
 
-        public CText Text;
+        public CText Text { get; set; }
         private CText _SelText;
 
         private bool _Reflection;
@@ -58,11 +67,11 @@ namespace VocaluxeLib.Menu
         private float _SelReflectionSpace;
         private float _SelReflectionHeight;
 
-        public bool Pressed;
+        public bool Pressed { get; set; }
 
         public bool EditMode
         {
-            get { return Text.EditMode; }
+            get => Text.EditMode;
             set
             {
                 Text.EditMode = value;
@@ -73,6 +82,7 @@ namespace VocaluxeLib.Menu
 
         public override bool Selected
         {
+            get => base.Selected;
             set
             {
                 base.Selected = value;
@@ -83,7 +93,7 @@ namespace VocaluxeLib.Menu
 
         public bool Selectable
         {
-            get { return _Selectable && Visible; }
+            get => _Selectable && Visible;
             set
             {
                 _Selectable = value;
@@ -133,9 +143,9 @@ namespace VocaluxeLib.Menu
 
             MaxRect = button.MaxRect;
             Color = button.Color;
-            SelColor = button.SelColor;
+            _SelColor = button._SelColor;
             Texture = button.Texture;
-            SelTexture = button.SelTexture;
+            _SelTexture = button._SelTexture;
 
             Text = new CText(button.Text);
             _SelText = _SelText == null ? null : new CText(button._SelText);
@@ -184,13 +194,13 @@ namespace VocaluxeLib.Menu
             }
             else if (_SelText == null)
             {
-                texture = SelTexture ?? CBase.Themes.GetSkinTexture(_Theme.SkinSelected, _PartyModeID);
+                texture = _SelTexture ?? CBase.Themes.GetSkinTexture(_Theme.SkinSelected, _PartyModeID);
 
-                CBase.Drawing.DrawTexture(texture, Rect, SelColor);
+                CBase.Drawing.DrawTexture(texture, Rect, _SelColor);
 
                 if (_Reflection)
                 {
-                    CBase.Drawing.DrawTextureReflection(texture, Rect, SelColor, Rect, _ReflectionSpace, _ReflectionHeight);
+                    CBase.Drawing.DrawTextureReflection(texture, Rect, _SelColor, Rect, _ReflectionSpace, _ReflectionHeight);
                     Text.DrawRelative(Rect.X, Rect.Y, _ReflectionHeight, _ReflectionSpace, Rect.H);
                 }
                 else
@@ -198,13 +208,13 @@ namespace VocaluxeLib.Menu
             }
             else
             {
-                texture = SelTexture ?? CBase.Themes.GetSkinTexture(_Theme.SkinSelected, _PartyModeID);
+                texture = _SelTexture ?? CBase.Themes.GetSkinTexture(_Theme.SkinSelected, _PartyModeID);
 
-                CBase.Drawing.DrawTexture(texture, Rect, SelColor);
+                CBase.Drawing.DrawTexture(texture, Rect, _SelColor);
 
                 if (_Reflection)
                 {
-                    CBase.Drawing.DrawTextureReflection(texture, Rect, SelColor, Rect, _ReflectionSpace, _ReflectionHeight);
+                    CBase.Drawing.DrawTextureReflection(texture, Rect, _SelColor, Rect, _ReflectionSpace, _ReflectionHeight);
                     _SelText.DrawRelative(Rect.X, Rect.Y, _ReflectionHeight, _ReflectionSpace, Rect.H);
                 }
                 else
@@ -233,8 +243,8 @@ namespace VocaluxeLib.Menu
                 _SelText.LoadSkin();
             }
 
-            _Theme.Color.Get(_PartyModeID, out Color);
-            _Theme.SelColor.Get(_PartyModeID, out SelColor);
+            _Theme.Color.Get(_PartyModeID, out _Color);
+            _Theme.SelColor.Get(_PartyModeID, out _SelColor);
 
             MaxRect = _Theme.Rect;
 

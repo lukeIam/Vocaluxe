@@ -38,7 +38,7 @@ namespace Vocaluxe.Lib.Draw
     ///     Writes to the RefCount of existing textures should only be done in the main thread and guarded by _Textures lock
     /// </summary>
     /// <typeparam name="TTextureType"></typeparam>
-    abstract class CTextureProvider<TTextureType> where TTextureType : CTextureBase, IDisposable
+    internal abstract class CTextureProvider<TTextureType> where TTextureType : CTextureBase, IDisposable
     {
         private enum EQueueAction
         {

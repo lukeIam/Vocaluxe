@@ -70,10 +70,7 @@ namespace VocaluxeLib.Menu
 
         public bool ThemeLoaded { get; private set; }
 
-        public bool IsAlive
-        {
-            get { return _Stars.Count > 0 || !_SpawnTimer.IsRunning; }
-        }
+        public bool IsAlive => _Stars.Count > 0 || !_SpawnTimer.IsRunning;
 
         public CParticleEffect(int partyModeID)
         {
@@ -299,10 +296,7 @@ namespace VocaluxeLib.Menu
         }
 
         #region ThemeEdit
-        public bool Selectable
-        {
-            get { return false; }
-        }
+        public bool Selectable => false;
 
         public void MoveElement(int stepX, int stepY)
         {

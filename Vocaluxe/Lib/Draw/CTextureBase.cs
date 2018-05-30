@@ -20,7 +20,7 @@ using System.Drawing;
 
 namespace Vocaluxe.Lib.Draw
 {
-    abstract class CTextureBase : IDisposable
+    internal abstract class CTextureBase : IDisposable
     {
         public int RefCount;
         public string TexturePath;
@@ -31,7 +31,7 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         public Size DataSize
         {
-            get { return _DataSize; }
+            get => _DataSize;
             set
             {
                 _DataSize = value;

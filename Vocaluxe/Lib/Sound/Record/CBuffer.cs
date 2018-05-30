@@ -22,7 +22,7 @@ using Vocaluxe.Lib.Sound.Record.PitchTracker;
 
 namespace Vocaluxe.Lib.Sound.Record
 {
-    class CBuffer : IDisposable
+    internal class CBuffer : IDisposable
     {
         private CPitchTracker _PitchTracker = new CPtAKF();
 
@@ -57,10 +57,7 @@ namespace Vocaluxe.Lib.Sound.Record
 
         public int Tone { get; set; }
 
-        public float MaxVolume
-        {
-            get { return _MaxVolume; }
-        }
+        public float MaxVolume => _MaxVolume;
 
         public bool ToneValid { get; private set; }
 
@@ -71,8 +68,8 @@ namespace Vocaluxe.Lib.Sound.Record
         /// </summary>
         public float VolTreshold
         {
-            get { return _PitchTracker.VolumeTreshold; }
-            set { _PitchTracker.VolumeTreshold = value; }
+            get => _PitchTracker.VolumeTreshold;
+            set => _PitchTracker.VolumeTreshold = value;
         }
 
         public void Reset()
@@ -86,12 +83,6 @@ namespace Vocaluxe.Lib.Sound.Record
 
         public void ProcessNewBuffer(byte[] buffer)
         {
-            // apply software boost
-            //BoostBuffer(Buffer, BufferSize);
-
-            // voice passthrough (send data to playback-device)
-            //if (assigned(fVoiceStream)) then
-            //fVoiceStream.WriteData(Buffer, BufferSize);
             _PitchTracker.Input(buffer);
         }
 

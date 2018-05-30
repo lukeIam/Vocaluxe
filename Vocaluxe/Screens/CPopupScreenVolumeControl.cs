@@ -22,21 +22,15 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    class CPopupScreenVolumeControl : CMenu
+    internal class CPopupScreenVolumeControl : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion
-        {
-            get { return 1; }
-        }
+        protected override int _ScreenVersion => 1;
 
         private const string _StaticBG = "StaticBG";
         private const string _SelectSlideVolume = "SelectSlideVolume";
 
-        public override SRectF ScreenArea
-        {
-            get { return _Statics[_StaticBG].Rect; }
-        }
+        public override SRectF ScreenArea => _Statics[_StaticBG].Rect;
 
         public override void Init()
         {

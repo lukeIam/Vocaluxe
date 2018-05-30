@@ -23,13 +23,10 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    class CPopupScreenPlayerControl : CMenu
+    internal class CPopupScreenPlayerControl : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion
-        {
-            get { return 1; }
-        }
+        protected override int _ScreenVersion => 1;
 
         private const string _StaticBG = "StaticBG";
         private const string _StaticCover = "StaticCover";
@@ -48,7 +45,7 @@ namespace Vocaluxe.Screens
 
         private bool _VideoPreview
         {
-            get { return _VideoPreviewInt; }
+            get => _VideoPreviewInt;
             set
             {
                 _VideoPreviewInt = value;
@@ -58,7 +55,7 @@ namespace Vocaluxe.Screens
 
         private bool _VideoBackground
         {
-            get { return CConfig.Config.Video.VideosToBackground == EOffOn.TR_CONFIG_ON; }
+            get => CConfig.Config.Video.VideosToBackground == EOffOn.TR_CONFIG_ON;
             set
             {
                 if (!value)
@@ -79,10 +76,7 @@ namespace Vocaluxe.Screens
             }
         }
 
-        public override SRectF ScreenArea
-        {
-            get { return _Statics[_StaticBG].Rect; }
-        }
+        public override SRectF ScreenArea => _Statics[_StaticBG].Rect;
 
         public override void Init()
         {

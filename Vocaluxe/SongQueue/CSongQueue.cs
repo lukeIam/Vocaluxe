@@ -24,7 +24,7 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.SongQueue
 {
-    struct SSongQueueEntry
+    internal struct SSongQueueEntry
     {
         public readonly int SongID;
         public readonly EGameMode GameMode;
@@ -36,7 +36,7 @@ namespace Vocaluxe.SongQueue
         }
     }
 
-    class CSongQueue : ISongQueue
+    internal class CSongQueue : ISongQueue
     {
         private List<SSongQueueEntry> _SongQueue;
         private int _CurrentRound;

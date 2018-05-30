@@ -21,7 +21,7 @@ using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Playback
 {
-    abstract class CAudioStreamBase : IAudioStream
+    internal abstract class CAudioStreamBase : IAudioStream
     {
         private readonly int _ID;
         protected readonly string _Medium;
@@ -33,15 +33,9 @@ namespace Vocaluxe.Lib.Sound.Playback
         protected EStreamAction _AfterFadeAction = EStreamAction.Nothing;
         protected CFading _Fading;
 
-        public int ID
-        {
-            get { return _ID; }
-        }
+        public int ID => _ID;
 
-        public bool IsFading
-        {
-            get { return _Fading != null; }
-        }
+        public bool IsFading => _Fading != null;
 
         public virtual float Volume { get; set; }
         public virtual float VolumeMax { get; set; }
@@ -71,8 +65,6 @@ namespace Vocaluxe.Lib.Sound.Playback
 
         protected virtual void _Dispose(bool disposing)
         {
-            if (!disposing)
-                CLog.Debug("Audio stream " + _Medium + " was not closed.");
         }
 
         public void Close()

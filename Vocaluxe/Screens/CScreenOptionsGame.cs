@@ -25,10 +25,7 @@ namespace Vocaluxe.Screens
     public class CScreenOptionsGame : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion
-        {
-            get { return 4; }
-        }
+        protected override int _ScreenVersion => 4;
 
         private const string _SelectSlideLanguage = "SelectSlideLanguage";
         private const string _SelectSlideDebugLevel = "SelectSlideDebugLevel";

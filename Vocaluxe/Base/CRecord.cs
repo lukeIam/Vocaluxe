@@ -25,7 +25,7 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Base
 {
-    static class CRecord
+    internal static class CRecord
     {
         private static IRecord _Record;
 

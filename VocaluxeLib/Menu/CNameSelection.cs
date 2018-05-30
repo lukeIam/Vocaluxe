@@ -86,10 +86,7 @@ namespace VocaluxeLib.Menu
 
         private CTextureRef _TextureEmptyTile;
         private CTextureRef _TextureTileSelected;
-        public CTextureRef TextureEmptyTile
-        {
-            get { return _TextureEmptyTile; }
-        }
+        public CTextureRef TextureEmptyTile => _TextureEmptyTile;
 
         private SColorF _ColorEmptyTile;
         private SColorF _ColorNameTile;
@@ -106,15 +103,9 @@ namespace VocaluxeLib.Menu
         private CStatic _PlayerSelector;
 
         private SRectF _Rect;
-        public override SRectF Rect
-        {
-            get { return _Rect; }
-        }
+        public override SRectF Rect => _Rect;
 
-        public bool Selectable
-        {
-            get { return Visible; }
-        }
+        public bool Selectable => Visible;
 
         public CNameSelection(int partyModeID)
         {

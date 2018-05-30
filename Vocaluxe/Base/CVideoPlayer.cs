@@ -21,21 +21,18 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Base
 {
-    class CVideoPlayer
+    internal class CVideoPlayer
     {
         private CVideoStream _VideoStream;
         private readonly Stopwatch _VideoTimer = new Stopwatch();
         private bool _Finished;
         private bool _Loaded;
 
-        public bool IsFinished
-        {
-            get { return _Finished || !_Loaded; }
-        }
+        public bool IsFinished => _Finished || !_Loaded;
 
         public bool Loop
         {
-            set { CVideo.SetLoop(_VideoStream, value); }
+            set => CVideo.SetLoop(_VideoStream, value);
         }
 
         public void Load(string videoName)

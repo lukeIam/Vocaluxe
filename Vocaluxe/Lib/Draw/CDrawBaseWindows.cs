@@ -32,7 +32,7 @@ namespace Vocaluxe.Lib.Draw
         MessageEventHandler OnMessage { set; }
     }
 
-    abstract class CDrawBaseWindows<TTextureType> : CDrawBase<TTextureType> where TTextureType : CTextureBase, IDisposable
+    internal abstract class CDrawBaseWindows<TTextureType> : CDrawBase<TTextureType> where TTextureType : CTextureBase, IDisposable
     {
         private struct SClientRect
         {

@@ -26,7 +26,7 @@ using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 {
-    class COpenAlStream : CAudioStreamBase
+    internal class COpenAlStream : CAudioStreamBase
     {
         private const int _BufferCount = 5;
         private const int _Bufsize = 500000;
@@ -105,7 +105,7 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 
         public override bool IsPaused
         {
-            get { return _Paused; }
+            get => _Paused;
             set
             {
                 _Paused = value;

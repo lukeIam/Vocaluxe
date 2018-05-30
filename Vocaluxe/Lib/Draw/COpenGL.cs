@@ -47,7 +47,7 @@ using TextureTarget = OpenTK.Graphics.OpenGL.TextureTarget;
 
 namespace Vocaluxe.Lib.Draw
 {
-    class CFormHook : Form, IFormHook
+    internal class CFormHook : Form, IFormHook
     {
         public MessageEventHandler OnMessage { private get; set; }
 
@@ -58,7 +58,7 @@ namespace Vocaluxe.Lib.Draw
         }
     }
 
-    class COGLTexture : CTextureBase
+    internal class COGLTexture : CTextureBase
     {
         //The texture "name" according to the specs
         public readonly int Name;
@@ -80,10 +80,7 @@ namespace Vocaluxe.Lib.Draw
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
-        public override bool IsLoaded
-        {
-            get { return Name != 0; }
-        }
+        public override bool IsLoaded => Name != 0;
 
         public override void Dispose()
         {
@@ -93,7 +90,7 @@ namespace Vocaluxe.Lib.Draw
         }
     }
 
-    class COpenGL : CDrawBaseWindows<COGLTexture>, IDraw
+    internal class COpenGL : CDrawBaseWindows<COGLTexture>, IDraw
     {
         private readonly GLControl _Control;
         private int _FBO;

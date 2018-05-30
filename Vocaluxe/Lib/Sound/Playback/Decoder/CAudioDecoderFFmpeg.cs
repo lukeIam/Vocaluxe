@@ -17,13 +17,12 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Vocaluxe.Base;
 using Vocaluxe.Lib.Video.Acinerella;
 using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Playback.Decoder
 {
-    class CAudioDecoderFFmpeg : IAudioDecoder, IDisposable
+    internal class CAudioDecoderFFmpeg : IAudioDecoder, IDisposable
     {
         private IntPtr _InstancePtr = IntPtr.Zero;
         private IntPtr _Audiodecoder = IntPtr.Zero;
@@ -34,6 +33,11 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
 
         private string _FileName;
         private bool _FileOpened;
+
+        ~CAudioDecoderFFmpeg()
+        {
+            _Dispose(false);
+        }
 
         public bool Open(string fileName)
         {
@@ -164,7 +168,6 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
 
                 timeStamp = (float)decoder.Timecode;
                 _CurrentTime = timeStamp;
-                //Console.WriteLine(_CurrentTime.ToString("#0.000") + " Buffer size: " + Decoder.buffer_size.ToString());
                 buffer = new byte[decoder.BufferSize];
 
                 if (decoder.BufferSize > 0)
@@ -177,6 +180,16 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
             timeStamp = 0f;
         }
 
-        public void Dispose() {}
+        public void Dispose()
+        {
+            _Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void _Dispose(bool disposing)
+        {
+            if (disposing)
+                Close();
+        }
     }
 }

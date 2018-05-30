@@ -116,26 +116,11 @@ namespace VocaluxeLib
         [XmlNormalized] public float? A;
 
         //Needed for serialization
-        public bool NameSpecified
-        {
-            get { return !String.IsNullOrEmpty(Name); }
-        }
-        public bool RSpecified
-        {
-            get { return R.HasValue; }
-        }
-        public bool GSpecified
-        {
-            get { return G.HasValue; }
-        }
-        public bool BSpecified
-        {
-            get { return B.HasValue; }
-        }
-        public bool ASpecified
-        {
-            get { return A.HasValue; }
-        }
+        public bool NameSpecified => !String.IsNullOrEmpty(Name);
+        public bool RSpecified => R.HasValue;
+        public bool GSpecified => G.HasValue;
+        public bool BSpecified => B.HasValue;
+        public bool ASpecified => A.HasValue;
 
         public bool Get(int partyModeId, out SColorF color)
         {
@@ -172,7 +157,7 @@ namespace VocaluxeLib
         [XmlIgnore]
         public float Right
         {
-            get { return X + W; }
+            get => X + W;
             set
             {
                 W = value - X;
@@ -183,7 +168,7 @@ namespace VocaluxeLib
         [XmlIgnore]
         public float Bottom
         {
-            get { return Y + H; }
+            get => Y + H;
             set
             {
                 H = value - Y;
@@ -192,16 +177,10 @@ namespace VocaluxeLib
         }
 
         [XmlIgnore]
-        public Size SizeI
-        {
-            get { return new Size((int)W, (int)H); }
-        }
+        public Size SizeI => new Size((int)W, (int)H);
 
         [XmlIgnore]
-        public SizeF Size
-        {
-            get { return new SizeF(W, H); }
-        }
+        public SizeF Size => new SizeF(W, H);
 
         public SRectF(float x, float y, float w, float h, float z)
         {

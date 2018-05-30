@@ -106,10 +106,7 @@ namespace VocaluxeLib.Menu
         private float _TextH;
         private float _MaxW;
 
-        public bool Selectable
-        {
-            get { return Visible; }
-        }
+        public bool Selectable => Visible;
         public override float X
         {
             set
@@ -154,10 +151,7 @@ namespace VocaluxeLib.Menu
                 }
             }
         }
-        public bool IsValueSelected
-        {
-            get { return Selected && !_ArrowLeftSelected && !_ArrowRightSelected; }
-        }
+        public bool IsValueSelected => Selected && !_ArrowLeftSelected && !_ArrowRightSelected;
 
         private bool _ArrowLeftSelected;
         private bool _ArrowRightSelected;
@@ -168,7 +162,7 @@ namespace VocaluxeLib.Menu
         private int _Selection = -1;
         public int Selection
         {
-            get { return _Selection; }
+            get => _Selection;
             set
             {
                 value = value.Clamp(0, _Values.Count - 1, false);
@@ -181,20 +175,17 @@ namespace VocaluxeLib.Menu
 
         public string SelectedValue
         {
-            get { return _Selection >= 0 ? _Values[_Selection].Text : null; }
+            get => _Selection >= 0 ? _Values[_Selection].Text : null;
             set { Selection = _Values.FindIndex(val => val.Text == value); }
         }
 
         public int SelectedTag
         {
-            get { return _Selection >= 0 ? _Values[_Selection].Tag : -1; }
+            get => _Selection >= 0 ? _Values[_Selection].Tag : -1;
             set { Selection = _Values.FindIndex(val => val.Tag == value); }
         }
 
-        public int NumValues
-        {
-            get { return _Values.Count; }
-        }
+        public int NumValues => _Values.Count;
 
         private readonly List<SValue> _Values = new List<SValue>();
         private readonly List<CElement> _VisibleElements = new List<CElement>();
@@ -210,7 +201,7 @@ namespace VocaluxeLib.Menu
 
         public int NumVisible
         {
-            get { return _NumVisible; }
+            get => _NumVisible;
             set
             {
                 if (value <= 0 || value == _NumVisible)

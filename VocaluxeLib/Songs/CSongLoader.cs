@@ -468,10 +468,7 @@ namespace VocaluxeLib.Songs
                 public int AjustedBreakCt;
                 public int InvalidPosBreakCt;
 
-                public bool IsModified
-                {
-                    get { return ZeroLengthNoteCt + OverlapNoteCt + NoTextNoteCt + NoLengthBreakCt + AjustedBreakCt + InvalidPosBreakCt > 0; }
-                }
+                public bool IsModified => ZeroLengthNoteCt + OverlapNoteCt + NoTextNoteCt + NoLengthBreakCt + AjustedBreakCt + InvalidPosBreakCt > 0;
 
                 public override string ToString()
                 {

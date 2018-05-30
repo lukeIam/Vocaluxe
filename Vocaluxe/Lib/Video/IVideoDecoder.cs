@@ -19,7 +19,7 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Video
 {
-    interface IVideoDecoder
+    internal interface IVideoDecoder
     {
         /// <summary>
         ///     Initializes videodecoder. Got to be called before usage

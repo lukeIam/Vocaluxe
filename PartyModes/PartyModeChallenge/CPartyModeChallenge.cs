@@ -71,38 +71,14 @@ namespace VocaluxeLib.PartyModes.Challenge
     public sealed class CPartyModeChallenge : CPartyMode
         // ReSharper restore ClassNeverInstantiated.Global
     {
-        public override int MinMics
-        {
-            get { return 1; }
-        }
-        public override int MaxMics
-        {
-            get { return CBase.Config.GetMaxNumMics(); }
-        }
-        public override int MinPlayers
-        {
-            get { return 1; }
-        }
-        public override int MaxPlayers
-        {
-            get { return 12; }
-        }
-        public override int MinTeams
-        {
-            get { return 1; }
-        }
-        public override int MaxTeams
-        {
-            get { return 1; }
-        }
-        public override int MinPlayersPerTeam
-        {
-            get { return MinPlayers; }
-        }
-        public override int MaxPlayersPerTeam
-        {
-            get { return MaxPlayers; }
-        }
+        public override int MinMics => 1;
+        public override int MaxMics => CBase.Config.GetMaxNumMics();
+        public override int MinPlayers => 1;
+        public override int MaxPlayers => 12;
+        public override int MinTeams => 1;
+        public override int MaxTeams => 1;
+        public override int MinPlayersPerTeam => MinPlayers;
+        public override int MaxPlayersPerTeam => MaxPlayers;
 
         private enum EStage
         {

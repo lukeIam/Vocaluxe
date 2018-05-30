@@ -32,10 +32,7 @@ namespace VocaluxeLib.Utils
         //Unless this is true, all fields are to be considered as invalid
         public int DataSize { get; private set; }
         //Number of samples (per channel)
-        public int NumSamples
-        {
-            get { return (DataSize / (BitsPerSample / 8 * NumChannels)); }
-        }
+        public int NumSamples => (DataSize / (BitsPerSample / 8 * NumChannels));
         //Number of samples left to be read (per channel)
         public int NumSamplesLeft { get; private set; }
         public bool IsOpen { get; private set; }

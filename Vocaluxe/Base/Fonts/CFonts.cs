@@ -28,7 +28,7 @@ using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base.Fonts
 {
-    static class CFonts
+    internal static class CFonts
     {
         private static bool _IsInitialized;
         private static readonly List<SFontFamily> _FontFamilies = new List<SFontFamily>();

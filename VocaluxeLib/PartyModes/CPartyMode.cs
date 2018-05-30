@@ -33,10 +33,7 @@ namespace VocaluxeLib.PartyModes
         }
 
         #region Implementation
-        public int ID
-        {
-            get { return _ID; }
-        }
+        public int ID => _ID;
 
         public int NumPlayers { get; set; }
         public int NumTeams { get; set; }

@@ -21,7 +21,7 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.SongQueue
 {
-    interface ISongQueue
+    internal interface ISongQueue
     {
         void Init();
 

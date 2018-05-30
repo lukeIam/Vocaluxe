@@ -28,7 +28,7 @@ using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {
-    enum ERevision
+    internal enum ERevision
     {
         // ReSharper disable UnusedMember.Global
         Alpha,
@@ -38,13 +38,13 @@ namespace Vocaluxe.Base
         // ReSharper restore UnusedMember.Global
     }
 
-    
+
 
     /// <summary>
     ///     This class contains settings for the program
     ///     These are not editable, everything that can be changed by the user is in CConfig
     /// </summary>
-    static class CSettings
+    internal static class CSettings
     {
 #if ARCH_X86
         private const String _Arch = "x86";
@@ -185,32 +185,14 @@ namespace Vocaluxe.Base
         public const float SlideShowImageTime = 3500f;
         public const float SlideShowFadeTime = 500f;
 
-        private static AssemblyName _Assembly
-        {
-            get { return Assembly.GetExecutingAssembly().GetName(); }
-        }
+        private static AssemblyName _Assembly => Assembly.GetExecutingAssembly().GetName();
 
-        public static string ProgramName
-        {
-            get { return _Assembly.Name; }
-        }
+        public static string ProgramName => _Assembly.Name;
 
-        public static string Version
-        {
-            get
-            {
-                return Application.ProductVersion.Split('-').First();
-            }
-        }
+        public static string Version => Application.ProductVersion.Split('-').First();
 
-        public static string FullVersion
-        {
-            get
-            {
-                return Application.ProductVersion;
-            }
-        }
-        
+        public static string FullVersion => Application.ProductVersion;
+
         public static string GetFullVersionText()
         {
             return ((AssemblyTitleAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false).First()).Title;

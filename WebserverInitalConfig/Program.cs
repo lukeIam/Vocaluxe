@@ -24,7 +24,7 @@ using System.Windows.Forms;
 
 namespace WebserverInitalConfig
 {
-    static class CProgram
+    internal static class CProgram
     {
         // ReSharper disable InconsistentNaming
         private static void Main(string[] args)

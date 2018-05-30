@@ -24,7 +24,7 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Base
 {
-    class CSongSorter : CObservable
+    internal class CSongSorter : CObservable
     {
         private CSongPointer[] _SortedSongs = new CSongPointer[0];
         private EOffOn _IgnoreArticles = CConfig.Config.Game.IgnoreArticles;
@@ -46,7 +46,7 @@ namespace Vocaluxe.Base
 
         public EOffOn IgnoreArticles
         {
-            get { return _IgnoreArticles; }
+            get => _IgnoreArticles;
             set
             {
                 if (value == _IgnoreArticles)
@@ -58,7 +58,7 @@ namespace Vocaluxe.Base
 
         public ESongSorting SongSorting
         {
-            get { return _SongSorting; }
+            get => _SongSorting;
             set
             {
                 if (value == _SongSorting)

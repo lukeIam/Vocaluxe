@@ -72,7 +72,10 @@ namespace Vocaluxe.Lib.Database
                     {
                         reader = command.ExecuteReader();
                     }
-                    catch (Exception) {}
+                    catch (Exception)
+                    {
+                        // Catach all db execptions and ignore them
+                    }
 
                     if (reader == null || !reader.Read() || reader.FieldCount == 0)
                         _Version = -1;

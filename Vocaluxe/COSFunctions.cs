@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 
 namespace Vocaluxe
 {
-    static class COSFunctions
+    internal static class COSFunctions
     {
 #if WIN
         private static class CWindowsFunctions

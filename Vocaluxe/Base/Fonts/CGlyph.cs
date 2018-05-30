@@ -29,7 +29,7 @@ using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Base.Fonts
 {
-    class CGlyph
+    internal class CGlyph
     {
         private CTextureRef _Texture;
         private readonly SizeF _BoundingBox;

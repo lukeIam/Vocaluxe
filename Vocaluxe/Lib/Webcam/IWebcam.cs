@@ -21,21 +21,21 @@ using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Webcam
 {
-    struct SWebcamDevice
+    internal struct SWebcamDevice
     {
         public string Name;
         public string MonikerString;
         public List<SCapabilities> Capabilities;
     }
 
-    struct SCapabilities
+    internal struct SCapabilities
     {
         public int Framerate;
         public int Width;
         public int Height;
     }
 
-    struct SWebcamConfig
+    internal struct SWebcamConfig
     {
         public string MonikerString;
         public int Framerate;
@@ -43,7 +43,7 @@ namespace Vocaluxe.Lib.Webcam
         public int Height;
     }
 
-    interface IWebcam
+    internal interface IWebcam
     {
         bool Init();
         void Close();

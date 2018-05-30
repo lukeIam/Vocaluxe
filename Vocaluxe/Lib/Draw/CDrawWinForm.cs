@@ -30,7 +30,7 @@ using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Draw
 {
-    class CDrawWinForm : Form, IDraw
+    internal class CDrawWinForm : Form, IDraw
     {
         private bool _Run;
         private readonly Bitmap _Backbuffer;

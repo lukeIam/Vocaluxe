@@ -25,7 +25,7 @@ using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base
 {
-    static class CDataBase
+    internal static class CDataBase
     {
         private static CHighscoreDB _HighscoreDB;
         private static CCoverDB _CoverDB;

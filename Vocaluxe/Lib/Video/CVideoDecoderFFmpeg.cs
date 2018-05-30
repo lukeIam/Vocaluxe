@@ -21,7 +21,7 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Video
 {
-    class CVideoDecoderFFmpeg : IVideoDecoder
+    internal class CVideoDecoderFFmpeg : IVideoDecoder
     {
         private readonly Dictionary<int, CDecoder> _Decoder = new Dictionary<int, CDecoder>();
         private int _LastID;

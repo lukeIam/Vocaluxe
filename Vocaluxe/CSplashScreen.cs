@@ -24,7 +24,7 @@ using VocaluxeLib.Log;
 
 namespace Vocaluxe
 {
-    class CSplashScreen : Form
+    internal class CSplashScreen : Form
     {
         private readonly Bitmap _Logo;
 
@@ -72,14 +72,14 @@ namespace Vocaluxe
 
         public override sealed string Text
         {
-            get { return base.Text; }
-            set { base.Text = value; }
+            get => base.Text;
+            set => base.Text = value;
         }
 
         public override sealed Color BackColor
         {
-            get { return base.BackColor; }
-            set { base.BackColor = value; }
+            get => base.BackColor;
+            set => base.BackColor = value;
         }
 
         protected override void OnPaint(PaintEventArgs e) {}

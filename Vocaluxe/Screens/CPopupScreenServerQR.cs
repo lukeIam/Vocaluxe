@@ -25,13 +25,10 @@ using QRCoder;
 
 namespace Vocaluxe.Screens
 {
-    class CPopupScreenServerQR : CMenu
+    internal class CPopupScreenServerQR : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion
-        {
-            get { return 2; }
-        }
+        protected override int _ScreenVersion => 2;
 
         private CTextureRef _QRServerAddress;
         private const string _StaticQRServer = "StaticQRServer";

@@ -17,14 +17,14 @@
 
 namespace Vocaluxe.Lib.Sound.Playback.Decoder
 {
-    struct SFormatInfo
+    internal struct SFormatInfo
     {
         public int ChannelCount;
         public int SamplesPerSecond;
         public int BitDepth;
     }
 
-    interface IAudioDecoder
+    internal interface IAudioDecoder
     {
         void Close();
 

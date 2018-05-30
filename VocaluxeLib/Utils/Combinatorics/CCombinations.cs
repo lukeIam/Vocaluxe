@@ -105,7 +105,10 @@ namespace VocaluxeLib.Utils.Combinatorics
                 Debug.Assert(_N >= 0 && _K >= 0);
             }
 
-            public void Dispose() {}
+            public void Dispose()
+            {
+                // Nothing to dispose here
+            }
 
             public bool MoveNext()
             {
@@ -148,10 +151,7 @@ namespace VocaluxeLib.Utils.Combinatorics
                     return result;
                 }
             }
-            object IEnumerator.Current
-            {
-                get { return Current; }
-            }
+            object IEnumerator.Current => Current;
         }
     }
 }

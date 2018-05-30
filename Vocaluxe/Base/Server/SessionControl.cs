@@ -22,7 +22,7 @@ using System.Timers;
 
 namespace Vocaluxe.Base.Server
 {
-    static class CSessionControl
+    internal static class CSessionControl
     {
         private static readonly Dictionary<Guid, CSession> _ActiveSessions;
         private const int _UserTimeoutCheckIntervall = 120000;

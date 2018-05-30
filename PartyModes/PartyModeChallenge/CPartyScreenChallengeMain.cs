@@ -22,7 +22,7 @@ using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes.Challenge
 {
-    struct STableRow
+    internal struct STableRow
     {
         public CText Pos;
         public CText Name;
@@ -32,7 +32,7 @@ namespace VocaluxeLib.PartyModes.Challenge
         public CText GamePoints;
     }
 
-    class CRoundsTableRow
+    internal class CRoundsTableRow
     {
         public CText Number;
         public List<CText> TextPlayer;
@@ -44,10 +44,7 @@ namespace VocaluxeLib.PartyModes.Challenge
         // ReSharper restore UnusedMember.Global
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion
-        {
-            get { return 1; }
-        }
+        protected override int _ScreenVersion => 1;
 
         private const string _TextPosition = "TextPosition";
         private const string _TextPlayerName = "TextPlayerName";

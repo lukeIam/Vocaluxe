@@ -54,39 +54,15 @@ namespace VocaluxeLib.PartyModes.TicTacToe
     public sealed class CPartyModeTicTacToe : CPartyMode
     // ReSharper restore ClassNeverInstantiated.Global
     {
-        public override int MinMics
-        {
-            get { return 2; }
-        }
-        public override int MaxMics
-        {
-            get { return 2; }
-        }
-        public override int MinPlayers
-        {
-            get { return 2; }
-        }
-        public override int MaxPlayers
-        {
-            get { return 20; }
-        }
-        public override int MinTeams
-        {
-            get { return 2; }
-        }
-        public override int MaxTeams
-        {
-            get { return 2; }
-        }
+        public override int MinMics => 2;
+        public override int MaxMics => 2;
+        public override int MinPlayers => 2;
+        public override int MaxPlayers => 20;
+        public override int MinTeams => 2;
+        public override int MaxTeams => 2;
 
-        public override int MinPlayersPerTeam
-        {
-            get { return 1; }
-        }
-        public override int MaxPlayersPerTeam
-        {
-            get { return 10; }
-        }
+        public override int MinPlayersPerTeam => 1;
+        public override int MaxPlayersPerTeam => 10;
 
         public readonly EGameMode[] AvailableGameModes = { EGameMode.TR_GAMEMODE_NORMAL, EGameMode.TR_GAMEMODE_SHORTSONG, EGameMode.TR_GAMEMODE_DUET };
 

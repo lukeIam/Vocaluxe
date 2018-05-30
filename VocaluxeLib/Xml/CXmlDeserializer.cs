@@ -97,10 +97,7 @@ namespace VocaluxeLib.Xml
             Node = node;
         }
 
-        public override string Message
-        {
-            get { return ToString(); }
-        }
+        public override string Message => ToString();
 
         public override String ToString()
         {

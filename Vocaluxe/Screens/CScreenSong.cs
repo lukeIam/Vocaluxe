@@ -40,10 +40,7 @@ namespace Vocaluxe.Screens
         }
 
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion
-        {
-            get { return 6; }
-        }
+        protected override int _ScreenVersion => 6;
 
         private const string _TextCategory = "TextCategory";
         private const string _TextSelection = "TextSelection";
@@ -93,10 +90,7 @@ namespace Vocaluxe.Screens
         private ISongMenu _SongMenu;
         private CPlaylist _Playlist;
 
-        public override EMusicType CurrentMusicType
-        {
-            get { return CSongs.IsInCategory ? EMusicType.Preview : EMusicType.Background; }
-        }
+        public override EMusicType CurrentMusicType => CSongs.IsInCategory ? EMusicType.Preview : EMusicType.Background;
 
         public CScreenSong()
         {

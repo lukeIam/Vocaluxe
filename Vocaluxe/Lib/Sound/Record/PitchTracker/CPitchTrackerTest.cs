@@ -25,7 +25,7 @@ using VocaluxeLib.Utils;
 
 namespace Vocaluxe.Lib.Sound.Record.PitchTracker
 {
-    class CPitchTrackerTest
+    internal class CPitchTrackerTest
     {
         //Half tones: C C# D D# E F F# G G# A A# B
         private const double _BaseToneFreq = 65.4064; // lowest (half-)tone to analyze (C2 = 65.4064 Hz)

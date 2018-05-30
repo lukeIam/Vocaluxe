@@ -23,7 +23,7 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Base
 {
-    static class CTime
+    internal static class CTime
     {
         private static readonly Stopwatch _Stopwatch = new Stopwatch();
         private static float _Fps;
@@ -80,7 +80,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CKeys
+    internal class CKeys
     {
         private readonly List<SKeyEvent> _KeysPool;
         private readonly List<SKeyEvent> _ActualPool;
@@ -201,7 +201,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CMouse
+    internal class CMouse
     {
         private readonly List<SMouseEvent> _EventsPool;
         private readonly List<SMouseEvent> _CurrentPool;

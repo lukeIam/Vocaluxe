@@ -26,12 +26,12 @@ using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Base
 {
-    enum ESounds
+    internal enum ESounds
     {
         T440
     }
 
-    static class CSound
+    internal static class CSound
     {
         #region Playback
         private static IPlayback _Playback;

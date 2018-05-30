@@ -168,27 +168,24 @@ namespace VocaluxeLib.Menu
         private readonly CStatic _StaticPlaylistHeader;
         private readonly CStatic _StaticPlaylistFooter;
 
-        public SRectF Rect
-        {
-            get { return _CompleteRect; }
-        }
+        public SRectF Rect => _CompleteRect;
         public SRectF MaxRect { get; set; }
         private bool _Selectable = true;
         public bool Selectable
         {
-            get { return Visible && _Selectable; }
-            set { _Selectable = value; }
+            get => Visible && _Selectable;
+            set => _Selectable = value;
         }
         public bool Visible
         {
-            get { return _Active; }
-            set { _Active = value; }
+            get => _Active;
+            set => _Active = value;
         }
         public bool Highlighted { get; set; }
         private bool _Selected;
         public bool Selected
         {
-            get { return _Selected; }
+            get => _Selected;
             set
             {
                 _Selected = value;

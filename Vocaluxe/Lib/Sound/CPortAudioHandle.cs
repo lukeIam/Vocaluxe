@@ -31,7 +31,7 @@ namespace Vocaluxe.Lib.Sound
     ///     DO NEVER use following Pa_* functions other than the ones from this class:
     ///     Initialize, Terminate, OpenStream, CloseStream
     /// </summary>
-    class CPortAudioHandle : IDisposable
+    internal class CPortAudioHandle : IDisposable
     {
         private static int _RefCount;
         private static readonly object _Mutex = new object();

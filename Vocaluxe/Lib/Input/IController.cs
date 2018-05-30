@@ -22,7 +22,7 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Input
 {
-    enum EGesture
+    internal enum EGesture
     {
         None,
         Back,
@@ -30,7 +30,7 @@ namespace Vocaluxe.Lib.Input
         ScrollUp
     }
 
-    interface IController
+    internal interface IController
     {
         string GetName();
         bool Init();
@@ -47,7 +47,7 @@ namespace Vocaluxe.Lib.Input
         void SetRumble(float duration);
     }
 
-    class CRumbleTimer
+    internal class CRumbleTimer
     {
         private readonly Stopwatch _Timer;
         private float _Duration;
@@ -102,7 +102,7 @@ namespace Vocaluxe.Lib.Input
         }
     }
 
-    class CGesture
+    internal class CGesture
     {
         private Point _Begin;
         private bool _Locked;

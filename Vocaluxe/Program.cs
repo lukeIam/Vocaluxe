@@ -35,13 +35,13 @@ using VocaluxeLib.Log;
 
 namespace Vocaluxe
 {
-    class CLoadingException : Exception
+    internal class CLoadingException : Exception
     {
         public CLoadingException(string component)
             : base("Failed to load " + component) {}
     }
 
-    static class CMainProgram
+    internal static class CMainProgram
     {
         private static CSplashScreen _SplashScreen;
 

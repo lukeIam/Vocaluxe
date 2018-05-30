@@ -26,6 +26,7 @@ using System.IO;
 using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
 using System.Linq;
+using System.Text;
 
 namespace Vocaluxe.Base
 {
@@ -33,7 +34,7 @@ namespace Vocaluxe.Base
     ///     Class that generates Covers if the right Cover is missing
     ///     Themeable via the xml of the Cover theme
     /// </summary>
-    class CCoverGenerator
+    internal class CCoverGenerator
     {
         private readonly bool _Valid;
         private readonly SThemeCoverGenerator _Theme;
@@ -170,7 +171,7 @@ namespace Vocaluxe.Base
                     }
                     else
                         left = _MarginLeft;
-                    //g.DrawString(line, fo, new SolidBrush(_TextColor.AsColor()), left, top, StringFormat.GenericTypographic);
+                    
                     path.AddString(line, fo.FontFamily, (int)fo.Style, emSize, new PointF(left, top), StringFormat.GenericTypographic);
                     top += maxHeight + _LineSpace;
                 }
@@ -444,7 +445,7 @@ namespace Vocaluxe.Base
 
             //Check for initials (like J. R.R. Tolkien) and join them
             curStart = -1;
-            string curText = "";
+            StringBuilder curText = new StringBuilder();
             for (int i = 0; i < lines.Count; i++)
             {
                 string part = lines[i].Trim();
@@ -453,7 +454,7 @@ namespace Vocaluxe.Base
                     //Initials found, continue or start new
                     if (curStart < 0)
                         curStart = i;
-                    curText += lines[i];
+                    curText.Append(lines[i]);
                 }
                 else if (curStart >= 0)
                 {
@@ -461,24 +462,20 @@ namespace Vocaluxe.Base
                     if (curStart < i - 1)
                     {
                         //More than 1 part
-                        lines[curStart] = curText;
+                        lines[curStart] = curText.ToString();
                         lines.RemoveRange(curStart + 1, i - curStart - 1);
                         i = curStart;
                     }
-                    curText = "";
+                    curText.Clear();
                     curStart = -1;
                 }
             }
-            //Handle last part
-            if (curStart >= 0)
+            //Handle last part Initials end
+            if (curStart >= 0 && curStart < lines.Count - 1)
             {
-                //Initials end
-                if (curStart < lines.Count - 1)
-                {
-                    //More than 1 part
-                    lines[curStart] = curText;
-                    lines.RemoveRange(curStart + 1, lines.Count - curStart - 1);
-                }
+                //More than 1 part
+                lines[curStart] = curText.ToString();
+                lines.RemoveRange(curStart + 1, lines.Count - curStart - 1);
             }
 
             // Remove single char lines
@@ -492,7 +489,9 @@ namespace Vocaluxe.Base
                         lines[0] = part + lines[0];
                     else
                     {
+                        #pragma warning disable S1643 // Strings should not be concatenated using '+' in a loop
                         lines[i - 1] += part;
+                        #pragma warning restore S1643 // Strings should not be concatenated using '+' in a loop
                         i--;
                     }
                 }

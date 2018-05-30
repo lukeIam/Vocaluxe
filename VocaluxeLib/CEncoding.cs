@@ -19,7 +19,7 @@ using System.Text;
 
 namespace VocaluxeLib
 {
-    static class CEncoding
+    internal static class CEncoding
     {
         public static Encoding GetEncoding(this string encodingName)
         {

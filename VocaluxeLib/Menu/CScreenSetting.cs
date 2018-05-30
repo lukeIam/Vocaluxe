@@ -52,10 +52,7 @@ namespace VocaluxeLib.Menu
             return _Theme.Name;
         }
 
-        public bool ThemeLoaded
-        {
-            get { return _ThemeLoaded; }
-        }
+        public bool ThemeLoaded => _ThemeLoaded;
 
         public CScreenSetting(int partyModeID)
         {

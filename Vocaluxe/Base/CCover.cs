@@ -31,7 +31,7 @@ using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {
-    static class CCover
+    internal static class CCover
     {
         private const string _NoCoverName = "No Cover";
         private const string _NoCoverNameAlt = "NoCover";

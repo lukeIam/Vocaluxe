@@ -29,10 +29,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         // ReSharper restore UnusedMember.Global
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion
-        {
-            get { return 2; }
-        }
+        protected override int _ScreenVersion => 2;
 
         private const string _SelectSlideNumFields = "SelectSlideNumFields";
         private const string _SelectSlideRefillJokers = "SelectSlideRefillJokers";

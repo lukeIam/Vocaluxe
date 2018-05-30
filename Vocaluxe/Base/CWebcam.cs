@@ -22,7 +22,7 @@ using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Base
 {
-    static class CWebcam
+    internal static class CWebcam
     {
         private static IWebcam _Webcam;
 

@@ -26,21 +26,15 @@ using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base.ThemeSystem
 {
-    abstract class CTheme
+    internal abstract class CTheme
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         private const int _ThemeSystemVersion = 6;
 
         protected STheme _Data;
-        public String Name
-        {
-            get { return _Data.Info.Name; }
-        }
+        public String Name => _Data.Info.Name;
 
-        public string[] SkinNames
-        {
-            get { return _Skins.Keys.ToArray(); }
-        }
+        public string[] SkinNames => _Skins.Keys.ToArray();
 
         public readonly int PartyModeID;
 

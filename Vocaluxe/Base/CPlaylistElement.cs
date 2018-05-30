@@ -21,60 +21,30 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Base
 {
-    class CPlaylistElement
+    internal class CPlaylistElement
     {
         public readonly CSong Song;
         private readonly string _MusicFilePath = String.Empty;
 
-        public bool HasMetaData
-        {
-            get { return Song != null; }
-        }
+        public bool HasMetaData => Song != null;
 
-        public int SongID
-        {
-            get { return HasMetaData ? Song.ID : -1; }
-        }
+        public int SongID => HasMetaData ? Song.ID : -1;
 
-        public string MusicFilePath
-        {
-            get { return HasMetaData ? Song.GetMP3() : _MusicFilePath; }
-        }
+        public string MusicFilePath => HasMetaData ? Song.GetMP3() : _MusicFilePath;
 
-        public string VideoFilePath
-        {
-            get { return HasMetaData ? Song.GetVideo() : string.Empty; }
-        }
+        public string VideoFilePath => HasMetaData ? Song.GetVideo() : string.Empty;
 
-        public string Title
-        {
-            get { return HasMetaData ? Song.Title : ""; }
-        }
+        public string Title => HasMetaData ? Song.Title : "";
 
-        public string Artist
-        {
-            get { return HasMetaData ? Song.Artist : ""; }
-        }
+        public string Artist => HasMetaData ? Song.Artist : "";
 
-        public float Start
-        {
-            get { return HasMetaData ? Song.Start : 0f; }
-        }
+        public float Start => HasMetaData ? Song.Start : 0f;
 
-        public float Finish
-        {
-            get { return HasMetaData ? Song.Finish : 0f; }
-        }
+        public float Finish => HasMetaData ? Song.Finish : 0f;
 
-        public CTextureRef Cover
-        {
-            get { return HasMetaData ? Song.CoverTextureSmall : CCover.NoCover; }
-        }
+        public CTextureRef Cover => HasMetaData ? Song.CoverTextureSmall : CCover.NoCover;
 
-        public float VideoGap
-        {
-            get { return HasMetaData ? Song.VideoGap : 0; }
-        }
+        public float VideoGap => HasMetaData ? Song.VideoGap : 0;
 
         public CPlaylistElement(CSong song)
         {

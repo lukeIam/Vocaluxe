@@ -36,10 +36,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         // ReSharper restore UnusedMember.Global
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion
-        {
-            get { return 1; }
-        }
+        protected override int _ScreenVersion => 1;
 
         private const string _TextPopupReallyExit = "TextPopupReallyExit";
         private const string _TextTeamChoosing = "TextTeamChoosing";

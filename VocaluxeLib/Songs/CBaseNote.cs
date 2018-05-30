@@ -41,7 +41,7 @@ namespace VocaluxeLib.Songs
             Duration = duration;
             Tone = tone;
             if (Duration < 1)
-                throw new Exception("Note to short. All notes should be at least 1 beat long!");
+                throw new ArgumentException("Note to short. All notes should be at least 1 beat long!");
         }
         #endregion Constructors
 
@@ -51,14 +51,11 @@ namespace VocaluxeLib.Songs
         /// <summary>
         ///     Last beat of this note. First valid beat for a note after that is at EndBeat+1
         /// </summary>
-        public int EndBeat
-        {
-            get { return StartBeat + _Duration - 1; }
-        }
+        public int EndBeat => StartBeat + _Duration - 1;
 
         public int Duration
         {
-            get { return _Duration; }
+            get => _Duration;
             set
             {
                 if (value > 0)
@@ -68,7 +65,7 @@ namespace VocaluxeLib.Songs
 
         public int Tone
         {
-            get { return _Tone; }
+            get => _Tone;
             set
             {
                 if ((value >= CBase.Settings.GetToneMin()) && (value <= CBase.Settings.GetToneMax()))
@@ -76,10 +73,7 @@ namespace VocaluxeLib.Songs
             }
         }
 
-        public int Points
-        {
-            get { return PointsForBeat * Duration; }
-        }
+        public int Points => PointsForBeat * Duration;
 
         public abstract int PointsForBeat { get; }
         #endregion Properties

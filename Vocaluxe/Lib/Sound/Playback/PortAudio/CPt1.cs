@@ -19,7 +19,7 @@ using System.Diagnostics;
 
 namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 {
-    class CPt1
+    internal class CPt1
     {
         private float _CurrentTime;
         private float _OldTime;

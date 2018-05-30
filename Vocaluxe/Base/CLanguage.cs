@@ -25,7 +25,7 @@ using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {
-    struct SLanguage
+    internal struct SLanguage
     {
         public string Name;
         public string FilePath;
@@ -34,13 +34,13 @@ namespace Vocaluxe.Base
         public List<SPartyLanguage> PartyModeTexts;
     }
 
-    struct SPartyLanguage
+    internal struct SPartyLanguage
     {
         public int PartyModeID;
         public Dictionary<string, string> Texts;
     }
 
-    static class CLanguage
+    internal static class CLanguage
     {
         private static readonly List<SLanguage> _Languages = new List<SLanguage>();
         private static int _CurrentLanguage = -1;
@@ -48,7 +48,7 @@ namespace Vocaluxe.Base
 
         public static int LanguageId
         {
-            get { return _CurrentLanguage; }
+            get => _CurrentLanguage;
             set
             {
                 if (value >= 0 && value < _Languages.Count)

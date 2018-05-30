@@ -21,7 +21,7 @@ using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Video.Acinerella
 {
-    class CDecoder
+    internal class CDecoder
     {
         private readonly Stopwatch _LoopTimer = new Stopwatch();
 
@@ -41,7 +41,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public bool Loop
         {
-            get { return _Thread.Loop; }
+            get => _Thread.Loop;
             set
             {
                 {
@@ -57,6 +57,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public bool Paused
         {
+            get => _Paused;
             set
             {
                 if (_Paused == value)

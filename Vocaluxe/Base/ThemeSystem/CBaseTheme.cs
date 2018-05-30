@@ -23,7 +23,7 @@ using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base.ThemeSystem
 {
-    class CBaseTheme : CTheme
+    internal class CBaseTheme : CTheme
     {
         public SThemeCursor CursorTheme
         {

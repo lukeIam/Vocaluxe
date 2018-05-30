@@ -32,7 +32,7 @@ using VocaluxeLib.Profile;
 
 namespace Vocaluxe.Base
 {
-    static class CMain
+    internal static class CMain
     {
         private static readonly IConfig _Config = new CBconfig();
         private static readonly ISettings _Settings = new CBsettings();
@@ -55,12 +55,28 @@ namespace Vocaluxe.Base
 
         public static void Init()
         {
-            CBase.Assign(_Config, _Settings, _Themes, _BackgroundMusic, _Draw, _Graphics, _Fonts, _Language,
-                         _Game, _Profiles, _Record, _Songs, _Video, _Sound, _Cover, _DataBase, _Controller, _Playlist);
+            CBase.Config = _Config;
+            CBase.Settings = _Settings;
+            CBase.Themes = _Themes;
+            CBase.BackgroundMusic = _BackgroundMusic;
+            CBase.Drawing = _Draw;
+            CBase.Graphics = _Graphics;
+            CBase.Fonts = _Fonts;
+            CBase.Language = _Language;
+            CBase.Game = _Game;
+            CBase.Profiles = _Profiles;
+            CBase.Record = _Record;
+            CBase.Songs = _Songs;
+            CBase.Video = _Video;
+            CBase.Sound = _Sound;
+            CBase.Cover = _Cover;
+            CBase.DataBase = _DataBase;
+            CBase.Controller = _Controller;
+            CBase.Playlist = _Playlist;
         }
     }
 
-    class CBconfig : IConfig
+    internal class CBconfig : IConfig
     {
         public EOffOn GetSaveModifiedSongs()
         {
@@ -183,7 +199,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBsettings : ISettings
+    internal class CBsettings : ISettings
     {
         public int GetRenderW()
         {
@@ -291,7 +307,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBtheme : IThemes
+    internal class CBtheme : IThemes
     {
         public string GetThemeScreensPath(int partyModeID)
         {
@@ -324,7 +340,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBbackgroundMusic : IBackgroundMusic
+    internal class CBbackgroundMusic : IBackgroundMusic
     {
         public bool IsDisabled()
         {
@@ -407,7 +423,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBdraw : IDrawing
+    internal class CBdraw : IDrawing
     {
         public void DrawTexture(CTextureRef texture, SRectF rect)
         {
@@ -465,7 +481,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBGraphics : IGraphics
+    internal class CBGraphics : IGraphics
     {
         public void ReloadTheme()
         {
@@ -508,7 +524,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBfonts : IFonts
+    internal class CBfonts : IFonts
     {
         public RectangleF GetTextBounds(CText text)
         {
@@ -531,7 +547,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBlanguage : ILanguage
+    internal class CBlanguage : ILanguage
     {
         public string Translate(string keyWord)
         {
@@ -549,7 +565,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBGame : IGame
+    internal class CBGame : IGame
     {
         public int GetNumPlayer()
         {
@@ -632,7 +648,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBprofiles : IProfiles
+    internal class CBprofiles : IProfiles
     {
         public CProfile[] GetProfiles()
         {
@@ -680,7 +696,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBrecord : IRecording
+    internal class CBrecord : IRecording
     {
         public int GetToneAbs(int player)
         {
@@ -688,7 +704,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBsongs : ISongs
+    internal class CBsongs : ISongs
     {
         public int GetNumSongs()
         {
@@ -801,7 +817,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBvideo : IVideo
+    internal class CBvideo : IVideo
     {
         public CVideoStream Load(string videoFileName)
         {
@@ -865,7 +881,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBsound : ISound
+    internal class CBsound : ISound
     {
         public int Load(string soundFile, bool loop = false, bool prescan = false)
         {
@@ -923,7 +939,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBcover : ICover
+    internal class CBcover : ICover
     {
         public CTextureRef GetNoCover()
         {
@@ -936,7 +952,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBdataBase : IDataBase
+    internal class CBdataBase : IDataBase
     {
         public bool GetCover(string fileName, ref CTextureRef texture, int coverSize)
         {
@@ -949,7 +965,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBcontrollers : IControllers
+    internal class CBcontrollers : IControllers
     {
         public void SetRumble(float duration)
         {
@@ -957,7 +973,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBplaylist : IPlaylist
+    internal class CBplaylist : IPlaylist
     {
         public void SetName(int playlistID, string name)
         {

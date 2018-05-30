@@ -37,10 +37,7 @@ namespace Vocaluxe.Screens
     public class CScreenSing : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion
-        {
-            get { return 9; }
-        }
+        protected override int _ScreenVersion => 9;
 
         private struct STimeRect
         {
@@ -133,10 +130,7 @@ namespace Vocaluxe.Screens
 
         private CBackground _SlideShow;
 
-        public override EMusicType CurrentMusicType
-        {
-            get { return EMusicType.Game; }
-        }
+        public override EMusicType CurrentMusicType => EMusicType.Game;
 
         public override void Init()
         {

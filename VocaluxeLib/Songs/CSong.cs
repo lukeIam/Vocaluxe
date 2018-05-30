@@ -39,7 +39,7 @@ namespace VocaluxeLib.Songs
     }
 
     [Flags]
-    enum EHeaderFlags
+    internal enum EHeaderFlags
     {
         Title = 1,
         Artist = 2,
@@ -114,13 +114,13 @@ namespace VocaluxeLib.Songs
                 return _CoverTextureSmall;
             }
 
-            set { _CoverTextureSmall = value; }
+            set => _CoverTextureSmall = value;
         }
 
         public CTextureRef CoverTextureBig
         {
-            get { return _CoverTextureBig ?? _CoverTextureSmall; }
-            set { _CoverTextureBig = value; }
+            get => _CoverTextureBig ?? _CoverTextureSmall;
+            set => _CoverTextureBig = value;
         }
 
         public string Title = String.Empty;
@@ -161,10 +161,7 @@ namespace VocaluxeLib.Songs
         private readonly bool _Visible = true;
         private readonly int _CatIndex = -1;
         private readonly bool _Selected;
-        public bool IsDuet
-        {
-            get { return Notes.VoiceCount > 1; }
-        }
+        public bool IsDuet => Notes.VoiceCount > 1;
 
         public readonly List<string> Editions = new List<string>();
         public readonly List<string> Genres = new List<string>();

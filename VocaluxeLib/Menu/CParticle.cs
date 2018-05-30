@@ -21,7 +21,7 @@ using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
 {
-    class CParticle
+    internal class CParticle
     {
         #region private vars
         private readonly int _PartyModeID;
@@ -51,19 +51,19 @@ namespace VocaluxeLib.Menu
 
         public float X
         {
-            get { return _Rect.X; }
-            set { _Rect.X = value; }
+            get => _Rect.X;
+            set => _Rect.X = value;
         }
 
         public float Y
         {
-            get { return _Rect.Y; }
-            set { _Rect.Y = value; }
+            get => _Rect.Y;
+            set => _Rect.Y = value;
         }
 
         public float Size
         {
-            get { return _Size; }
+            get => _Size;
             set
             {
                 _Rect.W = value;
@@ -74,20 +74,17 @@ namespace VocaluxeLib.Menu
 
         public float Alpha
         {
-            get { return _Alpha; }
-            set { _Alpha = value; }
+            get => _Alpha;
+            set => _Alpha = value;
         }
 
         public SColorF Color
         {
-            get { return _Color; }
-            set { _Color = value; }
+            get => _Color;
+            set => _Color = value;
         }
 
-        public bool IsAlive
-        {
-            get { return _Age < _MaxAge || Math.Abs(_MaxAge) < float.Epsilon; }
-        }
+        public bool IsAlive => _Age < _MaxAge || Math.Abs(_MaxAge) < float.Epsilon;
         #endregion public vars
 
         #region Constructors

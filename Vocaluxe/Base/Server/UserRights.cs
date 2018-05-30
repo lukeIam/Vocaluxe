@@ -20,7 +20,7 @@ using System;
 namespace Vocaluxe.Base.Server
 {
     [Flags]
-    enum EUserRights
+    internal enum EUserRights
     {
         None = 0,
         EditAllProfiles = 1,

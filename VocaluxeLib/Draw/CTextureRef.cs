@@ -31,10 +31,7 @@ namespace VocaluxeLib.Draw
         /// </summary>
         public Size OrigSize;
 
-        public float OrigAspect
-        {
-            get { return (float)OrigSize.Width / OrigSize.Height; }
-        }
+        public float OrigAspect => (float)OrigSize.Width / OrigSize.Height;
 
         /// <summary>
         ///     Current size when drawn

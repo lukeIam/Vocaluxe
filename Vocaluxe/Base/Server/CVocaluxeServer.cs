@@ -38,7 +38,7 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Base.Server
 {
-    static class CVocaluxeServer
+    internal static class CVocaluxeServer
     {
         private static ServiceHost _Host;
         private static Uri _BaseAddress;

@@ -24,17 +24,14 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Input
 {
-    class CGamePad : CControllerFramework
+    internal class CGamePad : CControllerFramework
     {
         private int _GamePadIndex;
         private const float _LimitFactor = 1.0f;
 
         private GamePadState _OldButtonStates;
         
-        private bool _Connected
-        {
-            get { return _GamePadIndex != -1; }
-        }
+        private bool _Connected => _GamePadIndex != -1;
 
         private Thread _HandlerThread;
         private AutoResetEvent _EvTerminate;

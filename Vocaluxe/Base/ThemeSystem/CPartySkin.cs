@@ -21,7 +21,7 @@ using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base.ThemeSystem
 {
-    class CPartySkin : CSkin
+    internal class CPartySkin : CSkin
     {
         private CSkin _BaseSkin;
 

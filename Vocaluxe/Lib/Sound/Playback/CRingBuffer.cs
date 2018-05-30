@@ -19,7 +19,7 @@ using System;
 
 namespace Vocaluxe.Lib.Sound.Playback
 {
-    class CRingBuffer
+    internal class CRingBuffer
     {
         private readonly byte[] _Data;
         private readonly int _Size;
@@ -27,10 +27,7 @@ namespace Vocaluxe.Lib.Sound.Playback
         private int _WritePos;
         private int _BytesNotRead;
 
-        public int BytesNotRead
-        {
-            get { return _BytesNotRead; }
-        }
+        public int BytesNotRead => _BytesNotRead;
 
         public CRingBuffer(int size)
         {

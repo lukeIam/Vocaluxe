@@ -21,7 +21,7 @@ using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base.ThemeSystem
 {
-    class CBaseSkin : CSkin
+    internal class CBaseSkin : CSkin
     {
         public CBaseSkin(string folder, string file, CTheme parent) : base(folder, file, parent) {}
 

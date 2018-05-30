@@ -68,10 +68,7 @@ namespace VocaluxeLib.Menu
         private int _MaxBar;
         private float _MaxVolume;
 
-        public bool Selectable
-        {
-            get { return false; }
-        }
+        public bool Selectable => false;
 
         public CEqualizer(int partyModeID)
         {

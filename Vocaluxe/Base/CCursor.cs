@@ -24,7 +24,7 @@ using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Base
 {
-    class CCursor
+    internal class CCursor
     {
         private int _MouseMoveDiffMin = CSettings.MouseMoveDiffMinActive;
         private CFading _Fading;
@@ -36,20 +36,11 @@ namespace Vocaluxe.Base
         public bool ShowCursor = true;
         public bool Visible = true;
 
-        public int X
-        {
-            get { return (int)_Cursor.Rect.X; }
-        }
+        public int X => (int)_Cursor.Rect.X;
 
-        public int Y
-        {
-            get { return (int)_Cursor.Rect.Y; }
-        }
+        public int Y => (int)_Cursor.Rect.Y;
 
-        public bool IsActive
-        {
-            get { return _Movetimer.IsRunning; }
-        }
+        public bool IsActive => _Movetimer.IsRunning;
 
         public void Draw()
         {

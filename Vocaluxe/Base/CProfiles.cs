@@ -27,7 +27,7 @@ using VocaluxeLib.Profile;
 
 namespace Vocaluxe.Base
 {
-    static class CProfiles
+    internal static class CProfiles
     {
         #region enums and structs
         private enum EAction
@@ -65,15 +65,9 @@ namespace Vocaluxe.Base
         #endregion private vars
 
         #region properties
-        public static int NumProfiles
-        {
-            get { return _Profiles.Count; }
-        }
+        public static int NumProfiles => _Profiles.Count;
 
-        public static int NumAvatars
-        {
-            get { return _Avatars.Count; }
-        }
+        public static int NumAvatars => _Avatars.Count;
         #endregion properties
 
         #region public methods

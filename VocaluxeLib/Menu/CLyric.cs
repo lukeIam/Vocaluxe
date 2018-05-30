@@ -49,10 +49,7 @@ namespace VocaluxeLib.Menu
 
         private float _CurrentBeat = -1;
 
-        public bool Selectable
-        {
-            get { return false; }
-        }
+        public bool Selectable => false;
 
         public string GetThemeName()
         {
@@ -66,7 +63,7 @@ namespace VocaluxeLib.Menu
 
         public float Alpha
         {
-            get { return _Alpha; }
+            get => _Alpha;
             set
             {
                 _Alpha = value;

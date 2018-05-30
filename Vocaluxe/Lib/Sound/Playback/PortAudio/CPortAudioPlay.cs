@@ -17,7 +17,7 @@
 
 namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 {
-    class CPortAudioPlay : CPlaybackBase
+    internal class CPortAudioPlay : CPlaybackBase
     {
         public override bool Init()
         {

@@ -19,47 +19,23 @@ namespace VocaluxeLib
 {
     public static class CBase
     {
-        public static IConfig Config;
-        public static ISettings Settings;
-        public static IThemes Themes;
-        public static IBackgroundMusic BackgroundMusic;
-        public static IDrawing Drawing;
-        public static IGraphics Graphics;
-        public static IFonts Fonts;
-        public static ILanguage Language;
-        public static IGame Game;
-        public static IProfiles Profiles;
-        public static IRecording Record;
-        public static ISongs Songs;
-        public static IVideo Video;
-        public static ISound Sound;
-        public static ICover Cover;
-        public static IDataBase DataBase;
-        public static IControllers Controller;
-        public static IPlaylist Playlist;
-
-        public static void Assign(IConfig config, ISettings settings, IThemes themes, IBackgroundMusic backgroundMusic,
-                                  IDrawing draw, IGraphics graphics, IFonts fonts, ILanguage language, IGame game, IProfiles profiles, IRecording record,
-                                  ISongs songs, IVideo video, ISound sound, ICover cover, IDataBase dataBase, IControllers controller, IPlaylist playlist)
-        {
-            Config = config;
-            Settings = settings;
-            Themes = themes;
-            BackgroundMusic = backgroundMusic;
-            Drawing = draw;
-            Graphics = graphics;
-            Fonts = fonts;
-            Language = language;
-            Game = game;
-            Profiles = profiles;
-            Record = record;
-            Songs = songs;
-            Video = video;
-            Sound = sound;
-            Cover = cover;
-            DataBase = dataBase;
-            Controller = controller;
-            Playlist = playlist;
-        }
+        public static IConfig Config { get; set; }
+        public static ISettings Settings { get; set; }
+        public static IThemes Themes { get; set; }
+        public static IBackgroundMusic BackgroundMusic { get; set; }
+        public static IDrawing Drawing { get; set; }
+        public static IGraphics Graphics { get; set; }
+        public static IFonts Fonts { get; set; }
+        public static ILanguage Language { get; set; }
+        public static IGame Game { get; set; }
+        public static IProfiles Profiles { get; set; }
+        public static IRecording Record { get; set; }
+        public static ISongs Songs { get; set; }
+        public static IVideo Video { get; set; }
+        public static ISound Sound { get; set; }
+        public static ICover Cover { get; set; }
+        public static IDataBase DataBase { get; set; }
+        public static IControllers Controller { get; set; }
+        public static IPlaylist Playlist { get; set; }
     }
 }

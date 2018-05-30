@@ -20,7 +20,7 @@ using System.Collections.ObjectModel;
 
 namespace Vocaluxe.Lib.Sound.Record
 {
-    class CRecordDevice
+    internal class CRecordDevice
     {
         public readonly int ID;
         public readonly string Name;
@@ -39,7 +39,7 @@ namespace Vocaluxe.Lib.Sound.Record
         }
     }
 
-    struct SMicConfig
+    internal struct SMicConfig
     {
         public string DeviceName;
         public string DeviceDriver;
@@ -55,7 +55,7 @@ namespace Vocaluxe.Lib.Sound.Record
         }
     }
 
-    interface IRecord
+    internal interface IRecord
     {
         /// <summary>
         ///     Initializes recording

@@ -24,7 +24,7 @@ using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base
 {
-    static class CDraw
+    internal static class CDraw
     {
         private static IDraw _Draw;
 

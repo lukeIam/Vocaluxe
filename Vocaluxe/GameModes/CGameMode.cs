@@ -20,7 +20,7 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.GameModes
 {
-    abstract class CGameMode : IGameMode
+    internal abstract class CGameMode : IGameMode
     {
         private CSong _LastSong;
         private int _LastSongID = -1;

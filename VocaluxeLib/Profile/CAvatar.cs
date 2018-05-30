@@ -23,19 +23,13 @@ namespace VocaluxeLib.Profile
 {
     public class CAvatar
     {
-        public int ID;
-        private readonly string _FileName = "";
+        public int ID { get; set; }
+        private readonly string _FileName;
         private CTextureRef _Texture;
         private const int _MaxNameLen = 12;
 
-        public CTextureRef Texture
-        {
-            get { return _Texture; }
-        }
-        public string FileName
-        {
-            get { return _FileName; }
-        }
+        public CTextureRef Texture => _Texture;
+        public string FileName => _FileName;
 
         public static CAvatar GetAvatar(string fileName)
         {

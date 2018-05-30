@@ -24,7 +24,7 @@ using System.ServiceModel.Web;
 
 namespace Vocaluxe.Base.Server
 {
-    class CWebservice : ICWebservice
+    internal class CWebservice : ICWebservice
     {
         private static Guid _GetSession()
         {

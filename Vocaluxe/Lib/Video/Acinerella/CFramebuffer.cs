@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 
 namespace Vocaluxe.Lib.Video.Acinerella
 {
-    class CFramebuffer
+    internal class CFramebuffer
     {
         public class CFrame
         {
@@ -51,10 +51,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         private int _Next;
         private bool _Initialized;
 
-        public int Size
-        {
-            get { return _Size; }
-        }
+        public int Size => _Size;
 
         // Constructs a framebuffer with max. size frames
         public CFramebuffer(int size)

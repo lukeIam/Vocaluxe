@@ -22,7 +22,7 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.GameModes
 {
-    static class CGameModes
+    internal static class CGameModes
     {
         private static Dictionary<EGameMode, IGameMode> _GameModes;
 
@@ -48,7 +48,7 @@ namespace Vocaluxe.GameModes
         }
     }
 
-    class CGameModeNormal : CGameMode
+    internal class CGameModeNormal : CGameMode
     {
         protected override CSong _PrepareSong(CSong song)
         {
@@ -56,7 +56,7 @@ namespace Vocaluxe.GameModes
         }
     }
 
-    class CGameModeDuet : CGameMode
+    internal class CGameModeDuet : CGameMode
     {
         protected override CSong _PrepareSong(CSong song)
         {
@@ -64,7 +64,7 @@ namespace Vocaluxe.GameModes
         }
     }
 
-    class CGameModeShort : CGameMode
+    internal class CGameModeShort : CGameMode
     {
         protected override CSong _PrepareSong(CSong song)
         {
@@ -78,7 +78,7 @@ namespace Vocaluxe.GameModes
         }
     }
 
-    class CGameModeMedley : CGameMode
+    internal class CGameModeMedley : CGameMode
     {
         protected override CSong _PrepareSong(CSong song)
         {

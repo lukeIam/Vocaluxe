@@ -25,7 +25,7 @@ using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base.Fonts
 {
-    class CFontStyle : IDisposable
+    internal class CFontStyle : IDisposable
     {
         private readonly string _FilePath;
         private readonly EStyle _Style;

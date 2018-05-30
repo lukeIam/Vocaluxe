@@ -25,7 +25,7 @@ namespace Vocaluxe.Lib.Sound.Record
     /// <summary>
     ///     Base class to implement common functionality for Record classes
     /// </summary>
-    abstract class CRecordBase
+    internal abstract class CRecordBase
     {
         private bool _Initialized;
         protected List<CRecordDevice> _Devices;

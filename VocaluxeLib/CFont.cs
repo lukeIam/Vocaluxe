@@ -43,7 +43,7 @@ namespace VocaluxeLib
 
         public string Name
         {
-            get { return _Name; }
+            get => _Name;
             set
             {
                 if (_Name == value)
@@ -55,7 +55,7 @@ namespace VocaluxeLib
         }
         public EStyle Style
         {
-            get { return _Style; }
+            get => _Style;
             set
             {
                 if (_Style == value)
@@ -67,7 +67,7 @@ namespace VocaluxeLib
         }
         public float Height
         {
-            get { return _Height; }
+            get => _Height;
             set
             {
                 if (Math.Abs(_Height - value) < 0.001)

@@ -30,10 +30,7 @@ namespace Vocaluxe.Screens
     public class CScreenNames : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion
-        {
-            get { return 3; }
-        }
+        protected override int _ScreenVersion => 3;
 
         private CStatic _ChooseAvatarStatic;
         private int _OldMouseX;
@@ -65,10 +62,7 @@ namespace Vocaluxe.Screens
         private bool _AvatarsChanged;
         private bool _ProfilesChanged;
 
-        public override EMusicType CurrentMusicType
-        {
-            get { return EMusicType.BackgroundPreview; }
-        }
+        public override EMusicType CurrentMusicType => EMusicType.BackgroundPreview;
 
         #region public methods
         public override void Init()

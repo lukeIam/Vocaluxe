@@ -254,35 +254,10 @@ namespace WebserverInitalConfig
         public void AddFirewallRule()
         {
             INetFwMgr manage = (INetFwMgr)Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid(CLSID_NetFwMgr)));
-            //_AddFirewallRuleForProfile(manage.LocalPolicy.CurrentProfile);
-            //if (manage.CurrentProfileType != NET_FW_PROFILE_TYPE_.NET_FW_PROFILE_STANDARD)
-            //Add to Home/Work(Private) and current net
+            
             //TODO: This somewhow adds 2 entries each instead of only one that is activated for Home/Work and public nets
             _AddFirewallRuleForProfile(manage.LocalPolicy.GetProfileByType(NET_FW_PROFILE_TYPE_.NET_FW_PROFILE_STANDARD));
             _AddFirewallRuleForProfile(manage.LocalPolicy.GetProfileByType(NET_FW_PROFILE_TYPE_.NET_FW_PROFILE_CURRENT));
         }
-
-        /*public static X509Certificate2 getCert(string subject)
-        {
-            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-
-            Mono.Security.Authenticode.PrivateKey key = new Mono.Security.Authenticode.PrivateKey { RSA=RSA.Create()};
-            
-           
-            Mono.Security.X509.X509CertificateBuilder x509 = new Mono.Security.X509.X509CertificateBuilder();
-            x509.IssuerName = "CN=Vocaluxe Server";
-            x509.NotAfter = DateTime.Today.AddYears(20);
-            x509.NotBefore = DateTime.Today.AddDays(-1);
-            x509.SubjectName = subject;
-            x509.SerialNumber = new byte[] { 1 };
-            x509.Version = 3;
-            x509.SubjectPublicKey = rsa;
-
-            ExtendedKeyUsageExtension eku = new ExtendedKeyUsageExtension();
-            eku.KeyPurpose.Add("1.3.6.1.5.5.7.3.1");
-            x509.Extensions.Add(eku);
-
-            return new X509Certificate2(x509.Sign(rsa));
-        }*/
     }
 }

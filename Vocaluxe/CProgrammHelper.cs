@@ -28,7 +28,7 @@ namespace Vocaluxe
     /// <summary>
     ///     Some helper functions for the programm
     /// </summary>
-    static class CProgrammHelper
+    internal static class CProgrammHelper
     {
         private static bool _CheckUninstallKey(string name, string key)
         {

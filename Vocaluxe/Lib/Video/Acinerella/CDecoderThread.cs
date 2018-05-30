@@ -28,7 +28,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
     //This class describes a thread decoding a video
     //All public methods are meant to be called from "reader" thread only
     //Most others are to be called by this thread  (_Thread instance) only!
-    class CDecoderThread
+    internal class CDecoderThread
     {
         private const float _LoopedRequestTime = -0.001f; //Magic const to detect if decoder looped automaticly
 

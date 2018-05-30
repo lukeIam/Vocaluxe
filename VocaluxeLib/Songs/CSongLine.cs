@@ -46,7 +46,7 @@ namespace VocaluxeLib.Songs
 
         public int StartBeat
         {
-            get { return Math.Min(_StartBeat, FirstNoteBeat); }
+            get => Math.Min(_StartBeat, FirstNoteBeat);
             set
             {
                 if (value <= FirstNoteBeat)
@@ -56,7 +56,7 @@ namespace VocaluxeLib.Songs
 
         public int EndBeat
         {
-            get { return Math.Min(_EndBeat, LastNoteBeat); }
+            get => Math.Min(_EndBeat, LastNoteBeat);
             set
             {
                 if (value >= LastNoteBeat)

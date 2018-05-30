@@ -58,10 +58,7 @@ namespace Vocaluxe.Reporting
         private static readonly Regex _GetGistUrlRegex = new Regex("\"html_url\": *\"([^\"]+)\"");
 
         
-        public static ShowReporterDelegate ShowReporterFunc
-        {
-            get { return _ShowReporter; }
-        }
+        public static ShowReporterDelegate ShowReporterFunc => _ShowReporter;
 
         /// <summary>
         /// Shows a new instance of the log file reporter.

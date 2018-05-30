@@ -23,10 +23,7 @@ namespace VocaluxeLib.Menu
         public bool Highlighted { get; set; }
         public virtual bool Selected { get; set; }
 
-        public virtual SRectF Rect
-        {
-            get { return MaxRect; }
-        }
+        public virtual SRectF Rect => MaxRect;
 
         // Those values are the ones from MaxRect for easier accessibility
         public virtual float X { get; set; }
@@ -37,7 +34,7 @@ namespace VocaluxeLib.Menu
 
         public virtual SRectF MaxRect
         {
-            get { return new SRectF(X, Y, W, H, Z); }
+            get => new SRectF(X, Y, W, H, Z);
             set
             {
                 X = value.X;

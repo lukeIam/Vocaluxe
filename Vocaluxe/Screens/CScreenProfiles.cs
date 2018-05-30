@@ -30,7 +30,7 @@ using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Screens
 {
-    enum EEditMode
+    internal enum EEditMode
     {
         None,
         PlayerName
@@ -39,10 +39,7 @@ namespace Vocaluxe.Screens
     public class CScreenProfiles : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion
-        {
-            get { return 3; }
-        }
+        protected override int _ScreenVersion => 3;
 
         private const string _SelectSlideProfiles = "SelectSlideProfiles";
         private const string _SelectSlideDifficulty = "SelectSlideDifficulty";

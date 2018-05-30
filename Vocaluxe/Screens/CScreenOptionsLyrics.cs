@@ -25,10 +25,7 @@ namespace Vocaluxe.Screens
     public class CScreenOptionsLyrics : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion
-        {
-            get { return 2; }
-        }
+        protected override int _ScreenVersion => 2;
 
         private const string _SelectSlideLyricStyle = "SelectSlideLyricStyle";
         private const string _SelectSlideLyricsPosition = "SelectSlideLyricsPosition";

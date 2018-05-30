@@ -29,7 +29,7 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {
-    static class CGraphics
+    internal static class CGraphics
     {
         private static CFading _Fading;
         private static readonly CCursor _Cursor = new CCursor();

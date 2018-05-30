@@ -64,49 +64,46 @@ namespace VocaluxeLib.Menu
 
         public bool ThemeLoaded { get; private set; }
 
-        public bool Selectable
-        {
-            get { return false; }
-        }
+        public bool Selectable => false;
 
         private CTextureRef _TextureBackground;
         public CTextureRef TextureBackground
         {
-            get { return _TextureBackground ?? CBase.Themes.GetSkinTexture(_Theme.SkinBackground, _PartyModeID); }
+            get => _TextureBackground ?? CBase.Themes.GetSkinTexture(_Theme.SkinBackground, _PartyModeID);
 
-            set { _TextureBackground = value; }
+            set => _TextureBackground = value;
         }
 
         private CTextureRef _TextureForeground;
         public CTextureRef TextureForeground
         {
-            get { return _TextureForeground ?? CBase.Themes.GetSkinTexture(_Theme.SkinForeground, _PartyModeID); }
+            get => _TextureForeground ?? CBase.Themes.GetSkinTexture(_Theme.SkinForeground, _PartyModeID);
 
-            set { _TextureForeground = value; }
+            set => _TextureForeground = value;
         }
 
         private CTextureRef _TextureProgressLeft;
         public CTextureRef TextureProgressLeft
         {
-            get { return _TextureProgressLeft ?? CBase.Themes.GetSkinTexture(_Theme.SkinProgressLeft, _PartyModeID); }
+            get => _TextureProgressLeft ?? CBase.Themes.GetSkinTexture(_Theme.SkinProgressLeft, _PartyModeID);
 
-            set { _TextureProgressLeft = value; }
+            set => _TextureProgressLeft = value;
         }
 
         private CTextureRef _TextureProgressMid;
         public CTextureRef TextureProgressMid
         {
-            get { return _TextureProgressMid ?? CBase.Themes.GetSkinTexture(_Theme.SkinProgressMid, _PartyModeID); }
+            get => _TextureProgressMid ?? CBase.Themes.GetSkinTexture(_Theme.SkinProgressMid, _PartyModeID);
 
-            set { _TextureProgressMid = value; }
+            set => _TextureProgressMid = value;
         }
 
         private CTextureRef _TextureProgressRight;
         public CTextureRef TextureProgressRight
         {
-            get { return _TextureProgressRight ?? CBase.Themes.GetSkinTexture(_Theme.SkinProgressRight, _PartyModeID); }
+            get => _TextureProgressRight ?? CBase.Themes.GetSkinTexture(_Theme.SkinProgressRight, _PartyModeID);
 
-            set { _TextureProgressRight = value; }
+            set => _TextureProgressRight = value;
         }
 
         private EDirection _Direction;
@@ -128,7 +125,7 @@ namespace VocaluxeLib.Menu
         private float _ProgressTarget;
         public float Progress
         {
-            get { return _ProgressTarget; }
+            get => _ProgressTarget;
             set
             {
                 //Animation is still running, so use current state for calculations

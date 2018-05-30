@@ -445,8 +445,8 @@ namespace Tests.VocaluxeLib.XML
             // ReSharper disable UnusedMember.Local
             public int Public
             {
-                get { return Private - 1; }
-                set { Private = value + 1; }
+                get => Private - 1;
+                set => Private = value + 1;
             }
             // ReSharper restore UnusedMember.Local
             // ReSharper disable UnusedAutoPropertyAccessor.Local

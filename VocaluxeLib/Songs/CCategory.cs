@@ -35,14 +35,14 @@ namespace VocaluxeLib.Songs
 
         public CTextureRef CoverTextureSmall
         {
-            get { return _CoverTextureSmall; }
+            get => _CoverTextureSmall;
 
-            set { _CoverTextureSmall = value; }
+            set => _CoverTextureSmall = value;
         }
 
         public CTextureRef CoverTextureBig
         {
-            get { return _CoverTextureBig ?? _CoverTextureSmall; }
+            get => _CoverTextureBig ?? _CoverTextureSmall;
             set
             {
                 if (value == null)

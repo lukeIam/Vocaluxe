@@ -25,10 +25,7 @@ namespace VocaluxeLib.PartyModes.Challenge
         // ReSharper restore UnusedMember.Global
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion
-        {
-            get { return 3; }
-        }
+        protected override int _ScreenVersion => 3;
 
         private const string _SelectSlideNumPlayers = "SelectSlideNumPlayers";
         private const string _SelectSlideNumMics = "SelectSlideNumMics";

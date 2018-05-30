@@ -23,7 +23,7 @@ using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base.ThemeSystem
 {
-    class CPartyTheme : CTheme
+    internal class CPartyTheme : CTheme
     {
         public CPartyTheme(string filePath, int partyModeID) : base(filePath, partyModeID) {}
 

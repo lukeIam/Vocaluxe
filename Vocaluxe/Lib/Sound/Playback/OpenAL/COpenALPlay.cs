@@ -19,7 +19,7 @@ using OpenTK.Audio;
 
 namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 {
-    class COpenALPlay : CPlaybackBase
+    internal class COpenALPlay : CPlaybackBase
     {
         private AudioContext _Context;
 

@@ -21,7 +21,7 @@ using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Draw
 {
-    interface IDraw
+    internal interface IDraw
     {
         bool Init();
         void MainLoop();

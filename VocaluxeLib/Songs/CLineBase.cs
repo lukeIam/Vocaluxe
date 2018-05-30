@@ -25,35 +25,17 @@ namespace VocaluxeLib.Songs
         protected readonly List<T> _Notes = new List<T>();
 
         #region Properties
-        public int FirstNoteBeat
-        {
-            get { return (NoteCount == 0) ? int.MaxValue : _Notes[0].StartBeat; }
-        }
+        public int FirstNoteBeat => (NoteCount == 0) ? int.MaxValue : _Notes[0].StartBeat;
 
-        public int LastNoteBeat
-        {
-            get { return (NoteCount == 0) ? int.MinValue : _Notes[NoteCount - 1].EndBeat; }
-        }
+        public int LastNoteBeat => (NoteCount == 0) ? int.MinValue : _Notes[NoteCount - 1].EndBeat;
 
-        public int NoteCount
-        {
-            get { return _Notes.Count; }
-        }
+        public int NoteCount => _Notes.Count;
 
-        public T[] Notes
-        {
-            get { return _Notes.ToArray(); }
-        }
+        public T[] Notes => _Notes.ToArray();
 
-        public T FirstNote
-        {
-            get { return NoteCount > 0 ? _Notes[0] : null; }
-        }
+        public T FirstNote => NoteCount > 0 ? _Notes[0] : null;
 
-        public T LastNote
-        {
-            get { return NoteCount > 0 ? _Notes[NoteCount - 1] : null; }
-        }
+        public T LastNote => NoteCount > 0 ? _Notes[NoteCount - 1] : null;
 
         public int Points
         {

@@ -22,7 +22,7 @@ using Serilog.Events;
 
 namespace VocaluxeLib.Log.Serilog
 {
-    class CSilentLogger : ILogger
+    internal class CSilentLogger : ILogger
     {
         public ILogger ForContext(ILogEventEnricher enricher)
         {

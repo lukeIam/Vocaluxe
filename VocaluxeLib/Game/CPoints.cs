@@ -57,15 +57,9 @@ namespace VocaluxeLib.Game
             }
         }
 
-        public int NumRounds
-        {
-            get { return _Rounds.GetLength(0); }
-        }
+        public int NumRounds => _Rounds.GetLength(0);
 
-        public int NumPlayer
-        {
-            get { return _Rounds.GetLength(1); }
-        }
+        public int NumPlayer => _Rounds.GetLength(1);
 
         public SPlayer[] GetPlayer(int round, int numPlayer)
         {

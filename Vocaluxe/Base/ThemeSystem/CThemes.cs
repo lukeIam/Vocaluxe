@@ -26,7 +26,7 @@ using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base.ThemeSystem
 {
-    static class CThemes
+    internal static class CThemes
     {
         private static readonly List<CTheme> _Themes = new List<CTheme>();
         public static string[] ThemeNames
@@ -34,10 +34,7 @@ namespace Vocaluxe.Base.ThemeSystem
             get { return _Themes.Where(th=>th is CBaseTheme).Select(th => th.Name).Distinct().ToArray(); }
         }
 
-        public static string[] SkinNames
-        {
-            get { return CurrentThemes[-1].SkinNames; }
-        }
+        public static string[] SkinNames => CurrentThemes[-1].SkinNames;
 
         public static bool Init()
         {

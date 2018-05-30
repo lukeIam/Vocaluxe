@@ -29,7 +29,7 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Base
 {
-    static class CGame
+    internal static class CGame
     {
         private static ISongQueue _SongQueue;
         private static int _NumPlayers = CConfig.Config.Game.NumPlayers;
@@ -40,10 +40,7 @@ namespace Vocaluxe.Base
         private static int _LastEvalBeat;
         private static readonly Random _Rand = new Random();
 
-        public static Random Rand
-        {
-            get { return _Rand; }
-        }
+        public static Random Rand => _Rand;
 
         public static float GetBeatFromTime(float time, float bpm, float gap)
         {
@@ -61,10 +58,7 @@ namespace Vocaluxe.Base
         /// <summary>
         ///     Currently played beat in song. This is floor(CurrentBeatF)
         /// </summary>
-        public static int CurrentBeat
-        {
-            get { return (int)Math.Floor(CurrentBeatF); }
-        }
+        public static int CurrentBeat => (int)Math.Floor(CurrentBeatF);
         /// <summary>
         ///     Currently played beat in song. A value of 1.5 indicates that the song is in the middle of 1st and 2nd beat
         /// </summary>
@@ -79,10 +73,7 @@ namespace Vocaluxe.Base
         /// <summary>
         ///     Beat that got just recorded and can be evaluated. This is floor(MidRecordedBeat)
         /// </summary>
-        public static int RecordedBeat
-        {
-            get { return (int)Math.Floor(MidRecordedBeat); }
-        }
+        public static int RecordedBeat => (int)Math.Floor(MidRecordedBeat);
 
         public static SPlayer[] Players { get; private set; }
 
@@ -94,10 +85,7 @@ namespace Vocaluxe.Base
             ResetPlayer();
         }
 
-        public static EGameMode GameMode
-        {
-            get { return _SongQueue.GetCurrentGameMode(); }
-        }
+        public static EGameMode GameMode => _SongQueue.GetCurrentGameMode();
 
         public static bool AddVisibleSong(int visibleIndex, EGameMode gameMode)
         {
@@ -144,10 +132,7 @@ namespace Vocaluxe.Base
             return _SongQueue.IsFinished();
         }
 
-        public static int RoundNr
-        {
-            get { return _SongQueue.GetCurrentRoundNr(); }
-        }
+        public static int RoundNr => _SongQueue.GetCurrentRoundNr();
 
         public static CSong GetSong()
         {
@@ -174,14 +159,11 @@ namespace Vocaluxe.Base
             return _SongQueue.GetPoints();
         }
 
-        public static int NumRounds
-        {
-            get { return _SongQueue.GetNumSongs(); }
-        }
+        public static int NumRounds => _SongQueue.GetNumSongs();
 
         public static int NumPlayers
         {
-            get { return _NumPlayers; }
+            get => _NumPlayers;
             set
             {
                 if (value > 0 && value <= CSettings.MaxNumPlayer)

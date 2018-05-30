@@ -29,14 +29,11 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Base
 {
-    static class CPlaylists
+    internal static class CPlaylists
     {
         private static List<CPlaylistFile> _Playlists;
 
-        public static IEnumerable<CPlaylistFile> Playlists
-        {
-            get { return _Playlists.AsReadOnly(); }
-        }
+        public static IEnumerable<CPlaylistFile> Playlists => _Playlists.AsReadOnly();
 
         public static List<string> Names
         {
@@ -48,10 +45,7 @@ namespace Vocaluxe.Base
             get { return _Playlists.Select(t => t.Id).ToList(); }
         }
 
-        public static int NumPlaylists
-        {
-            get { return _Playlists.Count; }
-        }
+        public static int NumPlaylists => _Playlists.Count;
 
         public static void Init()
         {

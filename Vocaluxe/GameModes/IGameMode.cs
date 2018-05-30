@@ -19,7 +19,7 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.GameModes
 {
-    interface IGameMode
+    internal interface IGameMode
     {
         CSong GetSong(int songID);
     }

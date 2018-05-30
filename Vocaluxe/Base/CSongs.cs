@@ -28,7 +28,7 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Base
 {
-    static class CSongs
+    internal static class CSongs
     {
         public delegate void CategoryChangedHandler();
 
@@ -46,10 +46,7 @@ namespace Vocaluxe.Base
         private static Thread _CoverLoaderThread;
         public static event CategoryChangedHandler OnCategoryChanged;
 
-        public static List<CSong> Songs
-        {
-            get { return _Songs; }
-        }
+        public static List<CSong> Songs => _Songs;
 
         public static bool SongsLoaded { get; private set; }
 
@@ -63,20 +60,11 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static int NumAllSongs
-        {
-            get { return _Songs.Count; }
-        }
+        public static int NumAllSongs => _Songs.Count;
 
-        public static int NumSongsVisible
-        {
-            get { return VisibleSongs.Count; }
-        }
+        public static int NumSongsVisible => VisibleSongs.Count;
 
-        public static int NumCategories
-        {
-            get { return Categories.Count; }
-        }
+        public static int NumCategories => Categories.Count;
 
         public static int Category
         {
@@ -99,10 +87,7 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static bool IsInCategory
-        {
-            get { return _IsCatIndexValid(_CatIndex); }
-        }
+        public static bool IsInCategory => _IsCatIndexValid(_CatIndex);
 
         private static bool _IsCatIndexValid(int catIndex)
         {
@@ -148,8 +133,8 @@ namespace Vocaluxe.Base
         private static int _NumSongsWithCoverLoaded;
         public static int NumSongsWithCoverLoaded
         {
-            get { return _NumSongsWithCoverLoaded; }
-            private set { _NumSongsWithCoverLoaded = value; }
+            get => _NumSongsWithCoverLoaded;
+            private set => _NumSongsWithCoverLoaded = value;
         }
 
         public static string GetCurrentCategoryName()
@@ -265,10 +250,7 @@ namespace Vocaluxe.Base
             return -1;
         }
 
-        public static ReadOnlyCollection<CSong> AllSongs
-        {
-            get { return _Songs.AsReadOnly(); }
-        }
+        public static ReadOnlyCollection<CSong> AllSongs => _Songs.AsReadOnly();
 
         public static ReadOnlyCollection<CSong> VisibleSongs
         {
@@ -289,10 +271,7 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static ReadOnlyCollection<CCategory> Categories
-        {
-            get { return Categorizer.Categories.AsReadOnly(); }
-        }
+        public static ReadOnlyCollection<CCategory> Categories => Categorizer.Categories.AsReadOnly();
 
         /// <summary>
         ///     Gets category with given index or null for invalid index

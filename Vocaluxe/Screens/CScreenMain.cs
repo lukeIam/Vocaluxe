@@ -25,10 +25,7 @@ namespace Vocaluxe.Screens
     public class CScreenMain : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion
-        {
-            get { return 2; }
-        }
+        protected override int _ScreenVersion => 2;
 
         private const string _ButtonSing = "ButtonSing";
         private const string _ButtonParty = "ButtonParty";

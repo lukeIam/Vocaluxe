@@ -20,7 +20,7 @@ using System.Diagnostics;
 
 namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 {
-    class CSyncTimer
+    internal class CSyncTimer
     {
         private readonly CPt1 _ExternTime;
         private readonly Stopwatch _Timer;

@@ -921,6 +921,11 @@ namespace Vocaluxe.Base
         {
             return CSound.IsPaused(streamID);
         }
+
+        public void Reset(int streamID)
+        {
+            CSound.Reset(streamID);
+        }
     }
 
     class CBcover : ICover

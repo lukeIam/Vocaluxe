@@ -274,6 +274,8 @@ namespace VocaluxeLib
         void Fade(int streamID, int targetVolume, float duration, EStreamAction afterFadeAction = EStreamAction.Nothing);
         void Close(int streamID);
 
+        void Reset(int streamId);
+
         bool IsFinished(int streamID);
         float GetPosition(int streamID);
         float GetLength(int streamID);

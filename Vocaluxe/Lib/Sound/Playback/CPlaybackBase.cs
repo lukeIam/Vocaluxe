@@ -154,7 +154,9 @@ namespace Vocaluxe.Lib.Sound.Playback
             lock (_Streams)
             {
                 if (_StreamExists(streamID))
+                {                    
                     _Streams[_GetStreamIndex(streamID)].Play();
+                }
             }
         }
 
@@ -177,6 +179,17 @@ namespace Vocaluxe.Lib.Sound.Playback
             {
                 if (_StreamExists(streamID))
                     _Streams[_GetStreamIndex(streamID)].Stop();
+            }
+        }
+
+        public void Reset(int streamID)
+        {
+            if (!_Initialized)
+                return;
+            lock (_Streams)
+            {
+                if (_StreamExists(streamID))               
+                    _Streams[_GetStreamIndex(streamID)].Reset();
             }
         }
 
@@ -316,6 +329,6 @@ namespace Vocaluxe.Lib.Sound.Playback
                 else
                     _Streams.Remove(stream);
             }
-        }
+        }        
     }
 }

@@ -278,6 +278,12 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             Position = 0;
         }
 
+        public override void Reset()
+        {
+            Stop();
+            _IsFinished = false;
+        }
+
         private void _SetElementVolume()
         {
             if (_Element != null)
@@ -327,6 +333,6 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                 if (_Element.QueryDuration(Format.Time, out duration))
                     Length = duration / (float)Constants.SECOND;
             }
-        }
+        }                
     }
 }

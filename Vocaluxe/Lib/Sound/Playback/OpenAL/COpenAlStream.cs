@@ -149,6 +149,16 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             Position = 0f;
         }
 
+        public override void Reset()
+        {
+            Stop();
+            lock (_MutexData)
+            {
+                _Data.Reset();
+                _NoMoreData = false;
+            }
+        }
+
         public override bool Open(bool prescan)
         {
             Debug.Assert(!_FileOpened);
@@ -388,6 +398,6 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             float latency = CConfig.Config.Sound.AudioLatency / 1000f + queuedCount * _SampleBuf.Length / _BytesPerSecond + 0.1f;
             _CurrentTime = _TimeCode - _Data.BytesNotRead / _BytesPerSecond - latency;
             _Timer.Restart();
-        }
+        }        
     }
 }

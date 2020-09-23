@@ -124,5 +124,6 @@ namespace Vocaluxe.Lib.Sound.Playback
         public abstract bool Open(bool prescan);
         public abstract void Play();
         public abstract void Stop();
+        public abstract void Reset();
     }
 }

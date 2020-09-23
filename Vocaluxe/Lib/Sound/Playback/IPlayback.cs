@@ -42,6 +42,7 @@ namespace Vocaluxe.Lib.Sound.Playback
         void Play(int streamID);
         void Pause(int streamID);
         void Stop(int streamID);
+        void Reset(int streamID);
         void Fade(int streamID, int targetVolume, float seconds, EStreamAction afterFadeAction = EStreamAction.Nothing);
 
         /// <summary>

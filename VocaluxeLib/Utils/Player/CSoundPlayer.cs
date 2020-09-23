@@ -16,6 +16,7 @@
 #endregion
 
 using System.IO;
+using System.Threading;
 
 namespace VocaluxeLib.Utils.Player
 {
@@ -97,7 +98,15 @@ namespace VocaluxeLib.Utils.Player
             IsPlaying = true;
             return true;
         }
+        public virtual bool Reset()
+        {
+            if (!SoundLoaded || IsPlaying)
+                return false;
 
+            CBase.Sound.Reset(_StreamID);
+            IsPlaying = false;
+            return true;
+        }
         /// <summary>
         ///     Pauses the player
         /// </summary>
@@ -121,7 +130,7 @@ namespace VocaluxeLib.Utils.Player
             if (!SoundLoaded)
                 return false;
 
-            CBase.Sound.Fade(_StreamID, 0, _FadeTime, EStreamAction.Stop);
+            CBase.Sound.Fade(_StreamID, 0, _FadeTime, EStreamAction.Stop);           
             IsPlaying = false;
             return true;
         }
@@ -149,6 +158,7 @@ namespace VocaluxeLib.Utils.Player
                 {
                     // Restart
                     Stop();
+                    Reset();
                     Play();
                 }
                 return;

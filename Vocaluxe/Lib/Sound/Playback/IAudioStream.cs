@@ -44,7 +44,8 @@ namespace Vocaluxe.Lib.Sound.Playback
         void Close();
         void Play();
         void Stop();
+        void Reset();
         void Fade(float targetVolume, float seconds, EStreamAction afterFadeAction);
-        void CancelFading();
+        void CancelFading();        
     }
 }

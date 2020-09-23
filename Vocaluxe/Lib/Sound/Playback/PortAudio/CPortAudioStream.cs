@@ -251,6 +251,16 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             Position = 0f;
         }
 
+        public override void Reset()
+        {
+            Stop();
+            lock (_LockData)
+            {
+                _Data.Reset();
+                _NoMoreData = false;
+            }
+        }
+
         #region Threading
         private void _DoSkip()
         {
@@ -418,7 +428,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             }
 
             return PortAudioSharp.PortAudio.PaStreamCallbackResult.paContinue;
-        }
+        }        
         #endregion Callbacks
     }
 }

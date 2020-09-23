@@ -23,6 +23,7 @@ using Vocaluxe.Lib.Sound.Playback.PortAudio;
 using VocaluxeLib;
 using System.Threading;
 using Vocaluxe.Lib.Sound;
+using System;
 
 namespace Vocaluxe.Base
 {
@@ -86,7 +87,8 @@ namespace Vocaluxe.Base
             if (_Playback != null)
                 _Playback.Close();
             _Playback = null;
-        }
+        }       
+
 
         #region Stream Handling
         public static int Load(string media, bool loop = false, bool prescan = false, EAudioEffect effekt = EAudioEffect.None)
@@ -112,6 +114,11 @@ namespace Vocaluxe.Base
         public static void Stop(int stream)
         {
             _Playback.Stop(stream);
+        }
+
+        public static void Reset(int stream)
+        {
+            _Playback.Reset(stream);
         }
 
         public static void Fade(int stream, int targetVolume, float seconds, EStreamAction afterFadeAction = EStreamAction.Nothing)
